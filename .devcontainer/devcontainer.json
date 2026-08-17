@@ -1,0 +1,15 @@
+{
+	"name": "Rust-Book",
+	"image": "mcr.microsoft.com/devcontainers/rust:1",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"workbench.colorTheme": "Darkwaves: Forge"
+			},
+			"extensions": [
+				"rust-lang.rust-analyzer",
+				"spacelaxy.spacelaxy-darkwaves"
+			]
+		}
+	}
+}
