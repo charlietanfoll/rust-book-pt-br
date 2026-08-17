@@ -1,0 +1,7 @@
+# Tratamento de Erros
+
+Erros são uma realidade no desenvolvimento de software, por isso o Rust possui diversos recursos para lidar com situações em que algo dá errado. Em muitos casos, o Rust exige que você reconheça a possibilidade de um erro e tome alguma providência antes que seu código seja compilado. Essa exigência torna seu programa mais robusto, garantindo que você descubra os erros e os trate adequadamente antes de implantar seu código em produção!
+
+O Rust divide os erros em duas grandes categorias: erros recuperáveis e irrecuperáveis. Para um _erro recuperável_, como um erro de _arquivo não encontrado_, o mais provável é que a gente queira apenas relatar o problema ao usuário e tentar a operação novamente. _Erros irrecuperáveis_ são sempre sintomas de bugs, como tentar acessar uma posição além do fim de um array, e por isso queremos parar o programa imediatamente.
+
+A maioria das linguagens não faz distinção entre esses dois tipos de erros e lida com ambos da mesma forma, usando mecanismos como exceções. O Rust não tem exceções. Em vez disso, ele tem o tipo `Result<T, E>` para erros recuperáveis e a macro `panic!` que interrompe a execução quando o programa encontra um erro irrecuperável. Este capítulo aborda primeiro a chamada a `panic!` e, em seguida, fala sobre o retorno de valores `Result<T, E>`. Além disso, exploraremos considerações ao decidir se devemos tentar nos recuperar de um erro ou interromper a execução.

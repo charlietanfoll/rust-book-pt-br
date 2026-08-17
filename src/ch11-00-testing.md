@@ -1,0 +1,11 @@
+# Escrevendo Testes Automatizados
+
+Em seu ensaio de 1972 “The Humble Programmer” (O Programador Humilde), Edsger W. Dijkstra disse que “o teste de programas pode ser uma maneira muito eficaz de mostrar a presença de bugs, mas é irremediavelmente inadequado para mostrar a ausência deles.” Isso não significa que não devemos tentar testar o máximo que pudermos!
+
+A _corretude_ em nossos programas é a medida em que nosso código faz o que pretendemos que ele faça. O Rust é projetado com um alto grau de preocupação com a corretude dos programas, mas a corretude é complexa e não é fácil de provar. O sistema de tipos do Rust assume uma enorme parte desse peso, mas o sistema de tipos não consegue pegar tudo. Como tal, o Rust inclui suporte para a escrita de testes automatizados de software.
+
+Digamos que escrevemos uma função `add_two` que adiciona 2 a qualquer número passado a ela. A assinatura dessa função aceita um inteiro como parâmetro e retorna um inteiro como resultado. Quando implementamos e compilamos essa função, o Rust faz toda a verificação de tipos e de empréstimo (_borrow checking_) que você aprendeu até agora para garantir que, por exemplo, não estejamos passando um valor `String` ou uma referência inválida para essa função. Mas o Rust _não pode_ verificar se essa função fará exatamente o que pretendemos, que é retornar o parâmetro mais 2 em vez de, digamos, o parâmetro mais 10 ou o parâmetro menos 50! É aí que entram os testes.
+
+Podemos escrever testes que afirmam (_assert_), por exemplo, que quando passamos `3` para a função `add_two`, o valor retornado é `5`. Podemos executar esses testes sempre que fizermos alterações em nosso código para garantir que qualquer comportamento correto existente não tenha mudado.
+
+Testar é uma habilidade complexa: embora não possamos cobrir em um único capítulo todos os detalhes sobre como escrever bons testes, neste capítulo discutiremos a mecânica dos recursos de teste do Rust. Falaremos sobre as anotações e macros disponíveis para você ao escrever seus testes, o comportamento padrão e as opções fornecidas para executar seus testes, e como organizar testes em testes unitários e testes de integração.
