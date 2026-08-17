@@ -32,7 +32,7 @@ necessário para garantir a segurança entre threads.
 Portanto, o sistema de tipos e as restrições de trait (*trait bounds*) do Rust
 garantem que você nunca poderá enviar acidentalmente um valor `Rc<T>` entre threads
 de forma não segura. Quando tentamos fazer isso na Listagem 16-14, obtivemos o erro
-`` a trait `Send` não está implementada para `Rc<Mutex<i32>>` `` (`the trait `Send` is not implemented for `Rc<Mutex<i32>>``). Quando mudamos para `Arc<T>`, que implementa
+"a trait `Send` não está implementada para `Rc<Mutex<i32>>`" (do inglês, *the trait `Send` is not implemented for `Rc<Mutex<i32>>`*). Quando mudamos para `Arc<T>`, que implementa
 `Send`, o código compilou.
 
 Qualquer tipo composto inteiramente por tipos `Send` também é marcado automaticamente
