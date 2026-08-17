@@ -39,7 +39,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-2735b403.js";
+            window.path_to_searchindex_js = "searchindex-99b62e29.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-0c94b3a8.js"></script>
@@ -206,7 +206,8 @@ necessário para garantir a segurança entre threads.</p>
 <p>Portanto, o sistema de tipos e as restrições de trait (<em>trait bounds</em>) do Rust
 garantem que você nunca poderá enviar acidentalmente um valor <code>Rc&lt;T&gt;</code> entre threads
 de forma não segura. Quando tentamos fazer isso na Listagem 16-14, obtivemos o erro
-<code>a trait `Send` não está implementada para `Rc&lt;Mutex&lt;i32&gt;&gt;`</code> (<code>the trait </code>Send<code>is not implemented for</code>Rc&lt;Mutex<i32>&gt;`<code>). Quando mudamos para </code>Arc<t><code>, que implementa </code>Send`, o código compilou.</t></i32></p>
+“a trait <code>Send</code> não está implementada para <code>Rc&lt;Mutex&lt;i32&gt;&gt;</code>” (do inglês, <em>the trait <code>Send</code> is not implemented for <code>Rc&lt;Mutex&lt;i32&gt;&gt;</code></em>). Quando mudamos para <code>Arc&lt;T&gt;</code>, que implementa
+<code>Send</code>, o código compilou.</p>
 <p>Qualquer tipo composto inteiramente por tipos <code>Send</code> também é marcado automaticamente
 como <code>Send</code>. Quase todos os tipos primitivos são <code>Send</code>, com exceção de ponteiros
 nus (<em>raw pointers</em>), que discutiremos no Capítulo 20.</p>
