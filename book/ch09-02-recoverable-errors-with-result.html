@@ -1,0 +1,799 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Erros Recuperáveis com Result - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="erros-recuperáveis-com-result"><a class="header" href="#erros-recuperáveis-com-result">Erros Recuperáveis com <code>Result</code></a></h2>
+<p>A maioria dos erros não é grave o suficiente para exigir que o programa pare completamente.
+Às vezes, quando uma função falha, é por um motivo que você pode interpretar e responder facilmente.
+Por exemplo, se você tentar abrir um arquivo e essa operação falhar porque o arquivo não existe,
+você pode querer criar o arquivo em vez de encerrar o processo.</p>
+<p>Lembre-se da seção <a href="ch02-00-guessing-game-tutorial.html#handling-potential-failure-with-result">“Lidando com Potenciais Falhas com <code>Result</code>”</a><!--
+ignore --> no Capítulo 2 de que o enum <code>Result</code> é definido como tendo duas
+variantes, <code>Ok</code> e <code>Err</code>, da seguinte forma:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Result&lt;T, E&gt; {
+    Ok(T),
+    Err(E),
+}
+<span class="boring">}</span></code></pre>
+<p>O <code>T</code> e o <code>E</code> são parâmetros de tipo genérico: discutiremos genéricos com mais
+detalhes no Capítulo 10. O que você precisa saber agora é que <code>T</code> representa
+o tipo do valor que será retornado em um caso de sucesso dentro da variante
+<code>Ok</code>, e <code>E</code> representa o tipo do erro que será retornado em um caso de
+falha dentro da variante <code>Err</code>. Como o <code>Result</code> possui esses parâmetros de tipo
+genérico, podemos usar o tipo <code>Result</code> e as funções definidas nele em muitas
+situações diferentes, onde o valor de sucesso e o valor de erro que queremos
+retornar podem diferir.</p>
+<p>Vamos chamar uma função que retorna um valor <code>Result</code> porque a função pode
+falhar. Na Listagem 9-3, tentamos abrir um arquivo.</p>
+<figure class="listing" id="listing-9-3">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+}</code></pre>
+<figcaption><a href="#listing-9-3">Listing 9-3</a>: Abrindo um arquivo</figcaption>
+</figure>
+<p>O tipo de retorno de <code>File::open</code> é um <code>Result&lt;T, E&gt;</code>. O parâmetro genérico <code>T</code>
+foi preenchido pela implementação de <code>File::open</code> com o tipo do valor de
+sucesso, <code>std::fs::File</code>, que é um identificador de arquivo (file handle). O tipo de <code>E</code> usado no
+valor de erro é <code>std::io::Error</code>. Esse tipo de retorno significa que a chamada
+para <code>File::open</code> pode ter sucesso e retornar um identificador de arquivo do
+qual podemos ler ou para o qual podemos escrever. A chamada de função também
+pode falhar: por exemplo, o arquivo pode não existir ou podemos não ter
+permissão para acessá-lo. A função <code>File::open</code> precisa ter uma maneira de nos
+dizer se teve sucesso ou falha e, ao mesmo tempo, nos fornecer o identificador
+do arquivo ou informações sobre o erro. Essa informação é exatamente o que o
+enum <code>Result</code> transmite.</p>
+<p>No caso em que <code>File::open</code> é bem-sucedido, o valor na variável
+<code>greeting_file_result</code> será uma instância de <code>Ok</code> que contém um identificador de
+arquivo. No caso em que falha, o valor em <code>greeting_file_result</code> será uma
+instância de <code>Err</code> que contém mais informações sobre o tipo de erro que ocorreu.</p>
+<p>Precisamos adicionar código à Listagem 9-3 para tomar ações diferentes dependendo
+do valor que <code>File::open</code> retorna. A Listagem 9-4 mostra uma maneira de lidar com
+o <code>Result</code> usando uma ferramenta básica, a expressão <code>match</code> que discutimos no
+Capítulo 6.</p>
+<figure class="listing" id="listing-9-4">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) =&gt; file,
+        Err(error) =&gt; panic!("Problem opening the file: {error:?}"),
+    };
+}</code></pre>
+<figcaption><a href="#listing-9-4">Listing 9-4</a>: Usando uma expressão <code>match</code> para lidar com as variantes de <code>Result</code> que podem ser retornadas</figcaption>
+</figure>
+<p>Note que, assim como o enum <code>Option</code>, o enum <code>Result</code> e suas variantes foram
+trazidos para o escopo pelo prelúdio (prelude), então não precisamos especificar <code>Result::</code>
+antes das variantes <code>Ok</code> e <code>Err</code> nos braços do <code>match</code>.</p>
+<p>Quando o resultado é <code>Ok</code>, este código retornará o valor interno <code>file</code> da
+variante <code>Ok</code>, e então atribuiremos esse valor de identificador de arquivo à
+variável <code>greeting_file</code>. Após o <code>match</code>, podemos usar o identificador de
+arquivo para leitura ou escrita.</p>
+<p>O outro braço do <code>match</code> lida com o caso em que recebemos um valor <code>Err</code> de
+<code>File::open</code>. Neste exemplo, escolhemos chamar a macro <code>panic!</code>. Se não houver
+um arquivo chamado <em>hello.txt</em> em nosso diretório atual e executarmos este
+código, veremos a seguinte saída da macro <code>panic!</code>:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling error-handling v0.1.0 (file:///projects/error-handling)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.73s
+     Running `target/debug/error-handling`
+
+thread 'main' (6018048) panicked at src/main.rs:8:23:
+Problem opening the file: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>Como de costume, esta saída nos diz exatamente o que deu errado.</p>
+<h3 id="tratando-diferentes-erros-com-match"><a class="header" href="#tratando-diferentes-erros-com-match">Tratando Diferentes Erros com <code>match</code></a></h3>
+<p>O código na Listagem 9-4 vai gerar um <code>panic!</code> independentemente do motivo pelo
+qual <code>File::open</code> falhou. No entanto, queremos tomar ações diferentes para
+diferentes motivos de falha. Se <code>File::open</code> falhou porque o arquivo não
+existe, queremos criar o arquivo e retornar o identificador para o novo
+arquivo. Se <code>File::open</code> falhou por qualquer outro motivo — por exemplo, porque
+não tínhamos permissão para abrir o arquivo —, ainda queremos que o código
+gere um <code>panic!</code> da mesma forma que fez na Listagem 9-4. Para isso, adicionamos
+uma expressão <code>match</code> interna, mostrada na Listagem 9-5.</p>
+<figure class="listing" id="listing-9-5">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- ignore this test because otherwise it creates hello.txt which causes other
+tests to fail lol -->
+<pre><code class="language-rust ignore">use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file_result = File::open("hello.txt");
+
+    let greeting_file = match greeting_file_result {
+        Ok(file) =&gt; file,
+        Err(error) =&gt; match error.kind() {
+            ErrorKind::NotFound =&gt; match File::create("hello.txt") {
+                Ok(fc) =&gt; fc,
+                Err(e) =&gt; panic!("Problem creating the file: {e:?}"),
+            },
+            _ =&gt; {
+                panic!("Problem opening the file: {error:?}");
+            }
+        },
+    };
+}</code></pre>
+<figcaption><a href="#listing-9-5">Listing 9-5</a>: Lidando com diferentes tipos de erros de diferentes maneiras</figcaption>
+</figure>
+<p>O tipo do valor que <code>File::open</code> retorna dentro da variante <code>Err</code> é
+<code>io::Error</code>, que é uma struct fornecida pela biblioteca padrão. Esta struct
+tem um método, <code>kind</code>, que podemos chamar para obter um valor <code>io::ErrorKind</code>. O
+enum <code>io::ErrorKind</code> é fornecido pela biblioteca padrão e possui variantes que
+representam os diferentes tipos de erros que podem resultar de uma operação de
+<code>io</code>. A variante que queremos usar é <code>ErrorKind::NotFound</code>, que indica que o
+arquivo que estamos tentando abrir ainda não existe. Portanto, fazemos o <code>match</code>
+no <code>greeting_file_result</code>, mas também temos um <code>match</code> interno em
+<code>error.kind()</code>.</p>
+<p>A condição que queremos verificar no <code>match</code> interno é se o valor retornado
+por <code>error.kind()</code> é a variante <code>NotFound</code> do enum <code>ErrorKind</code>. Se for,
+tentamos criar o arquivo com <code>File::create</code>. No entanto, como <code>File::create</code>
+também pode falhar, precisamos de um segundo braço na expressão <code>match</code>
+interna. Quando o arquivo não pode ser criado, uma mensagem de erro diferente é
+impressa. O segundo braço do <code>match</code> externo permanece o mesmo, então o
+programa entra em pânico com qualquer erro além do erro de arquivo ausente.</p>
+<section class="note" aria-role="note">
+<h4 id="alternativas-ao-uso-de-match-com-resultt-e"><a class="header" href="#alternativas-ao-uso-de-match-com-resultt-e">Alternativas ao Uso de <code>match</code> com <code>Result&lt;T, E&gt;</code></a></h4>
+<p>Isso é bastante código com <code>match</code>! A expressão <code>match</code> é muito útil, mas
+também bastante primitiva. No Capítulo 13, você aprenderá sobre closures, que
+são usadas com muitos dos métodos definidos em <code>Result&lt;T, E&gt;</code>. Esses métodos
+podem ser mais concisos do que usar <code>match</code> ao lidar com valores <code>Result&lt;T, E&gt;</code>
+em seu código.</p>
+<p>Por exemplo, aqui está outra maneira de escrever a mesma lógica mostrada na
+Listagem 9-5, desta vez usando closures e o método <code>unwrap_or_else</code>:</p>
+<!-- CAN'T EXTRACT SEE https://github.com/rust-lang/mdBook/issues/1127 -->
+<pre><code class="language-rust ignore">use std::fs::File;
+use std::io::ErrorKind;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap_or_else(|error| {
+        if error.kind() == ErrorKind::NotFound {
+            File::create("hello.txt").unwrap_or_else(|error| {
+                panic!("Problema ao criar o arquivo: {error:?}");
+            })
+        } else {
+            panic!("Problema ao abrir o arquivo: {error:?}");
+        }
+    });
+}</code></pre>
+<p>Embora este código tenha o mesmo comportamento da Listagem 9-5, ele não contém
+nenhuma expressão <code>match</code> e é mais limpo de ler. Volte a este exemplo depois
+de ler o Capítulo 13 e consulte o método <code>unwrap_or_else</code> na documentação da
+biblioteca padrão. Muitos outros métodos como este podem simplificar expressões
+<code>match</code> grandes e aninhadas quando você estiver lidando com erros.</p>
+</section>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="shortcuts-for-panic-on-error-unwrap-and-expect"></a></p>
+<h4 id="atalhos-para-pânico-em-caso-de-erro"><a class="header" href="#atalhos-para-pânico-em-caso-de-erro">Atalhos para Pânico em Caso de Erro</a></h4>
+<p>Usar <code>match</code> funciona bem o suficiente, mas pode ser um pouco detalhado e nem
+sempre comunica bem a intenção. O tipo <code>Result&lt;T, E&gt;</code> possui muitos métodos
+auxiliares definidos nele para realizar tarefas diversas e mais específicas. O
+método <code>unwrap</code> é um método de atalho implementado exatamente como a expressão
+<code>match</code> que escrevemos na Listagem 9-4. Se o valor do <code>Result</code> for a variante
+<code>Ok</code>, o <code>unwrap</code> retornará o valor dentro do <code>Ok</code>. Se o <code>Result</code> for a
+variante <code>Err</code>, o <code>unwrap</code> chamará a macro <code>panic!</code> para nós. Aqui está um
+exemplo do <code>unwrap</code> em ação:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt").unwrap();
+}</code></pre>
+</figure>
+<p>Se executarmos este código sem um arquivo <em>hello.txt</em>, veremos uma mensagem de
+erro da chamada <code>panic!</code> que o método <code>unwrap</code> faz:</p>
+<!-- manual-regeneration
+cd listings/ch09-error-handling/no-listing-04-unwrap
+cargo run
+copy and paste relevant text
+-->
+<pre><code class="language-text">thread 'main' panicked at src/main.rs:4:49:
+called `Result::unwrap()` on an `Err` value: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+</code></pre>
+<p>Da mesma forma, o método <code>expect</code> nos permite escolher a mensagem de erro do
+<code>panic!</code>. Usar <code>expect</code> em vez de <code>unwrap</code> e fornecer boas mensagens de erro
+pode transmitir sua intenção e facilitar o rastreamento da origem de um pânico.
+A sintaxe do <code>expect</code> se parece com isto:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust should_panic edition2024">use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")
+        .expect("hello.txt should be included in this project");
+}</code></pre>
+</figure>
+<p>Usamos o <code>expect</code> da mesma maneira que o <code>unwrap</code>: para retornar o
+identificador do arquivo ou chamar a macro <code>panic!</code>. A mensagem de erro usada
+pelo <code>expect</code> em sua chamada para <code>panic!</code> será o parâmetro que passamos para o
+<code>expect</code>, em vez da mensagem padrão de <code>panic!</code> que o <code>unwrap</code> usa. É assim que
+ele se parece:</p>
+<!-- manual-regeneration
+cd listings/ch09-error-handling/no-listing-05-expect
+cargo run
+copy and paste relevant text
+-->
+<pre><code class="language-text">thread 'main' panicked at src/main.rs:5:10:
+hello.txt should be included in this project: Os { code: 2, kind: NotFound, message: "No such file or directory" }
+</code></pre>
+<p>Em código com qualidade de produção, a maioria dos <em>Rustaceans</em> escolhe <code>expect</code>
+em vez de <code>unwrap</code> e fornece mais contexto sobre o motivo pelo qual se espera
+que a operação seja sempre bem-sucedida. Dessa forma, se suas premissas se
+mostrarem incorretas, você terá mais informações para usar na depuração.</p>
+<h3 id="propagando-erros"><a class="header" href="#propagando-erros">Propagando Erros</a></h3>
+<p>Quando a implementação de uma função chama algo que pode falhar, em vez de
+lidar com o erro dentro da própria função, você pode retornar o erro para o
+código chamador para que ele possa decidir o que fazer. Isso é conhecido como
+<em>propagar</em> o erro e dá mais controle ao código chamador, onde pode haver mais
+informações ou lógica que ditam como o erro deve ser tratado do que o que você
+tem disponível no contexto do seu código.</p>
+<p>Por exemplo, a Listagem 9-6 mostra uma função que lê um nome de usuário de um
+arquivo. Se o arquivo não existir ou não puder ser lido, esta função retornará
+esses erros para o código que chamou a função.</p>
+<figure class="listing" id="listing-9-6">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    let username_file_result = File::open("hello.txt");
+
+    let mut username_file = match username_file_result {
+        Ok(file) =&gt; file,
+        Err(e) =&gt; return Err(e),
+    };
+
+    let mut username = String::new();
+
+    match username_file.read_to_string(&amp;mut username) {
+        Ok(_) =&gt; Ok(username),
+        Err(e) =&gt; Err(e),
+    }
+}
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-9-6">Listing 9-6</a>: Uma função que retorna erros para o código chamador usando <code>match</code></figcaption>
+</figure>
+<p>Esta função pode ser escrita de forma muito mais curta, mas vamos começar
+fazendo grande parte dela manualmente para explorar o tratamento de erros; no
+final, mostraremos a maneira mais curta. Vamos olhar para o tipo de retorno da
+função primeiro: <code>Result&lt;String, io::Error&gt;</code>. Isso significa que a função está
+retornando um valor do tipo <code>Result&lt;T, E&gt;</code>, onde o parâmetro genérico <code>T</code> foi
+preenchido com o tipo concreto <code>String</code> e o tipo genérico <code>E</code> foi preenchido
+com o tipo concreto <code>io::Error</code>.</p>
+<p>Se esta função for bem-sucedida sem problemas, o código que a chama receberá um
+valor <code>Ok</code> que contém uma <code>String</code> — o <code>username</code> que esta função leu do arquivo.
+Se esta função encontrar algum problema, o código chamador receberá um valor
+<code>Err</code> que contém uma instância de <code>io::Error</code> com mais informações sobre quais
+foram os problemas. Escolhemos <code>io::Error</code> como o tipo de retorno desta função
+porque esse acaba por ser o tipo do valor de erro retornado de ambas as
+operações que estamos chamando no corpo desta função que podem falhar: a função
+<code>File::open</code> e o método <code>read_to_string</code>.</p>
+<p>O corpo da função começa chamando a função <code>File::open</code>. Em seguida, tratamos o
+valor <code>Result</code> com um <code>match</code> semelhante ao <code>match</code> da Listagem 9-4. Se
+<code>File::open</code> for bem-sucedido, o identificador de arquivo na variável de padrão
+<code>file</code> se torna o valor na variável mutável <code>username_file</code> e a função continua.
+No caso de <code>Err</code>, em vez de chamar <code>panic!</code>, usamos a palavra-chave <code>return</code>
+para sair antecipadamente da função inteira e passar o valor de erro de
+<code>File::open</code>, agora na variável de padrão <code>e</code>, de volta para o código chamador
+como o valor de erro desta função.</p>
+<p>Portanto, se tivermos um identificador de arquivo em <code>username_file</code>, a função
+então cria uma nova <code>String</code> na variável <code>username</code> e chama o método
+<code>read_to_string</code> no identificador de arquivo em <code>username_file</code> para ler o
+conteúdo do arquivo para dentro de <code>username</code>. O método <code>read_to_string</code> também
+retorna um <code>Result</code> porque pode falhar, mesmo que <code>File::open</code> tenha tido
+sucesso. Portanto, precisamos de outro <code>match</code> para lidar com esse <code>Result</code>: se
+<code>read_to_string</code> for bem-sucedido, nossa função foi bem-sucedida e retornamos o
+nome de usuário do arquivo que agora está em <code>username</code>, envolvido em um <code>Ok</code>.
+Se <code>read_to_string</code> falhar, retornamos o valor de erro da mesma forma que
+retornamos o valor de erro no <code>match</code> que lidou com o valor de retorno de
+<code>File::open</code>. No entanto, não precisamos dizer explicitamente <code>return</code>, porque
+esta é a última expressão na função.</p>
+<p>O código que chama este código lidará então com a obtenção de um valor <code>Ok</code> que
+contém um nome de usuário ou de um valor <code>Err</code> que contém um <code>io::Error</code>. Cabe
+ao código chamador decidir o que fazer com esses valores. Se o código chamador
+receber um valor <code>Err</code>, ele poderá chamar <code>panic!</code> e travar o programa, usar um
+nome de usuário padrão ou procurar o nome de usuário em outro lugar que não seja
+um arquivo, por exemplo. Não temos informações suficientes sobre o que o código
+chamador está realmente tentando fazer, então propagamos todas as informações
+de sucesso ou erro para cima para que ele as trate adequadamente.</p>
+<p>Este padrão de propagação de erros é tão comum em Rust que a linguagem fornece
+o operador de interrogação <code>?</code> para facilitar essa tarefa.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="a-shortcut-for-propagating-errors-the--operator"></a></p>
+<h4 id="o-atalho-do-operador-"><a class="header" href="#o-atalho-do-operador-">O Atalho do Operador <code>?</code></a></h4>
+<p>A Listagem 9-7 mostra uma implementação de <code>read_username_from_file</code> que tem a
+mesma funcionalidade da Listagem 9-6, mas esta implementação usa o operador <code>?</code>.</p>
+<figure class="listing" id="listing-9-7">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    let mut username_file = File::open("hello.txt")?;
+    let mut username = String::new();
+    username_file.read_to_string(&amp;mut username)?;
+    Ok(username)
+}
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-9-7">Listing 9-7</a>: Uma função que retorna erros para o código chamador usando o operador <code>?</code></figcaption>
+</figure>
+<p>O <code>?</code> colocado após um valor <code>Result</code> é definido para funcionar quase da mesma
+forma que as expressões <code>match</code> que definimos para lidar com os valores
+<code>Result</code> na Listagem 9-6. Se o valor do <code>Result</code> for um <code>Ok</code>, o valor dentro do
+<code>Ok</code> será retornado desta expressão e o programa continuará. Se o valor for um
+<code>Err</code>, o <code>Err</code> será retornado de toda a função como se tivéssemos usado a
+palavra-chave <code>return</code>, de modo que o valor do erro seja propagado para o
+código chamador.</p>
+<p>Há uma diferença entre o que a expressão <code>match</code> da Listagem 9-6 faz e o que o
+operador <code>?</code> faz: valores de erro nos quais o operador <code>?</code> é chamado passam pela
+função <code>from</code>, definida no trait <code>From</code> na biblioteca padrão, que é usada para
+converter valores de um tipo em outro. Quando o operador <code>?</code> chama a função
+<code>from</code>, o tipo de erro recebido é convertido para o tipo de erro definido no
+tipo de retorno da função atual. Isso é útil quando uma função retorna um tipo
+de erro para representar todas as maneiras pelas quais uma função pode falhar,
+mesmo que partes possam falhar por muitos motivos diferentes.</p>
+<p>Por exemplo, poderíamos alterar a função <code>read_username_from_file</code> na Listagem
+9-7 para retornar um tipo de erro personalizado chamado <code>OurError</code> que nós
+definimos. Se também definirmos <code>impl From&lt;io::Error&gt; for OurError</code> para
+construir uma instância de <code>OurError</code> a partir de um <code>io::Error</code>, então as
+chamadas do operador <code>?</code> no corpo de <code>read_username_from_file</code> chamarão <code>from</code> e
+converterão os tipos de erro sem a necessidade de adicionar mais código à
+função.</p>
+<p>No contexto da Listagem 9-7, o <code>?</code> no final da chamada <code>File::open</code> retornará o
+valor dentro de um <code>Ok</code> para a variável <code>username_file</code>. Se ocorrer um erro, o
+operador <code>?</code> retornará antecipadamente de toda a função e fornecerá qualquer
+valor <code>Err</code> para o código chamador. O mesmo se aplica ao <code>?</code> no final da chamada
+<code>read_to_string</code>.</p>
+<p>O operador <code>?</code> elimina muita redundância (<em>boilerplate</em>) e torna a implementação
+dessa função mais simples. Poderíamos até encurtar ainda mais este código
+encadeando chamadas de método imediatamente após o <code>?</code>, conforme mostrado na
+Listagem 9-8.</p>
+<figure class="listing" id="listing-9-8">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs::File;
+use std::io::{self, Read};
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    let mut username = String::new();
+
+    File::open("hello.txt")?.read_to_string(&amp;mut username)?;
+
+    Ok(username)
+}
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-9-8">Listing 9-8</a>: Encadeando chamadas de método após o operador <code>?</code></figcaption>
+</figure>
+<p>Movemos a criação da nova <code>String</code> em <code>username</code> para o início da função; essa
+parte não mudou. Em vez de criar uma variável <code>username_file</code>, encadeamos a
+chamada para <code>read_to_string</code> diretamente no resultado de
+<code>File::open("hello.txt")?</code>. Ainda temos um <code>?</code> no final da chamada
+<code>read_to_string</code>, e ainda retornamos um valor <code>Ok</code> contendo <code>username</code> quando
+tanto <code>File::open</code> quanto <code>read_to_string</code> são bem-sucedidos, em vez de
+retornar erros. A funcionalidade é novamente a mesma da Listagem 9-6 e da
+Listagem 9-7; esta é apenas uma maneira diferente e mais ergonômica de escrevê-la.</p>
+<p>A Listagem 9-9 mostra uma maneira de tornar isso ainda mais curto usando
+<code>fs::read_to_string</code>.</p>
+<figure class="listing" id="listing-9-9">
+<span class="file-name">Filename: src/main.rs</span>
+<!-- Deliberately not using rustdoc_include here; the `main` function in the
+file panics. We do want to include it for reader experimentation purposes, but
+don't want to include it for rustdoc testing purposes. -->
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::fs;
+use std::io;
+
+fn read_username_from_file() -&gt; Result&lt;String, io::Error&gt; {
+    fs::read_to_string("hello.txt")
+}
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-9-9">Listing 9-9</a>: Usando <code>fs::read_to_string</code> em vez de abrir e depois ler o arquivo</figcaption>
+</figure>
+<p>Ler um arquivo para uma string é uma operação bastante comum, então a biblioteca
+padrão fornece a conveniente função <code>fs::read_to_string</code> que abre o arquivo,
+cria uma nova <code>String</code>, lê o conteúdo do arquivo, coloca o conteúdo nessa
+<code>String</code> e o retorna. É claro que usar <code>fs::read_to_string</code> não nos dá a
+oportunidade de explicar todo o tratamento de erros, então fizemos da maneira
+mais longa primeiro.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="where-the--operator-can-be-used"></a></p>
+<h4 id="onde-o-operador--pode-ser-usado"><a class="header" href="#onde-o-operador--pode-ser-usado">Onde o Operador <code>?</code> Pode Ser Usado</a></h4>
+<p>O operador <code>?</code> só pode ser usado em funções cujo tipo de retorno seja compatível
+com o valor no qual o <code>?</code> é usado. Isso ocorre porque o operador <code>?</code> é definido
+para realizar um retorno antecipado de um valor para fora da função, da mesma
+maneira que a expressão <code>match</code> que definimos na Listagem 9-6. Na Listagem 9-6,
+o <code>match</code> estava usando um valor <code>Result</code>, e o braço de retorno antecipado
+retornava um valor <code>Err(e)</code>. O tipo de retorno da função tem que ser um
+<code>Result</code> para que seja compatível com esse <code>return</code>.</p>
+<p>Na Listagem 9-10, vamos ver o erro que obteremos se usarmos o operador <code>?</code> em
+uma função <code>main</code> com um tipo de retorno que seja incompatível com o tipo do
+valor em que usamos o <code>?</code>.</p>
+<figure class="listing" id="listing-9-10">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">use std::fs::File;
+
+fn main() {
+    let greeting_file = File::open("hello.txt")?;
+}</code></pre>
+<figcaption><a href="#listing-9-10">Listing 9-10</a>: Tentar usar o <code>?</code> em uma função <code>main</code> que retorna <code>()</code> não compilará.</figcaption>
+</figure>
+<p>Este código abre um arquivo, o que pode falhar. O operador <code>?</code> segue o valor
+<code>Result</code> retornado por <code>File::open</code>, mas esta função <code>main</code> tem o tipo de
+retorno <code>()</code>, e não <code>Result</code>. Quando compilamos este código, recebemos a
+seguinte mensagem de erro:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling error-handling v0.1.0 (file:///projects/error-handling)
+error[E0277]: the `?` operator can only be used in a function that returns `Result` or `Option` (or another type that implements `FromResidual`)
+ --&gt; src/main.rs:4:48
+  |
+3 | fn main() {
+  | --------- this function should return `Result` or `Option` to accept `?`
+4 |     let greeting_file = File::open("hello.txt")?;
+  |                                                ^ cannot use the `?` operator in a function that returns `()`
+  |
+help: consider adding return type
+  |
+3 ~ fn main() -&gt; Result&lt;(), Box&lt;dyn std::error::Error&gt;&gt; {
+4 |     let greeting_file = File::open("hello.txt")?;
+5 +     Ok(())
+  |
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `error-handling` (bin "error-handling") due to 1 previous error
+</code></pre>
+<p>Este erro aponta que só temos permissão para usar o operador <code>?</code> em uma função
+que retorne <code>Result</code>, <code>Option</code> ou outro tipo que implemente <code>FromResidual</code>.</p>
+<p>Para corrigir o erro, você tem duas opções. Uma opção é alterar o tipo de
+retorno da sua função para ser compatível com o valor no qual você está usando
+o operador <code>?</code>, desde que não haja restrições impedindo isso. A outra opção é
+usar um <code>match</code> ou um dos métodos de <code>Result&lt;T, E&gt;</code> para lidar com o
+<code>Result&lt;T, E&gt;</code> da maneira que for apropriada.</p>
+<p>A mensagem de erro também mencionou que o <code>?</code> pode ser usado com valores
+<code>Option&lt;T&gt;</code> também. Assim como ao usar <code>?</code> em <code>Result</code>, você só pode usar <code>?</code>
+em um <code>Option</code> em uma função que retorna um <code>Option</code>. O comportamento do
+operador <code>?</code> quando chamado em um <code>Option&lt;T&gt;</code> é semelhante ao seu comportamento
+quando chamado em um <code>Result&lt;T, E&gt;</code>: se o valor for <code>None</code>, o <code>None</code> será
+retornado antecipadamente da função naquele ponto. Se o valor for <code>Some</code>, o
+valor dentro do <code>Some</code> será o valor resultante da expressão e a função
+continuará. A Listagem 9-11 tem um exemplo de uma função que encontra o último
+caractere da primeira linha no texto fornecido.</p>
+<figure class="listing" id="listing-9-11">
+<pre class="playground"><code class="language-rust edition2024">fn last_char_of_first_line(text: &amp;str) -&gt; Option&lt;char&gt; {
+    text.lines().next()?.chars().last()
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    assert_eq!(
+</span><span class="boring">        last_char_of_first_line("Hello, world\nHow are you today?"),
+</span><span class="boring">        Some('d')
+</span><span class="boring">    );
+</span><span class="boring">
+</span><span class="boring">    assert_eq!(last_char_of_first_line(""), None);
+</span><span class="boring">    assert_eq!(last_char_of_first_line("\nhi"), None);
+</span><span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-9-11">Listing 9-11</a>: Usando o operador <code>?</code> em um valor <code>Option&lt;T&gt;</code></figcaption>
+</figure>
+<p>Esta função retorna <code>Option&lt;char&gt;</code> porque é possível que haja um caractere ali,
+mas também é possível que não haja. Este código aceita o argumento de fatia de
+string <code>text</code> e chama o método <code>lines</code> nele, que retorna um iterador sobre as
+linhas da string. Como esta função quer examinar a primeira linha, ela chama
+<code>next</code> no iterador para obter o primeiro valor do iterador. Se <code>text</code> for a
+string vazia, esta chamada para <code>next</code> retornará <code>None</code>, caso em que usamos o
+<code>?</code> para parar e retornar <code>None</code> de <code>last_char_of_first_line</code>. Se <code>text</code> não
+for a string vazia, <code>next</code> retornará um valor <code>Some</code> contendo uma fatia de
+string da primeira linha em <code>text</code>.</p>
+<p>O <code>?</code> extrai a fatia de string, e podemos chamar <code>chars</code> nessa fatia de string
+para obter um iterador de seus caracteres. Estamos interessados no último
+caractere desta primeira linha, então chamamos <code>last</code> para retornar o último
+item do iterador. Este é um <code>Option</code> porque é possível que a primeira linha
+seja a string vazia; por exemplo, se <code>text</code> começar com uma linha em branco,
+mas tiver caracteres em outras linhas, como em <code>"\nhi"</code>. No entanto, se houver
+um último caractere na primeira linha, ele será retornado na variante <code>Some</code>.
+O operador <code>?</code> no meio nos dá uma maneira concisa de expressar essa lógica,
+permitindo-nos implementar a função em uma linha. Se não pudéssemos usar o
+operador <code>?</code> em <code>Option</code>, teríamos que implementar essa lógica usando mais
+chamadas de método ou uma expressão <code>match</code>.</p>
+<p>Note que você pode usar o operador <code>?</code> em um <code>Result</code> em uma função que retorna
+<code>Result</code>, e você pode usar o operador <code>?</code> em um <code>Option</code> em uma função que
+retorna <code>Option</code>, mas você não pode misturá-los. O operador <code>?</code> não converterá
+automaticamente um <code>Result</code> em um <code>Option</code> ou vice-versa; nesses casos, você
+pode usar métodos como o método <code>ok</code> em <code>Result</code> ou o método <code>ok_or</code> em
+<code>Option</code> para fazer a conversão explicitamente.</p>
+<p>Até agora, todas as funções <code>main</code> que usamos retornam <code>()</code>. A função <code>main</code>
+é especial porque é o ponto de entrada e o ponto de saída de um programa
+executável, e há restrições sobre qual pode ser seu tipo de retorno para que o
+programa se comporte conforme o esperado.</p>
+<p>Felizmente, o <code>main</code> também pode retornar um <code>Result&lt;(), E&gt;</code>. A Listagem 9-12
+tem o código da Listagem 9-10, mas alteramos o tipo de retorno de <code>main</code> para
+ser <code>Result&lt;(), Box&lt;dyn Error&gt;&gt;</code> e adicionamos um valor de retorno <code>Ok(())</code> ao
+final. Este código agora compilará.</p>
+<figure class="listing" id="listing-9-12">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use std::error::Error;
+use std::fs::File;
+
+fn main() -&gt; Result&lt;(), Box&lt;dyn Error&gt;&gt; {
+    let greeting_file = File::open("hello.txt")?;
+
+    Ok(())
+}</code></pre>
+<figcaption><a href="#listing-9-12">Listing 9-12</a>: Alterar <code>main</code> para retornar <code>Result&lt;(), E&gt;</code> permite o uso do operador <code>?</code> em valores <code>Result</code>.</figcaption>
+</figure>
+<p>O tipo <code>Box&lt;dyn Error&gt;</code> é um objeto trait (trait object), sobre o qual falaremos em
+<a href="ch18-02-trait-objects.html#using-trait-objects-to-abstract-over-shared-behavior">“Usando Objetos Trait para Abstrair sobre Comportamento Compartilhado”</a><!-- ignore --> no Capítulo 18. Por enquanto, você pode ler <code>Box&lt;dyn Error&gt;</code> como significando “qualquer tipo de erro”. Usar <code>?</code> em um valor <code>Result</code> em uma função <code>main</code> com o tipo de erro <code>Box&lt;dyn Error&gt;</code> é permitido porque permite que qualquer valor <code>Err</code> seja retornado antecipadamente. Mesmo que o corpo desta função <code>main</code> só vá retornar erros do tipo <code>std::io::Error</code>, ao especificar <code>Box&lt;dyn Error&gt;</code>, esta assinatura continuará correta mesmo que mais código que retorne outros erros seja adicionado ao corpo de <code>main</code>.</p>
+<p>Quando uma função <code>main</code> retorna um <code>Result&lt;(), E&gt;</code>, o executável será encerrado
+com um valor de <code>0</code> se <code>main</code> retornar <code>Ok(())</code> e será encerrado com um valor
+diferente de zero se <code>main</code> retornar um valor <code>Err</code>. Executáveis escritos em C
+retornam inteiros quando são encerrados: programas que terminam com sucesso
+retornam o inteiro <code>0</code>, e programas que apresentam erros retornam algum inteiro
+diferente de <code>0</code>. O Rust também retorna inteiros de executáveis para ser
+compatível com essa convenção.</p>
+<p>A função <code>main</code> pode retornar quaisquer tipos que implementem <a href="../std/process/trait.Termination.html">o trait
+<code>std::process::Termination</code></a><!-- ignore -->, que contém uma
+função <code>report</code> que retorna um <code>ExitCode</code>. Consulte a documentação da
+biblioteca padrão para obter mais informações sobre como implementar o trait
+<code>Termination</code> para seus próprios tipos.</p>
+<p>Agora que discutimos os detalhes de chamar <code>panic!</code> ou retornar <code>Result</code>, vamos
+retornar ao tópico de como decidir qual é apropriado usar em quais casos.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch09-01-unrecoverable-errors-with-panic.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch09-03-to-panic-or-not-to-panic.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch09-01-unrecoverable-errors-with-panic.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch09-03-to-panic-or-not-to-panic.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

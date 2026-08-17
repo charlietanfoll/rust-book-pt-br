@@ -1,0 +1,485 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Macros - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="macros"><a class="header" href="#macros">Macros</a></h2>
+<p>Usamos macros como <code>println!</code> ao longo deste livro, mas ainda não exploramos totalmente o que é uma macro e como ela funciona. O termo <em>macro</em> refere-se a uma família de recursos em Rust — macros declarativas com <code>macro_rules!</code> e três tipos de macros procedurais:</p>
+<ul>
+<li>Macros <code>#[derive]</code> personalizadas que especificam código adicionado com o atributo <code>derive</code> usado em structs e enums</li>
+<li>Macros semelhantes a atributos que definem atributos personalizados utilizáveis em qualquer item</li>
+<li>Macros semelhantes a funções que se parecem com chamadas de função, mas operam sobre os tokens especificados como seu argumento</li>
+</ul>
+<p>Falaremos sobre cada uma delas por sua vez, mas primeiro, vamos ver por que precisamos de macros quando já temos funções.</p>
+<h3 id="a-diferença-entre-macros-e-funções"><a class="header" href="#a-diferença-entre-macros-e-funções">A Diferença entre Macros e Funções</a></h3>
+<p>Fundamentalmente, macros são uma forma de escrever código que escreve outro código, o que é conhecido como <em>metaprogramação</em>. No Apêndice C, discutimos o atributo <code>derive</code>, que gera uma implementação de vários traits para você. Também usamos as macros <code>println!</code> e <code>vec!</code> ao longo do livro. Todas essas macros <em>expandem</em> para produzir mais código do que o código que você escreveu manualmente.</p>
+<p>A metaprogramação é útil para reduzir a quantidade de código que você precisa escrever e manter, o que também é um dos papéis das funções. No entanto, as macros têm alguns poderes adicionais que as funções não têm.</p>
+<p>A assinatura de uma função deve declarar o número e o tipo de parâmetros que a função possui. As macros, por outro lado, podem aceitar um número variável de parâmetros: podemos chamar <code>println!("hello")</code> com um argumento ou <code>println!("hello {}", name)</code> com dois argumentos. Além disso, as macros são expandidas antes que o compilador interprete o significado do código, de modo que uma macro pode, por exemplo, implementar um trait em um determinado tipo. Uma função não pode, porque ela é chamada em tempo de execução e um trait precisa ser implementado em tempo de compilação.</p>
+<p>A desvantagem de implementar uma macro em vez de uma função é que as definições de macros são mais complexas do que as definições de funções porque você está escrevendo código Rust que escreve código Rust. Devido a essa indireção, as definições de macros são geralmente mais difíceis de ler, entender e manter do que as definições de funções.</p>
+<p>Outra diferença importante entre macros e funções é que você deve definir macros ou trazê-las para o escopo <em>antes</em> de chamá-las em um arquivo, ao contrário de funções, que você pode definir em qualquer lugar e chamar em qualquer lugar.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="declarative-macros-with-macro_rules-for-general-metaprogramming"></a></p>
+<h3 id="macros-declarativas-para-metaprogramação-geral"><a class="header" href="#macros-declarativas-para-metaprogramação-geral">Macros Declarativas para Metaprogramação Geral</a></h3>
+<p>A forma de macros mais amplamente utilizada em Rust é a <em>macro declarativa</em>. Elas também são às vezes chamadas de “macros por exemplo”, “macros <code>macro_rules!</code>” ou simplesmente “macros”. Em sua essência, as macros declarativas permitem que você escreva algo semelhante a uma expressão <code>match</code> em Rust. Conforme discutido no Capítulo 6, as expressões <code>match</code> são estruturas de controle que pegam uma expressão, comparam o valor resultante da expressão com padrões e, em seguida, executam o código associado ao padrão correspondente. As macros também comparam um valor com padrões associados a um código específico: nessa situação, o valor é o código-fonte literal em Rust passado para a macro; os padrões são comparados com a estrutura desse código-fonte; e o código associado a cada padrão, quando correspondido, substitui o código passado para a macro. Tudo isso acontece durante a compilação.</p>
+<p>Para definir uma macro, você usa o constructo <code>macro_rules!</code>. Vamos explorar como usar <code>macro_rules!</code> observando como a macro <code>vec!</code> é definida. O Capítulo 8 abordou como podemos usar a macro <code>vec!</code> para criar um novo vetor com valores específicos. Por exemplo, a seguinte macro cria um novo vetor contendo três inteiros:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let v: Vec&lt;u32&gt; = vec![1, 2, 3];
+<span class="boring">}</span></code></pre>
+<p>Também poderíamos usar a macro <code>vec!</code> para criar um vetor de dois inteiros ou um vetor de cinco fatias de string (<em>string slices</em>). Não poderíamos usar uma função para fazer o mesmo porque não saberíamos o número ou o tipo de valores antecipadamente.</p>
+<p>A Listagem 20-35 mostra uma definição ligeiramente simplificada da macro <code>vec!</code>.</p>
+<figure class="listing" id="listing-20-35">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">#[macro_export]
+macro_rules! vec {
+    ( $( $x:expr ),* ) =&gt; {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+            )*
+            temp_vec
+        }
+    };
+}</code></pre>
+<figcaption><a href="#listing-20-35">Listing 20-35</a>: Uma versão simplificada da definição da macro <code>vec!</code></figcaption>
+</figure>
+<blockquote>
+<p>Nota: A definição real da macro <code>vec!</code> na biblioteca padrão inclui código para pré-alocar a quantidade correta de memória antecipadamente. Esse código é uma otimização que não incluímos aqui, para tornar o exemplo mais simples.</p>
+</blockquote>
+<p>A anotação <code>#[macro_export]</code> indica que esta macro deve ser disponibilizada sempre que o crate no qual a macro é definida for trazido para o escopo. Sem essa anotação, a macro não pode ser trazida para o escopo.</p>
+<p>Em seguida, iniciamos a definição da macro com <code>macro_rules!</code> e o nome da macro que estamos definindo <em>sem</em> o ponto de exclamação. O nome, neste caso <code>vec</code>, é seguido por chaves que denotam o corpo da definição da macro.</p>
+<p>A estrutura no corpo de <code>vec!</code> é semelhante à estrutura de uma expressão <code>match</code>. Aqui temos um braço com o padrão <code>( $( $x:expr ),* )</code>, seguido por <code>=&gt;</code> e o bloco de código associado a este padrão. Se o padrão corresponder, o bloco de código associado será emitido. Dado que este é o único padrão nesta macro, há apenas uma maneira válida de corresponder; qualquer outro padrão resultará em um erro. Macros mais complexas terão mais de um braço.</p>
+<p>A sintaxe de padrão válida em definições de macros é diferente da sintaxe de padrão abordada no Capítulo 19 porque os padrões de macros são correspondidos contra a estrutura do código Rust em vez de valores. Vamos passar pelo significado das peças de padrão na Listagem 20-29; para a sintaxe completa de padrões de macros, consulte a <a href="../reference/macros-by-example.html">Referência do Rust</a>.</p>
+<p>Primeiro, usamos um par de parênteses para abranger todo o padrão. Usamos um cifrão (<code>$</code>) para declarar uma variável no sistema de macros que conterá o código Rust correspondente ao padrão. O cifrão deixa claro que esta é uma variável de macro em oposição a uma variável regular do Rust. Em seguida vem um par de parênteses que captura valores que correspondem ao padrão dentro dos parênteses para uso no código de substituição. Dentro de <code>$()</code> está <code>$x:expr</code>, que corresponde a qualquer expressão Rust e dá à expressão o nome <code>$x</code>.</p>
+<p>A vírgula após <code>$()</code> indica que um caractere separador de vírgula literal deve aparecer entre cada instância do código que corresponde ao código em <code>$()</code>. O <code>*</code> especifica que o padrão corresponde a zero ou mais ocorrências do que precede o <code>*</code>.</p>
+<p>Quando chamamos esta macro com <code>vec![1, 2, 3];</code>, o padrão <code>$x</code> corresponde três vezes com as três expressões <code>1</code>, <code>2</code> e <code>3</code>.</p>
+<p>Agora vamos olhar para o padrão no corpo do código associado a este braço: <code>temp_vec.push()</code> dentro de <code>$()*</code> é gerado para cada parte que corresponde a <code>$()</code> no padrão zero ou mais vezes, dependendo de quantas vezes o padrão corresponde. O <code>$x</code> é substituído por cada expressão correspondida. Quando chamamos esta macro com <code>vec![1, 2, 3];</code>, o código gerado que substitui esta chamada de macro será o seguinte:</p>
+<pre><code class="language-rust ignore">{
+    let mut temp_vec = Vec::new();
+    temp_vec.push(1);
+    temp_vec.push(2);
+    temp_vec.push(3);
+    temp_vec
+}</code></pre>
+<p>Definimos uma macro que pode aceitar qualquer número de argumentos de qualquer tipo e pode gerar código para criar um vetor contendo os elementos especificados.</p>
+<p>Para saber mais sobre como escrever macros, consulte a documentação online ou outros recursos, como <a href="https://veykril.github.io/tlborm/">“The Little Book of Rust Macros”</a> iniciado por Daniel Keep e continuado por Lukas Wirth.</p>
+<h3 id="macros-procedurais-para-geração-de-código-a-partir-de-atributos"><a class="header" href="#macros-procedurais-para-geração-de-código-a-partir-de-atributos">Macros Procedurais para Geração de Código a Partir de Atributos</a></h3>
+<p>A segunda forma de macros é a macro procedural, que age mais como uma função (e é um tipo de procedimento). <em>Macros procedurais</em> aceitam algum código como entrada, operam sobre esse código e produzem algum código como saída, em vez de corresponder a padrões e substituir o código por outro código como fazem as macros declarativas. Os três tipos de macros procedurais são <code>derive</code> personalizado, semelhantes a atributos e semelhantes a funções, e todas funcionam de maneira semelhante.</p>
+<p>Ao criar macros procedurais, as definições devem residir em seu próprio crate com um tipo de crate especial. Isso ocorre por razões técnicas complexas que esperamos eliminar no futuro. Na Listagem 20-36, mostramos como definir uma macro procedural, onde <code>some_attribute</code> é um espaço reservado para o uso de uma variedade específica de macro.</p>
+<figure class="listing" id="listing-20-36">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore">use proc_macro::TokenStream;
+
+#[some_attribute]
+pub fn some_name(input: TokenStream) -&gt; TokenStream {
+}</code></pre>
+<figcaption><a href="#listing-20-36">Listing 20-36</a>: Um exemplo de definição de uma macro procedural</figcaption>
+</figure>
+<p>A função que define uma macro procedural recebe um <code>TokenStream</code> como entrada e produz um <code>TokenStream</code> como saída. O tipo <code>TokenStream</code> é definido pelo crate <code>proc_macro</code> que vem incluído com o Rust e representa uma sequência de tokens. Este é o núcleo da macro: o código-fonte sobre o qual a macro está operando compõe o <code>TokenStream</code> de entrada, e o código que a macro produz é o <code>TokenStream</code> de saída. A função também possui um atributo anexado a ela que especifica qual tipo de macro procedural estamos criando. Podemos ter vários tipos de macros procedurais no mesmo crate.</p>
+<p>Vamos analisar os diferentes tipos de macros procedurais. Começaremos com uma macro <code>derive</code> personalizada e, em seguida, explicaremos as pequenas dissimilaridades que tornam as outras formas diferentes.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="how-to-write-a-custom-derive-macro"></a></p>
+<h3 id="macros-derive-personalizadas"><a class="header" href="#macros-derive-personalizadas">Macros <code>derive</code> Personalizadas</a></h3>
+<p>Vamos criar um crate chamado <code>hello_macro</code> que define um trait chamado <code>HelloMacro</code> com uma função associada chamada <code>hello_macro</code>. Em vez de fazer nossos usuários implementarem o trait <code>HelloMacro</code> para cada um de seus tipos, forneceremos uma macro procedural para que os usuários possam anotar seu tipo com <code>#[derive(HelloMacro)]</code> para obter uma implementação padrão da função <code>hello_macro</code>. A implementação padrão imprimirá <code>Hello, Macro! My name is TypeName!</code> onde <code>TypeName</code> é o nome do tipo no qual este trait foi definido. Em outras palavras, escreveremos um crate que permite a outro programador escrever código como a Listagem 20-37 usando nosso crate.</p>
+<figure class="listing" id="listing-20-37">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">use hello_macro::HelloMacro;
+use hello_macro_derive::HelloMacro;
+
+#[derive(HelloMacro)]
+struct Pancakes;
+
+fn main() {
+    Pancakes::hello_macro();
+}</code></pre>
+<figcaption><a href="#listing-20-37">Listing 20-37</a>: O código que um usuário do nosso crate poderá escrever ao usar nossa macro procedural</figcaption>
+</figure>
+<p>Este código imprimirá <code>Hello, Macro! My name is Pancakes!</code> quando terminarmos. O primeiro passo é criar um novo crate de biblioteca, assim:</p>
+<pre><code class="language-console">$ cargo new hello_macro --lib
+</code></pre>
+<p>Em seguida, na Listagem 20-38, definiremos o trait <code>HelloMacro</code> e sua função associada.</p>
+<figure class="listing" id="listing-20-38">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">pub trait HelloMacro {
+    fn hello_macro();
+}</code></pre>
+<figcaption><a href="#listing-20-38">Listing 20-38</a>: Um trait simples que usaremos com a macro <code>derive</code></figcaption>
+</figure>
+<p>Temos um trait e sua função. A este ponto, o usuário do nosso crate poderia implementar o trait para obter a funcionalidade desejada, como na Listagem 20-39.</p>
+<figure class="listing" id="listing-20-39">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use hello_macro::HelloMacro;
+
+struct Pancakes;
+
+impl HelloMacro for Pancakes {
+    fn hello_macro() {
+        println!("Hello, Macro! My name is Pancakes!");
+    }
+}
+
+fn main() {
+    Pancakes::hello_macro();
+}</code></pre>
+<figcaption><a href="#listing-20-39">Listing 20-39</a>: Como seria se os usuários escrevessem uma implementação manual do trait <code>HelloMacro</code></figcaption>
+</figure>
+<p>No entanto, eles precisariam escrever o bloco de implementação para cada tipo que quisessem usar com <code>hello_macro</code>; queremos poupá-los de ter que fazer esse trabalho.</p>
+<p>Além disso, ainda não podemos fornecer à função <code>hello_macro</code> uma implementação padrão que imprima o nome do tipo em que o trait está implementado: o Rust não possui recursos de reflexão, portanto, não pode consultar o nome do tipo em tempo de execução. Precisamos de uma macro para gerar código em tempo de compilação.</p>
+<p>O próximo passo é definir a macro procedural. No momento em que escrevo isto, as macros procedurais precisam estar em seu próprio crate. Com o tempo, essa restrição poderá ser suspensa. A convenção para estruturar crates e crates de macros é a seguinte: Para um crate chamado <code>foo</code>, um crate de macro procedural <code>derive</code> personalizado é chamado de <code>foo_derive</code>. Vamos iniciar um novo crate chamado <code>hello_macro_derive</code> dentro do nosso projeto <code>hello_macro</code>:</p>
+<pre><code class="language-console">$ cargo new hello_macro_derive --lib
+</code></pre>
+<p>Nossos dois crates estão intimamente relacionados, então criamos o crate de macro procedural dentro do diretório do nosso crate <code>hello_macro</code>. Se alterarmos a definição do trait em <code>hello_macro</code>, também teremos que alterar a implementação da macro procedural em <code>hello_macro_derive</code>. Os dois crates precisarão ser publicados separadamente, e os programadores que usarem esses crates precisarão adicionar ambos como dependências e trazê-los para o escopo. Poderíamos, em vez disso, fazer com que o crate <code>hello_macro</code> use <code>hello_macro_derive</code> como dependência e reexporte o código da macro procedural. No entanto, a forma como estruturamos o projeto torna possível que os programadores usem <code>hello_macro</code> mesmo que não queiram a funcionalidade de <code>derive</code>.</p>
+<p>Precisamos declarar o crate <code>hello_macro_derive</code> como um crate de macro procedural. Também precisaremos de funcionalidades dos crates <code>syn</code> e <code>quote</code>, como você verá em um momento, então precisamos adicioná-los como dependências. Adicione o seguinte ao arquivo <em>Cargo.toml</em> para <code>hello_macro_derive</code>:</p>
+<figure class="listing">
+<span class="file-name">Filename: hello_macro_derive/Cargo.toml</span>
+<pre><code class="language-toml">[lib]
+proc-macro = true
+
+[dependencies]
+syn = "2.0"
+quote = "1.0"
+</code></pre>
+</figure>
+<p>Para começar a definir a macro procedural, coloque o código na Listagem 20-40 no seu arquivo <em>src/lib.rs</em> para o crate <code>hello_macro_derive</code>. Note que este código não compilará até adicionarmos uma definição para a função <code>impl_hello_macro</code>.</p>
+<figure class="listing" id="listing-20-40">
+<span class="file-name">Filename: hello_macro_derive/src/lib.rs</span>
+<pre><code class="language-rust ignore does_not_compile">use proc_macro::TokenStream;
+use quote::quote;
+
+#[proc_macro_derive(HelloMacro)]
+pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
+    // Construct a representation of Rust code as a syntax tree
+    // that we can manipulate.
+    let ast = syn::parse(input).unwrap();
+
+    // Build the trait implementation.
+    impl_hello_macro(&amp;ast)
+}</code></pre>
+<figcaption><a href="#listing-20-40">Listing 20-40</a>: Código que a maioria dos crates de macros procedurais exigirá para processar código Rust</figcaption>
+</figure>
+<p>Note que dividimos o código na função <code>hello_macro_derive</code>, que é responsável por analisar o <code>TokenStream</code>, e na função <code>impl_hello_macro</code>, que é responsável por transformar a árvore de sintaxe: isso torna a escrita de uma macro procedural mais conveniente. O código na função externa (<code>hello_macro_derive</code> neste caso) será o mesmo para quase todos os crates de macros procedurais que você vir ou criar. O código que você especificar no corpo da função interna (<code>impl_hello_macro</code> neste caso) será diferente dependendo do propósito da sua macro procedural.</p>
+<p>Introduzimos três novos crates: <code>proc_macro</code>, <a href="https://crates.io/crates/syn"><code>syn</code></a><!-- ignore --> e <a href="https://crates.io/crates/quote"><code>quote</code></a><!-- ignore -->. O crate <code>proc_macro</code> vem com o Rust, então não precisamos adicioná-lo às dependências em <em>Cargo.toml</em>. O crate <code>proc_macro</code> é a API do compilador que nos permite ler e manipular código Rust a partir do nosso código.</p>
+<p>O crate <code>syn</code> analisa o código Rust a partir de uma string em uma estrutura de dados sobre a qual podemos realizar operações. O crate <code>quote</code> transforma as estruturas de dados do <code>syn</code> de volta em código Rust. Esses crates tornam muito mais simples analisar qualquer tipo de código Rust que possamos querer manipular: escrever um analisador completo para o código Rust não é uma tarefa simples.</p>
+<p>A função <code>hello_macro_derive</code> será chamada quando um usuário da nossa biblioteca especificar <code>#[derive(HelloMacro)]</code> em um tipo. Isso é possível porque anotamos a função <code>hello_macro_derive</code> aqui com <code>proc_macro_derive</code> e especificamos o nome <code>HelloMacro</code>, que corresponde ao nome do nosso trait; esta é a convenção que a maioria das macros procedurais segue.</p>
+<p>A função <code>hello_macro_derive</code> primeiro converte a <code>input</code> de um <code>TokenStream</code> em uma estrutura de dados que podemos interpretar e realizar operações. É aqui que o <code>syn</code> entra em ação. A função <code>parse</code> em <code>syn</code> pega um <code>TokenStream</code> e retorna uma struct <code>DeriveInput</code> representando o código Rust analisado. A Listagem 20-41 mostra as partes relevantes da struct <code>DeriveInput</code> que obtemos ao analisar a string <code>struct Pancakes;</code>.</p>
+<figure class="listing" id="listing-20-41">
+<pre><code class="language-rust ignore">DeriveInput {
+    // --snip--
+
+    ident: Ident {
+        ident: "Pancakes",
+        span: #0 bytes(95..103)
+    },
+    data: Struct(
+        DataStruct {
+            struct_token: Struct,
+            fields: Unit,
+            semi_token: Some(
+                Semi
+            )
+        }
+    )
+}</code></pre>
+<figcaption><a href="#listing-20-41">Listing 20-41</a>: A instância de <code>DeriveInput</code> que obtemos ao analisar o código que possui o atributo da macro na Listagem 20-37</figcaption>
+</figure>
+<p>Os campos desta struct mostram que o código Rust que analisamos é uma struct unitária (<code>unit struct</code>) com o <code>ident</code> (<em>identificador</em>, significando o nome) de <code>Pancakes</code>. Há mais campos nesta struct para descrever todos os tipos de código Rust; consulte a <a href="https://docs.rs/syn/2.0/syn/struct.DeriveInput.html">documentação do <code>syn</code> para <code>DeriveInput</code></a> para obter mais informações.</p>
+<p>Em breve definiremos a função <code>impl_hello_macro</code>, que é onde construiremos o novo código Rust que queremos incluir. Mas antes de fazermos isso, note que a saída para nossa macro <code>derive</code> também é um <code>TokenStream</code>. O <code>TokenStream</code> retornado é adicionado ao código que os usuários do nosso crate escrevem, então quando eles compilam seu crate, eles obtêm a funcionalidade extra que fornecemos no <code>TokenStream</code> modificado.</p>
+<p>Você pode ter notado que estamos chamando <code>unwrap</code> para fazer a função <code>hello_macro_derive</code> entrar em pânico (<em>panic</em>) se a chamada para a função <code>syn::parse</code> falhar aqui. É necessário que nossa macro procedural entre em pânico em caso de erros porque as funções <code>proc_macro_derive</code> devem retornar <code>TokenStream</code> em vez de <code>Result</code> para cumprir a API de macros procedurais. Simplificamos este exemplo usando <code>unwrap</code>; em código de produção, você deve fornecer mensagens de erro mais específicas sobre o que deu errado usando <code>panic!</code> ou <code>expect</code>.</p>
+<p>Agora que temos o código para transformar o código Rust anotado de um <code>TokenStream</code> em uma instância de <code>DeriveInput</code>, vamos gerar o código que implementa o trait <code>HelloMacro</code> no tipo anotado, como mostrado na Listagem 20-42.</p>
+<figure class="listing" id="listing-20-42">
+<span class="file-name">Filename: hello_macro_derive/src/lib.rs</span>
+<pre><code class="language-rust ignore"><span class="boring">use proc_macro::TokenStream;
+</span><span class="boring">use quote::quote;
+</span><span class="boring">
+</span><span class="boring">#[proc_macro_derive(HelloMacro)]
+</span><span class="boring">pub fn hello_macro_derive(input: TokenStream) -&gt; TokenStream {
+</span><span class="boring">    // Construct a representation of Rust code as a syntax tree
+</span><span class="boring">    // that we can manipulate
+</span><span class="boring">    let ast = syn::parse(input).unwrap();
+</span><span class="boring">
+</span><span class="boring">    // Build the trait implementation
+</span><span class="boring">    impl_hello_macro(&amp;ast)
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn impl_hello_macro(ast: &amp;syn::DeriveInput) -&gt; TokenStream {
+    let name = &amp;ast.ident;
+    let generated = quote! {
+        impl HelloMacro for #name {
+            fn hello_macro() {
+                println!("Hello, Macro! My name is {}!", stringify!(#name));
+            }
+        }
+    };
+    generated.into()
+}</code></pre>
+<figcaption><a href="#listing-20-42">Listing 20-42</a>: Implementando o trait <code>HelloMacro</code> usando o código Rust analisado</figcaption>
+</figure>
+<p>Obtemos uma instância da struct <code>Ident</code> contendo o nome (identificador) do tipo anotado usando <code>ast.ident</code>. A struct na Listagem 20-41 mostra que, quando executamos a função <code>impl_hello_macro</code> no código da Listagem 20-37, o <code>ident</code> que obtemos terá o campo <code>ident</code> com o valor <code>"Pancakes"</code>. Assim, a variável <code>name</code> na Listagem 20-42 conterá uma instância da struct <code>Ident</code> que, quando impressa, será a string <code>"Pancakes"</code>, o nome da struct na Listagem 20-37.</p>
+<p>A macro <code>quote!</code> nos permite definir o código Rust que queremos retornar. O compilador espera algo diferente do resultado direto da execução da macro <code>quote!</code>, então precisamos convertê-lo para um <code>TokenStream</code>. Fazemos isso chamando o método <code>into</code>, que consome esta representação intermediária e retorna um valor do tipo <code>TokenStream</code> necessário.</p>
+<p>A macro <code>quote!</code> também fornece alguns mecanismos de template muito legais: podemos inserir <code>#name</code>, e o <code>quote!</code> o substituirá pelo valor na variável <code>name</code>. Você pode até fazer alguma repetição semelhante à forma como as macros normais funcionam. Confira <a href="https://docs.rs/quote">a documentação do crate <code>quote</code></a> para uma introdução completa.</p>
+<p>Queremos que nossa macro procedural gere uma implementação do nosso trait <code>HelloMacro</code> para o tipo que o usuário anotou, o qual podemos obter usando <code>#name</code>. A implementação do trait possui a função <code>hello_macro</code>, cujo corpo contém a funcionalidade que queremos fornecer: imprimir <code>Hello, Macro! My name is</code> e, em seguida, o nome do tipo anotado.</p>
+<p>A macro <code>stringify!</code> usada aqui é integrada ao Rust. Ela pega uma expressão Rust, como <code>1 + 2</code>, e em tempo de compilação transforma a expressão em um literal de string, como <code>"1 + 2"</code>. Isso é diferente de <code>format!</code> ou <code>println!</code>, que são macros que avaliam a expressão e depois transformam o resultado em uma <code>String</code>. Há a possibilidade de que a entrada <code>#name</code> possa ser uma expressão para ser impressa literalmente, então usamos <code>stringify!</code>. O uso de <code>stringify!</code> também evita uma alocação ao converter <code>#name</code> em um literal de string em tempo de compilação.</p>
+<p>Neste ponto, <code>cargo build</code> deve ser concluído com sucesso em ambos <code>hello_macro</code> e <code>hello_macro_derive</code>. Vamos conectar esses crates ao código da Listagem 20-37 para ver a macro procedural em ação! Crie um novo projeto binário em seu diretório <em>projects</em> usando <code>cargo new pancakes</code>. Precisamos adicionar <code>hello_macro</code> e <code>hello_macro_derive</code> como dependências no <em>Cargo.toml</em> do crate <code>pancakes</code>. Se você estiver publicando suas versões de <code>hello_macro</code> e <code>hello_macro_derive</code> no <a href="https://crates.io/">crates.io</a><!-- ignore -->, elas seriam dependências normais; caso contrário, você pode especificá-las como dependências de caminho (<code>path</code>) da seguinte forma:</p>
+<pre><code class="language-toml">[dependencies]
+hello_macro = { path = "../hello_macro" }
+hello_macro_derive = { path = "../hello_macro/hello_macro_derive" }
+</code></pre>
+<p>Coloque o código da Listagem 20-37 em <em>src/main.rs</em> e execute <code>cargo run</code>: Ele deve imprimir <code>Hello, Macro! My name is Pancakes!</code>. A implementação do trait <code>HelloMacro</code> da macro procedural foi incluída sem que o crate <code>pancakes</code> precisasse implementá-la; o <code>#[derive(HelloMacro)]</code> adicionou a implementação do trait.</p>
+<p>Em seguida, vamos explorar como os outros tipos de macros procedurais diferem das macros <code>derive</code> personalizadas.</p>
+<h3 id="macros-semelhantes-a-atributos"><a class="header" href="#macros-semelhantes-a-atributos">Macros Semelhantes a Atributos</a></h3>
+<p>Macros semelhantes a atributos são semelhantes às macros <code>derive</code> personalizadas, mas em vez de gerar código para o atributo <code>derive</code>, elas permitem que você crie novos atributos. Elas também são mais flexíveis: <code>derive</code> funciona apenas para structs e enums; atributos também podem ser aplicados a outros itens, como funções. Aqui está um exemplo de uso de uma macro semelhante a um atributo. Digamos que você tenha um atributo chamado <code>route</code> que anota funções ao usar um framework de aplicação web:</p>
+<pre><code class="language-rust ignore">#[route(GET, "/")]
+fn index() {</code></pre>
+<p>Este atributo <code>#[route]</code> seria definido pelo framework como uma macro procedural. A assinatura da função de definição da macro seria parecida com esta:</p>
+<pre><code class="language-rust ignore">#[proc_macro_attribute]
+pub fn route(attr: TokenStream, item: TokenStream) -&gt; TokenStream {</code></pre>
+<p>Aqui, temos dois parâmetros do tipo <code>TokenStream</code>. O primeiro é para o conteúdo do atributo: a parte <code>GET, "/"</code>. O segundo é o corpo do item ao qual o atributo está anexado: neste caso, <code>fn index() {}</code> e o resto do corpo da função.</p>
+<p>Fora isso, as macros semelhantes a atributos funcionam da mesma maneira que as macros <code>derive</code> personalizadas: você cria um crate com o tipo de crate <code>proc-macro</code> e implementa uma função que gera o código desejado!</p>
+<h3 id="macros-semelhantes-a-funções"><a class="header" href="#macros-semelhantes-a-funções">Macros Semelhantes a Funções</a></h3>
+<p>Macros semelhantes a funções definem macros que se parecem com chamadas de função. Semelhantemente às macros <code>macro_rules!</code>, elas são mais flexíveis do que as funções; por exemplo, podem aceitar um número desconhecido de argumentos. No entanto, as macros <code>macro_rules!</code> só podem ser definidas usando a sintaxe semelhante a match que discutimos na seção <a href="#declarative-macros-with-macro_rules-for-general-metaprogramming">“Macros Declarativas para Metaprogramação Geral”</a><!-- ignore --> anterior. As macros semelhantes a funções aceitam um parâmetro <code>TokenStream</code>, e sua definição manipula esse <code>TokenStream</code> usando código Rust, assim como os outros dois tipos de macros procedurais. Um exemplo de macro semelhante a uma função é uma macro <code>sql!</code> que pode ser chamada assim:</p>
+<pre><code class="language-rust ignore">let sql = sql!(SELECT * FROM posts WHERE id=1);</code></pre>
+<p>Esta macro analisaria a instrução SQL dentro dela e verificaria se está sintaticamente correta, o que é um processamento muito mais complexo do que uma macro <code>macro_rules!</code> pode fazer. A macro <code>sql!</code> seria definida assim:</p>
+<pre><code class="language-rust ignore">#[proc_macro]
+pub fn sql(input: TokenStream) -&gt; TokenStream {</code></pre>
+<p>Esta definição é semelhante à assinatura da macro <code>derive</code> personalizada: recebemos os tokens que estão dentro dos parênteses e retornamos o código que queríamos gerar.</p>
+<h2 id="resumo"><a class="header" href="#resumo">Resumo</a></h2>
+<p>Ufa! Agora você tem alguns recursos do Rust em sua caixa de ferramentas que provavelmente não usará com frequência, mas saberá que estão disponíveis em circunstâncias muito específicas. Introduzimos vários tópicos complexos para que, quando você os encontrar em sugestões de mensagens de erro ou no código de outras pessoas, seja capaz de reconhecer esses conceitos e sintaxe. Use este capítulo como referência para guiá-lo em direção a soluções.</p>
+<p>Em seguida, colocaremos tudo o que discutimos ao longo do livro em prática e faremos mais um projeto!</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch20-04-advanced-functions-and-closures.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch21-00-final-project-a-web-server.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch20-04-advanced-functions-and-closures.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch21-00-final-project-a-web-server.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

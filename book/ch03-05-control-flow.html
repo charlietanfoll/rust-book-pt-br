@@ -1,0 +1,683 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Controle de Fluxo - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="fluxo-de-controle"><a class="header" href="#fluxo-de-controle">Fluxo de Controle</a></h2>
+<p>A capacidade de executar código dependendo se uma condição é verdadeira (<code>true</code>)
+e a capacidade de executar código repetidamente enquanto uma condição é
+verdadeira (<code>true</code>) são blocos fundamentais de construção na maioria das
+linguagens de programação. As construções mais comuns que permitem controlar o
+fluxo de execução do código Rust são expressões <code>if</code> e loops.</p>
+<h3 id="expressões-if"><a class="header" href="#expressões-if">Expressões <code>if</code></a></h3>
+<p>Uma expressão <code>if</code> permite ramificar seu código dependendo de condições. Você
+fornece uma condição e declara: “Se esta condição for atendida, execute este
+bloco de código. Se a condição não for atendida, não execute este bloco de
+código.”</p>
+<p>Crie um novo projeto chamado <em>branches</em> no seu diretório <em>projects</em> para explorar
+a expressão <code>if</code>. No arquivo <em>src/main.rs</em>, insira o seguinte:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let number = 3;
+
+    if number &lt; 5 {
+        println!("condition was true");
+    } else {
+        println!("condition was false");
+    }
+}</code></pre>
+<p>Todas as expressões <code>if</code> começam com a palavra-chave <code>if</code>, seguida por uma
+condição. Neste caso, a condição verifica se a variável <code>number</code> tem um valor
+menor que 5. Colocamos o bloco de código a ser executado se a condição for
+verdadeira (<code>true</code>) imediatamente após a condição, dentro de chaves. Os blocos de
+código associados às condições nas expressões <code>if</code> são às vezes chamados de
+<em>braços</em> (<em>arms</em>), assim como os braços nas expressões <code>match</code> que discutimos na
+seção <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparando o palpite com o número secreto”</a><!--
+ignore --> do Capítulo 2.</p>
+<p>Opcionalmente, também podemos incluir uma expressão <code>else</code>, o que escolhemos fazer
+aqui, para dar ao programa um bloco alternativo de código a ser executado caso a
+condição resulte em falso (<code>false</code>). Se você não fornecer uma expressão <code>else</code> e
+a condição for falsa (<code>false</code>), o programa simplesmente pulará o bloco <code>if</code> e
+seguirá para o próximo trecho de código.</p>
+<p>Tente executar este código; você deverá ver a seguinte saída:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling branches v0.1.0 (file:///projects/branches)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running `target/debug/branches`
+condition was true
+</code></pre>
+<p>Vamos tentar alterar o valor de <code>number</code> para um valor que torne a condição falsa
+(<code>false</code>) para ver o que acontece:</p>
+<pre><code class="language-rust ignore"><span class="boring">fn main() {
+</span>    let number = 7;
+<span class="boring">
+</span><span class="boring">    if number &lt; 5 {
+</span><span class="boring">        println!("condition was true");
+</span><span class="boring">    } else {
+</span><span class="boring">        println!("condition was false");
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<p>Execute o programa novamente e observe a saída:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling branches v0.1.0 (file:///projects/branches)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running `target/debug/branches`
+condition was false
+</code></pre>
+<p>Vale a pena notar também que a condição neste código <em>deve</em> ser um <code>bool</code>. Se a
+condição não for um <code>bool</code>, teremos um erro. Por exemplo, tente executar o
+seguinte código:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre><code class="language-rust ignore does_not_compile">fn main() {
+    let number = 3;
+
+    if number {
+        println!("number was three");
+    }
+}</code></pre>
+<p>A condição do <code>if</code> é avaliada para um valor <code>3</code> desta vez, e o Rust gera um
+erro:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling branches v0.1.0 (file:///projects/branches)
+error[E0308]: mismatched types
+ --&gt; src/main.rs:4:8
+  |
+4 |     if number {
+  |        ^^^^^^ expected `bool`, found integer
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `branches` (bin "branches") due to 1 previous error
+</code></pre>
+<p>O erro indica que o Rust esperava um <code>bool</code>, mas obteve um inteiro. Ao contrário
+de linguagens como Ruby e JavaScript, o Rust não tentará converter
+automaticamente tipos não-booleanos em um booleano. Você deve ser explícito e
+sempre fornecer um booleano como condição do <code>if</code>. Se quisermos que o bloco de
+código do <code>if</code> seja executado apenas quando um número for diferente de <code>0</code>, por
+exemplo, podemos alterar a expressão <code>if</code> para a seguinte:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let number = 3;
+
+    if number != 0 {
+        println!("number was something other than zero");
+    }
+}</code></pre>
+<p>A execução deste código imprimirá <code>number was something other than zero</code> (o número era diferente de zero).</p>
+<h4 id="tratando-múltiplas-condições-com-else-if"><a class="header" href="#tratando-múltiplas-condições-com-else-if">Tratando Múltiplas Condições com <code>else if</code></a></h4>
+<p>Você pode usar múltiplas condições combinando <code>if</code> e <code>else</code> em uma expressão
+<code>else if</code>. Por exemplo:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let number = 6;
+
+    if number % 4 == 0 {
+        println!("number is divisible by 4");
+    } else if number % 3 == 0 {
+        println!("number is divisible by 3");
+    } else if number % 2 == 0 {
+        println!("number is divisible by 2");
+    } else {
+        println!("number is not divisible by 4, 3, or 2");
+    }
+}</code></pre>
+<p>Este programa tem quatro caminhos possíveis que pode seguir. Após executá-lo,
+você deverá ver a seguinte saída:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling branches v0.1.0 (file:///projects/branches)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.31s
+     Running `target/debug/branches`
+number is divisible by 3
+</code></pre>
+<p>Quando este programa é executado, ele verifica cada expressão <code>if</code> por vez e
+executa o primeiro corpo para o qual a condição é avaliada como verdadeira
+(<code>true</code>). Note que, embora 6 seja divisível por 2, não vemos a saída <code>number is divisible by 2</code>, nem vemos o texto <code>number is not divisible by 4, 3, or 2</code> do
+bloco <code>else</code>. Isso ocorre porque o Rust executa apenas o bloco para a primeira
+condição verdadeira (<code>true</code>) e, assim que encontra uma, nem verifica o restante.</p>
+<p>Usar muitas expressões <code>else if</code> pode poluir o seu código, portanto, se você tiver
+mais do que uma, talvez queira refatorar seu código. O Capítulo 6 descreve uma
+poderosa construção de ramificação do Rust chamada <code>match</code> para esses casos.</p>
+<h4 id="usando-if-em-uma-instrução-let"><a class="header" href="#usando-if-em-uma-instrução-let">Usando <code>if</code> em uma Instrução <code>let</code></a></h4>
+<p>Como o <code>if</code> é uma expressão, podemos usá-lo no lado direito de uma instrução
+<code>let</code> para atribuir o resultado a uma variável, como na Listagem 3-2.</p>
+<figure class="listing" id="listing-3-2">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let condition = true;
+    let number = if condition { 5 } else { 6 };
+
+    println!("The value of number is: {number}");
+}</code></pre>
+<figcaption><a href="#listing-3-2">Listing 3-2</a>: Atribuindo o resultado de uma expressão <code>if</code> a uma variável</figcaption>
+</figure>
+<p>A variável <code>number</code> será vinculada a um valor com base no resultado da
+expressão <code>if</code>. Execute este código para ver o que acontece:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling branches v0.1.0 (file:///projects/branches)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.30s
+     Running `target/debug/branches`
+The value of number is: 5
+</code></pre>
+<p>Lembre-se de que os blocos de código são avaliados como a última expressão neles,
+e os números por si só também são expressões. Nesse caso, o valor de toda a
+expressão <code>if</code> depende de qual bloco de código é executado. Isso significa que os
+valores que têm o potencial de ser resultados de cada braço do <code>if</code> devem ser do
+mesmo tipo; na Listagem 3-2, os resultados do braço do <code>if</code> e do braço do <code>else</code>
+foram inteiros <code>i32</code>. Se os tipos não corresponderem, como no exemplo a seguir,
+teremos um erro:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre><code class="language-rust ignore does_not_compile">fn main() {
+    let condition = true;
+
+    let number = if condition { 5 } else { "six" };
+
+    println!("The value of number is: {number}");
+}</code></pre>
+<p>Quando tentamos compilar este código, recebemos um erro. Os braços <code>if</code> e <code>else</code>
+têm tipos de valores incompatíveis, e o Rust indica exatamente onde encontrar o
+problema no programa:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling branches v0.1.0 (file:///projects/branches)
+error[E0308]: `if` and `else` have incompatible types
+ --&gt; src/main.rs:4:44
+  |
+4 |     let number = if condition { 5 } else { "six" };
+  |                                 -          ^^^^^ expected integer, found `&amp;str`
+  |                                 |
+  |                                 expected because of this
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `branches` (bin "branches") due to 1 previous error
+</code></pre>
+<p>A expressão no bloco <code>if</code> é avaliada como um inteiro, e a expressão no bloco
+<code>else</code> é avaliada como uma string. Isso não vai funcionar, porque as variáveis
+devem ter um único tipo, e o Rust precisa saber definitivamente em tempo de
+compilação qual é o tipo da variável <code>number</code>. Conhecer o tipo de <code>number</code>
+permite que o compilador verifique se o tipo é válido em todos os lugares onde
+usamos <code>number</code>. O Rust não seria capaz de fazer isso se o tipo de <code>number</code> fosse
+determinado apenas em tempo de execução; o compilador seria mais complexo e faria
+menos garantias sobre o código se precisasse acompanhar vários tipos hipotéticos
+para qualquer variável.</p>
+<h3 id="repetição-com-loops"><a class="header" href="#repetição-com-loops">Repetição com Loops</a></h3>
+<p>Muitas vezes é útil executar um bloco de código mais de uma vez. Para esta
+tarefa, o Rust fornece vários <em>loops</em>, que executam o código dentro do corpo do
+loop até o final e, em seguida, recomeçam imediatamente no início. Para
+experimentar loops, vamos criar um novo projeto chamado <em>loops</em>.</p>
+<p>O Rust tem três tipos de loops: <code>loop</code>, <code>while</code> e <code>for</code>. Vamos testar cada um deles.</p>
+<h4 id="repetindo-código-com-loop"><a class="header" href="#repetindo-código-com-loop">Repetindo Código com <code>loop</code></a></h4>
+<p>A palavra-chave <code>loop</code> diz ao Rust para executar um bloco de código repetidamente,
+seja para sempre ou até que você diga explicitamente para parar.</p>
+<p>Como exemplo, altere o arquivo <em>src/main.rs</em> no seu diretório <em>loops</em> para ficar
+assim:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre><code class="language-rust ignore">fn main() {
+    loop {
+        println!("again!");
+    }
+}</code></pre>
+<p>Quando executamos este programa, veremos <code>again!</code> impresso repetidamente e de
+forma contínua até que paremos o programa manualmente. A maioria dos terminais
+suporta o atalho de teclado <kbd>ctrl</kbd>-<kbd>C</kbd> para interromper um
+programa preso em um loop contínuo. Experimente:</p>
+<!-- manual-regeneration
+cd listings/ch03-common-programming-concepts/no-listing-32-loop
+cargo run
+CTRL-C
+-->
+<pre><code class="language-console">$ cargo run
+   Compiling loops v0.1.0 (file:///projects/loops)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running `target/debug/loops`
+again!
+again!
+again!
+again!
+^Cagain!
+</code></pre>
+<p>O símbolo <code>^C</code> representa onde você pressionou <kbd>ctrl</kbd>-<kbd>C</kbd>.</p>
+<p>Você pode ou não ver a palavra <code>again!</code> impressada após o <code>^C</code>, dependendo de
+onde o código estava no loop quando recebeu o sinal de interrupção.</p>
+<p>Felizmente, o Rust também fornece uma maneira de sair de um loop usando código.
+Você pode colocar a palavra-chave <code>break</code> dentro do loop para dizer ao programa
+quando parar de executar o loop. Lembre-se de que fizemos isso no jogo de adivinhação
+na seção <a href="ch02-00-guessing-game-tutorial.html#quitting-after-a-correct-guess">“Saindo Após um Palpite Correto”</a><!-- ignore
+--> do Capítulo 2 para sair do programa quando o usuário ganhou o jogo adivinhando o número correto.</p>
+<p>Também usamos <code>continue</code> no jogo de adivinhação, que em um loop diz ao programa
+para pular qualquer código restante nesta iteração do loop e ir para a próxima iteração.</p>
+<h4 id="retornando-valores-de-loops"><a class="header" href="#retornando-valores-de-loops">Retornando Valores de Loops</a></h4>
+<p>Um dos usos de um <code>loop</code> é repetir uma operação que você sabe que pode falhar,
+como verificar se uma thread concluiu seu trabalho. Você também pode precisar
+passar o resultado dessa operação para fora do loop para o resto do seu código.
+Para fazer isso, você pode adicionar o valor que deseja retornar após a
+expressão <code>break</code> que você usa para parar o loop; esse valor será retornado para
+fora do loop para que você possa usá-lo, como mostrado aqui:</p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let mut counter = 0;
+
+    let result = loop {
+        counter += 1;
+
+        if counter == 10 {
+            break counter * 2;
+        }
+    };
+
+    println!("The result is {result}");
+}</code></pre>
+<p>Antes do loop, declaramos uma variável chamada <code>counter</code> e a inicializamos com
+<code>0</code>. Em seguida, declaramos uma variável chamada <code>result</code> para armazenar o valor
+retornado do loop. Em cada iteração do loop, adicionamos <code>1</code> à variável
+<code>counter</code> e, em seguida, verificamos se o <code>counter</code> é igual a <code>10</code>. Quando for,
+usamos a palavra-chave <code>break</code> com o valor <code>counter * 2</code>. Após o loop, usamos um
+ponto e vírgula para encerrar a instrução que atribui o valor a <code>result</code>. Por
+fim, imprimimos o valor em <code>result</code>, que neste caso é <code>20</code>.</p>
+<p>Você também pode usar <code>return</code> de dentro de um loop. Enquanto o <code>break</code> sai
+apenas do loop atual, o <code>return</code> sempre sai da função atual.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="loop-labels-to-disambiguate-between-multiple-loops"></a></p>
+<h4 id="eliminando-ambiguidade-com-rótulos-de-loop"><a class="header" href="#eliminando-ambiguidade-com-rótulos-de-loop">Eliminando Ambiguidade com Rótulos de Loop</a></h4>
+<p>Se você tiver loops dentro de loops, <code>break</code> e <code>continue</code> se aplicam ao loop mais
+interno naquele ponto. Opcionalmente, você pode especificar um <em>rótulo de loop</em>
+(<em>loop label</em>) em um loop que pode ser usado com <code>break</code> ou <code>continue</code> para
+especificar que essas palavras-chave se aplicam ao loop rotulado em vez do loop
+mais interno. Os rótulos de loop devem começar com uma aspa simples. Aqui está um
+exemplo com dois loops aninhados:</p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let mut count = 0;
+    'counting_up: loop {
+        println!("count = {count}");
+        let mut remaining = 10;
+
+        loop {
+            println!("remaining = {remaining}");
+            if remaining == 9 {
+                break;
+            }
+            if count == 2 {
+                break 'counting_up;
+            }
+            remaining -= 1;
+        }
+
+        count += 1;
+    }
+    println!("End count = {count}");
+}</code></pre>
+<p>O loop externo tem o rótulo <code>'counting_up</code>, e ele fará a contagem de 0 a 2. O
+loop interno sem rótulo faz a contagem regressiva de 10 a 9. O primeiro <code>break</code>
+que não especifica um rótulo sairá apenas do loop interno. A instrução <code>break 'counting_up;</code> sairá do loop externo. Este código imprime:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling loops v0.1.0 (file:///projects/loops)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.58s
+     Running `target/debug/loops`
+count = 0
+remaining = 10
+remaining = 9
+count = 1
+remaining = 10
+remaining = 9
+count = 2
+remaining = 10
+End count = 2
+</code></pre>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="conditional-loops-with-while"></a></p>
+<h4 id="simplificando-loops-condicionais-com-while"><a class="header" href="#simplificando-loops-condicionais-com-while">Simplificando Loops Condicionais com while</a></h4>
+<p>Um programa frequentemente precisará avaliar uma condição dentro de um loop.
+Enquanto a condição for verdadeira (<code>true</code>), o loop será executado. Quando a
+condição deixar de ser verdadeira (<code>true</code>), o programa chama <code>break</code>, parando o
+loop. É possível implementar um comportamento como este usando uma combinação de
+<code>loop</code>, <code>if</code>, <code>else</code> e <code>break</code>; você poderia tentar isso agora em um programa, se
+quiser. No entanto, esse padrão é tão comum que o Rust tem uma construção de
+linguagem integrada para ele, chamada de loop <code>while</code>. Na Listagem 3-3, usamos
+<code>while</code> para fazer o programa executar o loop três vezes, contando para trás a
+cada vez e, depois do loop, imprimindo uma mensagem e saindo.</p>
+<figure class="listing" id="listing-3-3">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let mut number = 3;
+
+    while number != 0 {
+        println!("{number}!");
+
+        number -= 1;
+    }
+
+    println!("LIFTOFF!!!");
+}</code></pre>
+<figcaption><a href="#listing-3-3">Listing 3-3</a>: Usando um loop <code>while</code> para executar código enquanto uma condição é avaliada como verdadeira (<code>true</code>)</figcaption>
+</figure>
+<p>Essa construção elimina muito do aninhamento que seria necessário se você usasse
+<code>loop</code>, <code>if</code>, <code>else</code> e <code>break</code>, e é mais clara. Enquanto uma condição for
+avaliada como verdadeira (<code>true</code>), o código é executado; caso contrário, ele sai
+do loop.</p>
+<h4 id="percorrendo-uma-coleção-com-for"><a class="header" href="#percorrendo-uma-coleção-com-for">Percorrendo uma Coleção com <code>for</code></a></h4>
+<p>Você pode optar por usar a construção <code>while</code> para percorrer os elementos de
+uma coleção, como uma matriz (array). Por exemplo, o loop na Listagem 3-4 imprime
+cada elemento na matriz <code>a</code>.</p>
+<figure class="listing" id="listing-3-4">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let a = [10, 20, 30, 40, 50];
+    let mut index = 0;
+
+    while index &lt; 5 {
+        println!("the value is: {}", a[index]);
+
+        index += 1;
+    }
+}</code></pre>
+<figcaption><a href="#listing-3-4">Listing 3-4</a>: Percorrendo cada elemento de uma coleção usando um loop <code>while</code></figcaption>
+</figure>
+<p>Aqui, o código conta através dos elementos na matriz. Ele começa no índice <code>0</code> e
+faz um loop até atingir o índice final na matriz (ou seja, quando <code>index &lt; 5</code>
+deixa de ser verdadeiro (<code>true</code>)). A execução deste código imprimirá cada
+elemento na matriz:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling loops v0.1.0 (file:///projects/loops)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.32s
+     Running `target/debug/loops`
+the value is: 10
+the value is: 20
+the value is: 30
+the value is: 40
+the value is: 50
+</code></pre>
+<p>Todos os cinco valores da matriz aparecem no terminal, conforme o esperado.
+Mesmo que <code>index</code> atinja o valor <code>5</code> em algum momento, o loop para de ser
+executado antes de tentar buscar um sexto valor da matriz.</p>
+<p>No entanto, essa abordagem é propensa a erros; poderíamos fazer o programa entrar
+em pânico (<em>panic</em>) se o valor do índice ou a condição de teste estiver incorreta. Por
+exemplo, se você alterasse a definição da matriz <code>a</code> para ter quatro elementos,
+mas esquecesse de atualizar a condição para <code>while index &lt; 4</code>, o código entraria
+em pânico. Também é lento, porque o compilador adiciona código em tempo de
+execução para realizar a verificação condicional de se o índice está dentro dos
+limites da matriz em cada iteração do loop.</p>
+<p>Como uma alternativa mais concisa, você pode usar um loop <code>for</code> e executar algum
+código para cada item em uma coleção. Um loop <code>for</code> se parece com o código da
+Listagem 3-5.</p>
+<figure class="listing" id="listing-3-5">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let a = [10, 20, 30, 40, 50];
+
+    for element in a {
+        println!("the value is: {element}");
+    }
+}</code></pre>
+<figcaption><a href="#listing-3-5">Listing 3-5</a>: Percorrendo cada elemento de uma coleção usando um loop <code>for</code></figcaption>
+</figure>
+<p>Quando executamos este código, veremos a mesma saída da Listagem 3-4. Mais
+importantemente, agora aumentamos a segurança do código e eliminamos a chance de
+bugs que poderiam resultar de ir além do final da matriz ou não ir longe o
+suficiente e perder alguns itens. O código de máquina gerado a partir de loops
+<code>for</code> também pode ser mais eficiente porque o índice não precisa ser comparado
+com o comprimento da matriz a cada iteração.</p>
+<p>Usando o loop <code>for</code>, você não precisaria se lembrar de alterar nenhum outro
+código se mudasse o número de valores na matriz, como faria com o método usado na
+Listagem 3-4.</p>
+<p>A segurança e a concisão dos loops <code>for</code> os tornam a construção de loop mais
+comumente usada em Rust. Mesmo em situações em que você deseja executar algum
+código um determinado número de vezes, como no exemplo de contagem regressiva
+que usou um loop <code>while</code> na Listagem 3-3, a maioria dos <em>Rustacean</em>s usaria um
+loop <code>for</code>. A maneira de fazer isso seria usar um <code>Range</code> (intervalo),
+fornecido pela biblioteca padrão, que gera todos os números em sequência
+começando de um número e terminando antes de outro número.</p>
+<p>Aqui está como a contagem regressiva seria usando um loop <code>for</code> e outro método
+sobre o qual ainda não falamos, <code>rev</code>, para inverter o intervalo:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    for number in (1..4).rev() {
+        println!("{number}!");
+    }
+    println!("LIFTOFF!!!");
+}</code></pre>
+<p>Este código é um pouco mais agradável, não é?</p>
+<h2 id="resumo"><a class="header" href="#resumo">Resumo</a></h2>
+<p>Você conseguiu! Este foi um capítulo considerável: você aprendeu sobre variáveis,
+tipos de dados escalares e compostos, funções, comentários, expressões <code>if</code> e
+loops! Para praticar com os conceitos discutidos neste capítulo, tente criar
+programas para fazer o seguinte:</p>
+<ul>
+<li>Converter temperaturas entre Fahrenheit e Celsius.</li>
+<li>Gerar o <em>n</em>-ésimo número de Fibonacci.</li>
+<li>Imprimir a letra da música natalina “The Twelve Days of Christmas” (<em>Os Doze Dias de Natal</em>), aproveitando a repetição na música.</li>
+</ul>
+<p>Quando estiver pronto para avançar, falaremos sobre um conceito em Rust que
+<em>não</em> existe comumente em outras linguagens de programação: a propriedade (<em>ownership</em>).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch03-04-comments.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch04-00-understanding-ownership.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch03-04-comments.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch04-00-understanding-ownership.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

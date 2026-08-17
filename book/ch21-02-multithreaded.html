@@ -1,0 +1,1485 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>De Servidor de Uma Única Thread para Multithread - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <!-- Old headings. Do not remove or links may break. -->
+<p><a id="turning-our-single-threaded-server-into-a-multithreaded-server"></a>
+<a id="from-single-threaded-to-multithreaded-server"></a></p>
+<h2 id="de-um-servidor-de-uma-única-thread-para-um-servidor-multi-thread"><a class="header" href="#de-um-servidor-de-uma-única-thread-para-um-servidor-multi-thread">De um Servidor de Uma Única Thread para um Servidor Multi-thread</a></h2>
+<p>No momento, o servidor processará cada requisição em sequência, o que significa que
+ele não processará uma segunda conexão até que a primeira conexão termine de ser processada.
+Se o servidor receber cada vez mais requisições, essa execução serial será
+cada vez menos ideal. Se o servidor receber uma requisição que demore muito
+para ser processada, as requisições subsequentes terão que esperar até que a requisição longa
+termine, mesmo que as novas requisições pudessem ser processadas rapidamente. Precisamos corrigir
+isso, mas primeiro vamos ver o problema em ação.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="simulating-a-slow-request-in-the-current-server-implementation"></a></p>
+<h3 id="simulando-uma-requisição-lenta"><a class="header" href="#simulando-uma-requisição-lenta">Simulando uma Requisição Lenta</a></h3>
+<p>Vamos ver como uma requisição de processamento lento pode afetar outras requisições feitas à
+nossa implementação atual do servidor. A Listagem 21-10 implementa o tratamento de uma requisição
+para <em>/sleep</em> com uma resposta simulada lenta que fará o servidor dormir
+por cinco segundos antes de responder.</p>
+<figure class="listing" id="listing-21-10">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust no_run edition2024">use std::{
+    fs,
+    io::{BufReader, prelude::*},
+    net::{TcpListener, TcpStream},
+    thread,
+    time::Duration,
+};
+// --snip--
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+</span><span class="boring">
+</span><span class="boring">    for stream in listener.incoming() {
+</span><span class="boring">        let stream = stream.unwrap();
+</span><span class="boring">
+</span><span class="boring">        handle_connection(stream);
+</span><span class="boring">    }
+</span><span class="boring">}
+</span>
+fn handle_connection(mut stream: TcpStream) {
+    // --snip--
+
+<span class="boring">    let buf_reader = BufReader::new(&amp;stream);
+</span><span class="boring">    let request_line = buf_reader.lines().next().unwrap().unwrap();
+</span><span class="boring">
+</span>    let (status_line, filename) = match &amp;request_line[..] {
+        "GET / HTTP/1.1" =&gt; ("HTTP/1.1 200 OK", "hello.html"),
+        "GET /sleep HTTP/1.1" =&gt; {
+            thread::sleep(Duration::from_secs(5));
+            ("HTTP/1.1 200 OK", "hello.html")
+        }
+        _ =&gt; ("HTTP/1.1 404 NOT FOUND", "404.html"),
+    };
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
+</span><span class="boring">    let length = contents.len();
+</span><span class="boring">
+</span><span class="boring">    let response =
+</span><span class="boring">        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
+</span>}</code></pre>
+<figcaption><a href="#listing-21-10">Listing 21-10</a>: Simulando uma requisição lenta fazendo o servidor dormir por cinco segundos</figcaption>
+</figure>
+<p>Mudamos de <code>if</code> para <code>match</code> agora que temos três casos. Precisamos
+fazer correspondência explícita em uma fatia (slice) de <code>request_line</code> para fazer pattern-matching contra os
+valores de string literal; o <code>match</code> não faz referenciamento e
+desreferenciamento automáticos como o método de igualdade faz.</p>
+<p>O primeiro braço é o mesmo que o bloco <code>if</code> da Listagem 21-9. O segundo braço
+faz correspondência com uma requisição para <em>/sleep</em>. Quando essa requisição é recebida, o servidor irá
+dormir por cinco segundos antes de renderizar a página HTML de sucesso. O terceiro braço
+é o mesmo que o bloco <code>else</code> da Listagem 21-9.</p>
+<p>Você pode ver quão primitivo é o nosso servidor: Bibliotecas reais lidariam com
+o reconhecimento de múltiplas requisições de uma maneira muito menos verbosa!</p>
+<p>Inicie o servidor usando <code>cargo run</code>. Em seguida, abra duas janelas do navegador: uma para
+<em>http://127.0.0.1:7878</em> e a outra para <em>http://127.0.0.1:7878/sleep</em>. Se você
+inserir a URI <em>/</em> algumas vezes, como antes, você a verá responder rapidamente. Mas se
+você inserir <em>/sleep</em> e depois carregar <em>/</em>, você verá que <em>/</em> espera até que <code>sleep</code>
+tenha dormido por seus cinco segundos completos antes de carregar.</p>
+<p>Existem várias técnicas que poderíamos usar para evitar que requisições fiquem acumuladas atrás
+de uma requisição lenta, incluindo o uso de async como fizemos no Capítulo 17; a técnica que vamos
+implementar é um pool de threads.</p>
+<h3 id="melhorando-a-vazão-throughput-com-um-pool-de-threads"><a class="header" href="#melhorando-a-vazão-throughput-com-um-pool-de-threads">Melhorando a Vazão (Throughput) com um Pool de Threads</a></h3>
+<p>Um <em>pool de threads</em> (conjunto de threads) é um grupo de threads geradas que estão prontas e esperando para
+lidar com uma tarefa. Quando o programa recebe uma nova tarefa, ele atribui uma das
+threads do pool à tarefa, e essa thread processará a tarefa. As
+threads restantes no pool ficam disponíveis para lidar com quaisquer outras tarefas que chegarem
+enquanto a primeira thread estiver processando. Quando a primeira thread terminar
+de processar sua tarefa, ela é devolvida ao pool de threads ociosas, pronta para lidar com
+uma nova tarefa. Um pool de threads permite processar conexões concorrentemente,
+aumentando a vazão do seu servidor.</p>
+<p>Limitaremos o número de threads no pool a um número pequeno para nos proteger
+contra ataques DoS; se fizéssemos nosso programa criar uma nova thread para cada requisição conforme
+ela chegasse, alguém fazendo 10 milhões de requisições ao nosso servidor poderia causar estragos
+esgotando todos os recursos do nosso servidor e paralisando o processamento das requisições.</p>
+<p>Em vez de gerar threads ilimitadas, portanto, teremos um número fixo de
+threads esperando no pool. As requisições que chegam são enviadas ao pool para
+processamento. O pool manterá uma fila de requisições de entrada. Cada uma das
+threads no pool retirará uma requisição desta fila, lidará com a requisição,
+e então pedirá outra requisição à fila. Com esse design, podemos processar até
+<em><code>N</code></em> requisições concorrentemente, onde <em><code>N</code></em> é o número de threads. Se cada
+thread estiver respondendo a uma requisição de longa duração, as requisições subsequentes ainda poderão
+se acumular na fila, mas aumentamos o número de requisições de longa duração
+que podemos manipular antes de atingir esse ponto.</p>
+<p>Esta técnica é apenas uma das muitas maneiras de melhorar a vazão de um servidor web.
+Outras opções que você pode explorar são o modelo fork/join, o
+modelo de E/S assíncrona de thread única e o modelo de E/S assíncrona multi-thread. Se
+você estiver interessado neste tópico, poderá ler mais sobre outras soluções e
+tentar implementá-las; com uma linguagem de baixo nível como o Rust, todas essas
+opções são possíveis.</p>
+<p>Antes de começarmos a implementar um pool de threads, vamos falar sobre como o uso
+do pool deve ser. Quando você está tentando projetar código, escrever a interface
+do cliente primeiro pode ajudar a guiar seu design. Escreva a API do código de forma
+que ela seja estruturada da maneira que você deseja chamá-la; então, implemente a
+funcionalidade dentro dessa estrutura em vez de implementar a funcionalidade
+e depois projetar a API pública.</p>
+<p>Da mesma forma que usamos o desenvolvimento orientado a testes (TDD) no projeto do Capítulo 12,
+usaremos aqui o desenvolvimento orientado pelo compilador. Escreveremos o código que chama as
+funções que queremos e, em seguida, analisaremos os erros do compilador para determinar
+o que devemos mudar a seguir para fazer o código funcionar. Antes de fazer isso, no entanto,
+vamos explorar a técnica que não vamos usar como ponto de partida.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="code-structure-if-we-could-spawn-a-thread-for-each-request"></a></p>
+<h4 id="gerando-uma-thread-para-cada-requisição"><a class="header" href="#gerando-uma-thread-para-cada-requisição">Gerando uma Thread para Cada Requisição</a></h4>
+<p>Primeiro, vamos explorar como nosso código poderia parecer se ele criasse uma nova thread para
+cada conexão. Como mencionado anteriormente, este não é o nosso plano final devido aos
+problemas de potencialmente gerar um número ilimitado de threads, mas é um
+ponto de partida para obter um servidor multi-thread funcional primeiro. Depois, adicionaremos o
+pool de threads como uma melhoria, e contrastar as duas soluções será mais fácil.</p>
+<p>A Listagem 21-11 mostra as alterações a serem feitas em <code>main</code> para gerar uma nova thread para
+lidar com cada stream dentro do loop <code>for</code>.</p>
+<figure class="listing" id="listing-21-11">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust no_run edition2024"><span class="boring">use std::{
+</span><span class="boring">    fs,
+</span><span class="boring">    io::{BufReader, prelude::*},
+</span><span class="boring">    net::{TcpListener, TcpStream},
+</span><span class="boring">    thread,
+</span><span class="boring">    time::Duration,
+</span><span class="boring">};
+</span><span class="boring">
+</span>fn main() {
+    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+
+    for stream in listener.incoming() {
+        let stream = stream.unwrap();
+
+        thread::spawn(|| {
+            handle_connection(stream);
+        });
+    }
+}
+<span class="boring">
+</span><span class="boring">fn handle_connection(mut stream: TcpStream) {
+</span><span class="boring">    let buf_reader = BufReader::new(&amp;stream);
+</span><span class="boring">    let request_line = buf_reader.lines().next().unwrap().unwrap();
+</span><span class="boring">
+</span><span class="boring">    let (status_line, filename) = match &amp;request_line[..] {
+</span><span class="boring">        "GET / HTTP/1.1" =&gt; ("HTTP/1.1 200 OK", "hello.html"),
+</span><span class="boring">        "GET /sleep HTTP/1.1" =&gt; {
+</span><span class="boring">            thread::sleep(Duration::from_secs(5));
+</span><span class="boring">            ("HTTP/1.1 200 OK", "hello.html")
+</span><span class="boring">        }
+</span><span class="boring">        _ =&gt; ("HTTP/1.1 404 NOT FOUND", "404.html"),
+</span><span class="boring">    };
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
+</span><span class="boring">    let length = contents.len();
+</span><span class="boring">
+</span><span class="boring">    let response =
+</span><span class="boring">        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
+</span><span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-21-11">Listing 21-11</a>: Gerando uma nova thread para cada stream</figcaption>
+</figure>
+<p>Como você aprendeu no Capítulo 16, <code>thread::spawn</code> criará uma nova thread e executará
+o código no closure nessa nova thread. Se você executar este código e carregar
+<em>/sleep</em> no seu navegador, e então <em>/</em> em outras duas abas do navegador, você verá
+que as requisições para <em>/</em> não precisam esperar <em>/sleep</em> terminar. No entanto, como
+mencionamos, isso eventualmente sobrecarregará o sistema porque você estaria criando
+novas threads sem nenhum limite.</p>
+<p>Você também deve se lembrar do Capítulo 17 que este é exatamente o tipo de situação
+onde async e await realmente brilham! Lembre-se disso enquanto construímos o pool
+de threads e pense em como as coisas seriam diferentes ou iguais com async.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="creating-a-similar-interface-for-a-finite-number-of-threads"></a></p>
+<h4 id="criando-um-número-finito-de-threads"><a class="header" href="#criando-um-número-finito-de-threads">Criando um Número Finito de Threads</a></h4>
+<p>Queremos que nosso pool de threads funcione de maneira semelhante e familiar, para que a troca
+de threads para um pool de threads não exija grandes alterações no código que
+usa nossa API. A Listagem 21-12 mostra a interface hipotética para uma struct <code>ThreadPool</code>
+que queremos usar em vez de <code>thread::spawn</code>.</p>
+<figure class="listing" id="listing-21-12">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{
+</span><span class="boring">    fs,
+</span><span class="boring">    io::{BufReader, prelude::*},
+</span><span class="boring">    net::{TcpListener, TcpStream},
+</span><span class="boring">    thread,
+</span><span class="boring">    time::Duration,
+</span><span class="boring">};
+</span><span class="boring">
+</span>fn main() {
+    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+    let pool = ThreadPool::new(4);
+
+    for stream in listener.incoming() {
+        let stream = stream.unwrap();
+
+        pool.execute(|| {
+            handle_connection(stream);
+        });
+    }
+}
+<span class="boring">
+</span><span class="boring">fn handle_connection(mut stream: TcpStream) {
+</span><span class="boring">    let buf_reader = BufReader::new(&amp;stream);
+</span><span class="boring">    let request_line = buf_reader.lines().next().unwrap().unwrap();
+</span><span class="boring">
+</span><span class="boring">    let (status_line, filename) = match &amp;request_line[..] {
+</span><span class="boring">        "GET / HTTP/1.1" =&gt; ("HTTP/1.1 200 OK", "hello.html"),
+</span><span class="boring">        "GET /sleep HTTP/1.1" =&gt; {
+</span><span class="boring">            thread::sleep(Duration::from_secs(5));
+</span><span class="boring">            ("HTTP/1.1 200 OK", "hello.html")
+</span><span class="boring">        }
+</span><span class="boring">        _ =&gt; ("HTTP/1.1 404 NOT FOUND", "404.html"),
+</span><span class="boring">    };
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
+</span><span class="boring">    let length = contents.len();
+</span><span class="boring">
+</span><span class="boring">    let response =
+</span><span class="boring">        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
+</span><span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-21-12">Listing 21-12</a>: Nossa interface ideal para o <code>ThreadPool</code></figcaption>
+</figure>
+<p>Usamos <code>ThreadPool::new</code> para criar um novo pool de threads com um número configurável
+de threads, neste caso quatro. Em seguida, no loop <code>for</code>, <code>pool.execute</code> tem uma
+interface semelhante a <code>thread::spawn</code> no sentido de que ela recebe um closure que o pool
+deve executar para cada stream. Precisamos implementar <code>pool.execute</code> para que ele
+receba o closure e o entregue a uma thread no pool para execução. Este código ainda não
+compila, mas vamos tentar para que o compilador possa nos guiar sobre como consertá-lo.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="building-the-threadpool-struct-using-compiler-driven-development"></a></p>
+<h4 id="construindo-threadpool-usando-o-desenvolvimento-orientado-pelo-compilador"><a class="header" href="#construindo-threadpool-usando-o-desenvolvimento-orientado-pelo-compilador">Construindo <code>ThreadPool</code> Usando o Desenvolvimento Orientado pelo Compilador</a></h4>
+<p>Faça as alterações da Listagem 21-12 em <em>src/main.rs</em> e, em seguida, usemos os
+erros de compilação de <code>cargo check</code> para guiar nosso desenvolvimento. Aqui está o primeiro
+erro que obtemos:</p>
+<pre><code class="language-console">$ cargo check
+    Checking hello v0.1.0 (file:///projects/hello)
+error[E0433]: cannot find type `ThreadPool` in this scope
+  --&gt; src/main.rs:11:16
+   |
+11 |     let pool = ThreadPool::new(4);
+   |                ^^^^^^^^^^ use of undeclared type `ThreadPool`
+
+For more information about this error, try `rustc --explain E0433`.
+error: could not compile `hello` (bin "hello") due to 1 previous error
+</code></pre>
+<p>Ótimo! Este erro nos diz que precisamos de um tipo ou módulo <code>ThreadPool</code>, então vamos
+construir um agora. Nossa implementação de <code>ThreadPool</code> será independente do tipo
+de trabalho que nosso servidor web está fazendo. Portanto, vamos mudar a crate <code>hello</code> de
+uma crate binária para uma crate de biblioteca para conter nossa implementação de <code>ThreadPool</code>. Depois
+de mudarmos para uma crate de biblioteca, também poderemos usar a biblioteca de pool de threads separada
+para qualquer trabalho que quisermos fazer usando um pool de threads, não apenas para atender a requisições web.</p>
+<p>Crie um arquivo <em>src/lib.rs</em> que contenha o seguinte, que é a definição mais simples
+de uma struct <code>ThreadPool</code> que podemos ter por enquanto:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">pub struct ThreadPool;</code></pre>
+</figure>
+<p>Em seguida, edite o arquivo <em>main.rs</em> para trazer <code>ThreadPool</code> para o escopo da crate de biblioteca
+adicionando o seguinte código no topo de <em>src/main.rs</em>:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore">use hello::ThreadPool;
+<span class="boring">use std::{
+</span><span class="boring">    fs,
+</span><span class="boring">    io::{BufReader, prelude::*},
+</span><span class="boring">    net::{TcpListener, TcpStream},
+</span><span class="boring">    thread,
+</span><span class="boring">    time::Duration,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
+</span><span class="boring">    let pool = ThreadPool::new(4);
+</span><span class="boring">
+</span><span class="boring">    for stream in listener.incoming() {
+</span><span class="boring">        let stream = stream.unwrap();
+</span><span class="boring">
+</span><span class="boring">        pool.execute(|| {
+</span><span class="boring">            handle_connection(stream);
+</span><span class="boring">        });
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn handle_connection(mut stream: TcpStream) {
+</span><span class="boring">    let buf_reader = BufReader::new(&amp;stream);
+</span><span class="boring">    let request_line = buf_reader.lines().next().unwrap().unwrap();
+</span><span class="boring">
+</span><span class="boring">    let (status_line, filename) = match &amp;request_line[..] {
+</span><span class="boring">        "GET / HTTP/1.1" =&gt; ("HTTP/1.1 200 OK", "hello.html"),
+</span><span class="boring">        "GET /sleep HTTP/1.1" =&gt; {
+</span><span class="boring">            thread::sleep(Duration::from_secs(5));
+</span><span class="boring">            ("HTTP/1.1 200 OK", "hello.html")
+</span><span class="boring">        }
+</span><span class="boring">        _ =&gt; ("HTTP/1.1 404 NOT FOUND", "404.html"),
+</span><span class="boring">    };
+</span><span class="boring">
+</span><span class="boring">    let contents = fs::read_to_string(filename).unwrap();
+</span><span class="boring">    let length = contents.len();
+</span><span class="boring">
+</span><span class="boring">    let response =
+</span><span class="boring">        format!("{status_line}\r\nContent-Length: {length}\r\n\r\n{contents}");
+</span><span class="boring">
+</span><span class="boring">    stream.write_all(response.as_bytes()).unwrap();
+</span><span class="boring">}</span></code></pre>
+</figure>
+<p>Este código ainda não funcionará, mas vamos verificá-lo novamente para obter o próximo erro que
+precisamos resolver:</p>
+<pre><code class="language-console">$ cargo check
+    Checking hello v0.1.0 (file:///projects/hello)
+error[E0599]: no associated function or constant named `new` found for struct `ThreadPool` in the current scope
+  --&gt; src/main.rs:12:28
+   |
+12 |     let pool = ThreadPool::new(4);
+   |                            ^^^ associated function or constant not found in `ThreadPool`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `hello` (bin "hello") due to 1 previous error
+</code></pre>
+<p>Este erro indica que, em seguida, precisamos criar uma função associada chamada
+<code>new</code> para <code>ThreadPool</code>. Também sabemos que <code>new</code> precisa ter um parâmetro
+que possa aceitar <code>4</code> como argumento e deve retornar uma instância de <code>ThreadPool</code>.
+Vamos implementar a função <code>new</code> mais simples que terá essas
+características:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">pub struct ThreadPool;
+
+impl ThreadPool {
+    pub fn new(size: usize) -&gt; ThreadPool {
+        ThreadPool
+    }
+}</code></pre>
+</figure>
+<p>Escolhemos <code>usize</code> como o tipo do parâmetro <code>size</code> porque sabemos que um
+número negativo de threads não faz sentido. Também sabemos que usaremos este
+<code>4</code> como o número de elementos em uma coleção de threads, que é para o que o
+tipo <code>usize</code> serve, conforme discutido na seção <a href="ch03-02-data-types.html#integer-types">“Tipos Inteiros”</a><!--
+ignore --> no Capítulo 3.</p>
+<p>Vamos verificar o código novamente:</p>
+<pre><code class="language-console">$ cargo check
+    Checking hello v0.1.0 (file:///projects/hello)
+error[E0599]: no method named `execute` found for struct `ThreadPool` in the current scope
+  --&gt; src/main.rs:17:14
+   |
+17 |         pool.execute(|| {
+   |         -----^^^^^^^ method not found in `ThreadPool`
+
+For more information about this error, try `rustc --explain E0599`.
+error: could not compile `hello` (bin "hello") due to 1 previous error
+</code></pre>
+<p>Agora o erro ocorre porque não temos um método <code>execute</code> em <code>ThreadPool</code>.
+Lembre-se da seção <a href="#creating-a-finite-number-of-threads">“Criando um Número Finito de
+Threads”</a><!-- ignore --> que
+decidimos que nosso pool de threads deve ter uma interface semelhante a <code>thread::spawn</code>. Além
+disso, implementaremos a função <code>execute</code> para que ela receba o closure fornecido
+e o entregue a uma thread ociosa no pool para execução.</p>
+<p>Definiremos o método <code>execute</code> em <code>ThreadPool</code> para receber um closure como
+parâmetro. Lembre-se da seção <a href="ch13-01-closures.html#moving-captured-values-out-of-closures">“Movendo Valores Capturados para Fora de Closures”</a><!-- ignore --> no Capítulo 13 que podemos
+receber closures como parâmetros com três traits diferentes: <code>Fn</code>, <code>FnMut</code> e
+<code>FnOnce</code>. Precisamos decidir qual tipo de closure usar aqui. Sabemos que
+terminaremos fazendo algo semelhante à implementação padrão da biblioteca <code>thread::spawn</code>,
+então podemos observar quais limites a assinatura de <code>thread::spawn</code>
+impõe ao seu parâmetro. A documentação nos mostra o seguinte:</p>
+<pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
+    where
+        F: FnOnce() -&gt; T,
+        F: Send + 'static,
+        T: Send + 'static,</code></pre>
+<p>O parâmetro de tipo <code>F</code> é aquele com o qual nos preocupamos aqui; o parâmetro de tipo <code>T</code>
+está relacionado ao valor de retorno, e não estamos preocupados com isso. Nós
+podemos ver que <code>spawn</code> usa <code>FnOnce</code> como o trait bound em <code>F</code>. Isto é
+provavelmente o que queremos também, porque eventualmente passaremos o argumento que obtemos em
+<code>execute</code> para <code>spawn</code>. Podemos ter ainda mais certeza de que <code>FnOnce</code> é o trait que
+queremos usar porque a thread para executar uma requisição executará o closure dessa requisição apenas uma vez, o que corresponde ao <code>Once</code> em <code>FnOnce</code>.</p>
+<p>O parâmetro de tipo <code>F</code> também possui o trait bound <code>Send</code> e o limite de tempo de vida (lifetime bound)
+<code>'static</code>, que são úteis em nossa situação: Precisamos de <code>Send</code> para transferir o
+closure de uma thread para outra e <code>'static</code> porque não sabemos quanto tempo
+a thread levará para executar. Vamos criar um método <code>execute</code> em
+<code>ThreadPool</code> que receberá um parâmetro genérico do tipo <code>F</code> com estes limites:</p>
+<figure class="listing">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">pub struct ThreadPool;
+</span><span class="boring">
+</span>impl ThreadPool {
+    // --snip--
+<span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        ThreadPool
+</span><span class="boring">    }
+</span><span class="boring">
+</span>    pub fn execute&lt;F&gt;(&amp;self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+    }
+}</code></pre>
+</figure>
+<p>Ainda usamos os <code>()</code> após <code>FnOnce</code> porque este <code>FnOnce</code> representa um closure
+que não aceita parâmetros e retorna o tipo unitário <code>()</code>. Assim como as definições
+de funções, o tipo de retorno pode ser omitido da assinatura, mas mesmo se
+não tivermos parâmetros, ainda precisamos dos parênteses.</p>
+<p>Novamente, esta é a implementação mais simples do método <code>execute</code>: Ele não faz
+nada, mas estamos apenas tentando fazer nosso código compilar. Vamos verificá-lo novamente:</p>
+<pre><code class="language-console">$ cargo check
+    Checking hello v0.1.0 (file:///projects/hello)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.24s
+</code></pre>
+<p>Ele compila! Mas note que se você tentar <code>cargo run</code> e fizer uma requisição no
+navegador, você verá os erros no navegador que vimos no início do
+capítulo. Nossa biblioteca ainda não está chamando o closure passado para <code>execute</code>!</p>
+<blockquote>
+<p>Nota: Um ditado que você pode ouvir sobre linguagens com compiladores estritos, como
+Haskell e Rust, é “Se o código compila, ele funciona.” Mas esse ditado não é
+universalmente verdadeiro. Nosso projeto compila, mas não faz absolutamente nada! Se
+estivéssemos construindo um projeto real e completo, este seria um bom momento para começar
+a escrever testes unitários para verificar se o código compila <em>e</em> tem o comportamento que
+queremos.</p>
+</blockquote>
+<p>Considere: O que seria diferente aqui se fôssemos executar um future
+em vez de um closure?</p>
+<h4 id="validando-o-número-de-threads-em-new"><a class="header" href="#validando-o-número-de-threads-em-new">Validando o Número de Threads em <code>new</code></a></h4>
+<p>Não estamos fazendo nada com os parâmetros para <code>new</code> e <code>execute</code>. Vamos
+implementar os corpos dessas funções com o comportamento que queremos. Para começar,
+vamos pensar sobre <code>new</code>. Anteriormente, escolhemos um tipo sem sinal para o parâmetro
+<code>size</code> porque um pool com um número negativo de threads não faz sentido.
+No entanto, um pool com zero threads também não faz sentido, mas zero é um <code>usize</code>
+perfeitamente válido. Adicionaremos código para verificar se <code>size</code> é maior que zero antes
+de retornarmos uma instância de <code>ThreadPool</code>, e faremos o programa entrar em pânico se ele
+receber um zero usando a macro <code>assert!</code>, como mostrado na Listagem 21-13.</p>
+<figure class="listing" id="listing-21-13">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">pub struct ThreadPool;
+</span><span class="boring">
+</span>impl ThreadPool {
+    /// Create a new ThreadPool.
+    ///
+    /// The size is the number of threads in the pool.
+    ///
+    /// # Panics
+    ///
+    /// The `new` function will panic if the size is zero.
+    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        ThreadPool
+    }
+
+    // --snip--
+<span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">    }
+</span>}</code></pre>
+<figcaption><a href="#listing-21-13">Listing 21-13</a>: Implementando <code>ThreadPool::new</code> para entrar em pânico se <code>size</code> for zero</figcaption>
+</figure>
+<p>Também adicionamos alguma documentação para o nosso <code>ThreadPool</code> com comentários de documentação.
+Note que seguimos boas práticas de documentação adicionando uma seção que
+destaca as situações em que nossa função pode entrar em pânico, conforme discutido no
+Capítulo 14. Tente executar <code>cargo doc --open</code> e clique na struct <code>ThreadPool</code>
+para ver como a documentação gerada para <code>new</code> se parece!</p>
+<p>Em vez de adicionar a macro <code>assert!</code> como fizemos aqui, poderíamos transformar <code>new</code>
+em <code>build</code> e retornar um <code>Result</code> como fizemos com <code>Config::build</code> no projeto
+de E/S na Listagem 12-9. Mas decidimos neste caso que tentar criar um
+pool de threads sem nenhuma thread deve ser um erro irrecuperável. Se você estiver
+se sentindo ambicioso, tente escrever uma função chamada <code>build</code> com a seguinte
+assinatura para comparar com a função <code>new</code>:</p>
+<pre><code class="language-rust ignore">pub fn build(size: usize) -&gt; Result&lt;ThreadPool, PoolCreationError&gt; {</code></pre>
+<h4 id="criando-espaço-para-armazenar-as-threads"><a class="header" href="#criando-espaço-para-armazenar-as-threads">Criando Espaço para Armazenar as Threads</a></h4>
+<p>Agora que temos uma maneira de saber que temos um número válido de threads para armazenar no
+pool, podemos criar essas threads e armazená-las na struct <code>ThreadPool</code> antes de retornar
+a struct. Mas como nós “armazenamos” uma thread? Vamos dar outra
+olhada na assinatura de <code>thread::spawn</code>:</p>
+<pre><code class="language-rust ignore">pub fn spawn&lt;F, T&gt;(f: F) -&gt; JoinHandle&lt;T&gt;
+    where
+        F: FnOnce() -&gt; T,
+        F: Send + 'static,
+        T: Send + 'static,</code></pre>
+<p>A função <code>spawn</code> retorna um <code>JoinHandle&lt;T&gt;</code>, onde <code>T</code> é o tipo que o
+closure retorna. Vamos tentar usar <code>JoinHandle</code> também e ver o que acontece. Em nosso
+caso, os closures que estamos passando para o pool de threads lidarão com a conexão
+e não retornarão nada, então <code>T</code> será o tipo unitário <code>()</code>.</p>
+<p>O código na Listagem 21-14 compilará, mas ainda não cria nenhuma thread.
+Mudamos a definição de <code>ThreadPool</code> para conter um vetor de
+instâncias de <code>thread::JoinHandle&lt;()&gt;</code>, inicializamos o vetor com uma capacidade de
+<code>size</code>, configuramos um loop <code>for</code> que executará algum código para criar as threads, e
+retornamos uma instância de <code>ThreadPool</code> contendo-as.</p>
+<figure class="listing" id="listing-21-14">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore not_desired_behavior">use std::thread;
+
+pub struct ThreadPool {
+    threads: Vec&lt;thread::JoinHandle&lt;()&gt;&gt;,
+}
+
+impl ThreadPool {
+    // --snip--
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span>    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        let mut threads = Vec::with_capacity(size);
+
+        for _ in 0..size {
+            // create some threads and store them in the vector
+        }
+
+        ThreadPool { threads }
+    }
+    // --snip--
+<span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">    }
+</span>}</code></pre>
+<figcaption><a href="#listing-21-14">Listing 21-14</a>: Criando um vetor para o <code>ThreadPool</code> armazenar as threads</figcaption>
+</figure>
+<p>Trouxemos <code>std::thread</code> para o escopo na crate de biblioteca porque estamos
+usando <code>thread::JoinHandle</code> como o tipo dos itens no vetor em
+<code>ThreadPool</code>.</p>
+<p>Assim que um tamanho válido é recebido, nosso <code>ThreadPool</code> cria um novo vetor que pode
+conter <code>size</code> itens. A função <code>with_capacity</code> executa a mesma tarefa que
+<code>Vec::new</code>, mas com uma diferença importante: Ela pré-aloca espaço no
+vetor. Como sabemos que precisamos armazenar <code>size</code> elementos no vetor, fazer
+essa alocação antecipadamente é slightly (ligeiramente) mais eficiente do que usar <code>Vec::new</code>,
+que redimensiona a si mesmo conforme os elementos são inseridos.</p>
+<p>Quando você executa <code>cargo check</code> novamente, ele deve ser bem-sucedido.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="a-worker-struct-responsible-for-sending-code-from-the-threadpool-to-a-thread"></a></p>
+<h4 id="enviando-código-do-threadpool-para-uma-thread"><a class="header" href="#enviando-código-do-threadpool-para-uma-thread">Enviando Código do <code>ThreadPool</code> para uma Thread</a></h4>
+<p>Deixamos um comentário no loop <code>for</code> na Listagem 21-14 sobre a criação de
+threads. Aqui, veremos como realmente criamos threads. A biblioteca padrão
+fornece <code>thread::spawn</code> como uma maneira de criar threads, e
+<code>thread::spawn</code> espera receber algum código que a thread deve executar assim que a
+thread for criada. No entanto, em nosso caso, queremos criar as threads e fazer
+com que elas <em>esperem</em> pelo código que enviaremos mais tarde. A implementação de threads da biblioteca
+padrão não inclui nenhuma maneira de fazer isso; temos que
+implementá-la manualmente.</p>
+<p>Implementaremos esse comportamento introduzindo uma nova estrutura de dados entre o
+<code>ThreadPool</code> e as threads que gerenciará esse novo comportamento. Chamaremos
+esta estrutura de dados de <em>Worker</em> (trabalhador), que é um termo comum em implementações
+de pooling. O <code>Worker</code> pega o código que precisa ser executado e executa o
+código em sua thread.</p>
+<p>Pense em pessoas trabalhando na cozinha de um restaurante: Os trabalhadores esperam até
+que os pedidos cheguem dos clientes, e então eles são responsáveis por pegar esses
+pedidos e prepará-los.</p>
+<p>Em vez de armazenar um vetor de instâncias de <code>JoinHandle&lt;()&gt;</code> no pool de threads,
+armazenaremos instâncias da struct <code>Worker</code>. Cada <code>Worker</code> armazenará uma única
+instância de <code>JoinHandle&lt;()&gt;</code>. Em seguida, implementaremos um método no <code>Worker</code> que
+pegará um closure de código para executar e o enviará para a thread já em execução
+para execução. Também daremos a cada <code>Worker</code> um <code>id</code> para que possamos distinguir
+entre as diferentes instâncias de <code>Worker</code> no pool ao registrar logs ou
+depurar.</p>
+<p>Aqui está o novo processo que acontecerá quando criarmos um <code>ThreadPool</code>. Implementaremos
+o código que envia o closure para a thread depois de termos o <code>Worker</code>
+configurado desta maneira:</p>
+<ol>
+<li>Defina uma struct <code>Worker</code> que contenha um <code>id</code> e um <code>JoinHandle&lt;()&gt;</code>.</li>
+<li>Altere <code>ThreadPool</code> para conter um vetor de instâncias de <code>Worker</code>.</li>
+<li>Defina uma função <code>Worker::new</code> que aceite um número <code>id</code> e retorne uma
+instância de <code>Worker</code> que contenha o <code>id</code> e uma thread gerada com um closure vazio.</li>
+<li>Em <code>ThreadPool::new</code>, use o contador do loop <code>for</code> para gerar um <code>id</code>, crie
+um novo <code>Worker</code> com esse <code>id</code> e armazene o <code>Worker</code> no vetor.</li>
+</ol>
+<p>Se você estiver pronto para um desafio, tente implementar essas alterações por conta própria antes
+de olhar o código na Listagem 21-15.</p>
+<p>Pronto? Aqui está a Listagem 21-15 com uma maneira de fazer as modificações anteriores.</p>
+<figure class="listing" id="listing-21-15">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">use std::thread;
+
+pub struct ThreadPool {
+    workers: Vec&lt;Worker&gt;,
+}
+
+impl ThreadPool {
+    // --snip--
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span>    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        let mut workers = Vec::with_capacity(size);
+
+        for id in 0..size {
+            workers.push(Worker::new(id));
+        }
+
+        ThreadPool { workers }
+    }
+    // --snip--
+<span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">    }
+</span>}
+
+struct Worker {
+    id: usize,
+    thread: thread::JoinHandle&lt;()&gt;,
+}
+
+impl Worker {
+    fn new(id: usize) -&gt; Worker {
+        let thread = thread::spawn(|| {});
+
+        Worker { id, thread }
+    }
+}</code></pre>
+<figcaption><a href="#listing-21-15">Listing 21-15</a>: Modificando o <code>ThreadPool</code> para conter instâncias de <code>Worker</code> em vez de conter threads diretamente</figcaption>
+</figure>
+<p>Mudamos o nome do campo em <code>ThreadPool</code> de <code>threads</code> para <code>workers</code>
+porque ele agora contém instâncias de <code>Worker</code> em vez de instâncias de <code>JoinHandle&lt;()&gt;</code>.
+Usamos o contador no loop <code>for</code> como um argumento para
+<code>Worker::new</code>, e armazenamos cada novo <code>Worker</code> no vetor chamado <code>workers</code>.</p>
+<p>Código externo (como nosso servidor em <em>src/main.rs</em>) não precisa saber os
+detalhes de implementação referentes ao uso de uma struct <code>Worker</code> dentro do <code>ThreadPool</code>,
+então tornamos a struct <code>Worker</code> e sua função <code>new</code> privadas. A
+função <code>Worker::new</code> usa o <code>id</code> que fornecemos e armazena uma instância de <code>JoinHandle&lt;()&gt;</code>
+que é criada gerando uma nova thread usando um closure vazio.</p>
+<blockquote>
+<p>Nota: Se o sistema operacional não puder criar uma thread porque não há
+recursos de sistema suficientes, <code>thread::spawn</code> entrará em pânico. Isso fará com que
+todo o nosso servidor entre em pânico, mesmo que a criação de algumas threads possa
+ser bem-sucedida. Por simplicidade, esse comportamento é aceitável, mas em uma implementação de pool de
+threads de produção, você provavelmente iria querer usar
+<a href="../std/thread/struct.Builder.html"><code>std::thread::Builder</code></a><!-- ignore --> e seu
+método <a href="../std/thread/struct.Builder.html#method.spawn"><code>spawn</code></a><!-- ignore --> que retorna <code>Result</code> em vez disso.</p>
+</blockquote>
+<p>Este código compilará e armazenará o número de instâncias de <code>Worker</code> que
+especificamos como um argumento para <code>ThreadPool::new</code>. Mas <em>ainda</em> não estamos processando
+o closure que recebemos em <code>execute</code>. Vejamos como fazer isso a seguir.</p>
+<h4 id="enviando-requisições-para-threads-por-meio-de-canais-channels"><a class="header" href="#enviando-requisições-para-threads-por-meio-de-canais-channels">Enviando Requisições para Threads por Meio de Canais (Channels)</a></h4>
+<p>O próximo problema que abordaremos é que os closures fornecidos a <code>thread::spawn</code> não fazem
+absolutamente nada. Atualmente, obtemos o closure que queremos executar no
+método <code>execute</code>. Mas precisamos fornecer a <code>thread::spawn</code> um closure para executar quando
+criamos cada <code>Worker</code> durante a criação do <code>ThreadPool</code>.</p>
+<p>Queremos que as structs <code>Worker</code> que acabamos de criar busquem o código a ser executado a partir
+de uma fila mantida no <code>ThreadPool</code> e enviem esse código para sua thread para execução.</p>
+<p>Os canais sobre os quais aprendemos no Capítulo 16 — uma maneira simples de se comunicar entre
+duas threads — seriam perfeitos para este caso de uso. Usaremos um canal para funcionar
+como a fila de trabalhos, e <code>execute</code> enviará um trabalho do <code>ThreadPool</code> para as
+instâncias de <code>Worker</code>, que enviarão o trabalho para sua thread. Aqui está o plano:</p>
+<ol>
+<li>O <code>ThreadPool</code> criará um canal e manterá o remetente (sender).</li>
+<li>Cada <code>Worker</code> manterá o receptor (receiver).</li>
+<li>Criaremos uma nova struct <code>Job</code> que conterá os closures que queremos enviar
+pelo canal.</li>
+<li>O método <code>execute</code> enviará o trabalho que deseja executar através do
+remetente.</li>
+<li>Em sua thread, o <code>Worker</code> fará um loop sobre seu receptor e executará os
+closures de quaisquer trabalhos que receber.</li>
+</ol>
+<p>Vamos começar criando um canal em <code>ThreadPool::new</code> e mantendo o remetente
+na instância de <code>ThreadPool</code>, como mostrado na Listagem 21-16. A struct <code>Job</code>
+não contém nada por enquanto, mas será o tipo de item que enviaremos pelo
+canal.</p>
+<figure class="listing" id="listing-21-16">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">use std::{sync::mpsc, thread};
+
+pub struct ThreadPool {
+    workers: Vec&lt;Worker&gt;,
+    sender: mpsc::Sender&lt;Job&gt;,
+}
+
+struct Job;
+
+impl ThreadPool {
+    // --snip--
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span>    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        let (sender, receiver) = mpsc::channel();
+
+        let mut workers = Vec::with_capacity(size);
+
+        for id in 0..size {
+            workers.push(Worker::new(id));
+        }
+
+        ThreadPool { workers, sender }
+    }
+    // --snip--
+<span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">    }
+</span>}
+<span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Worker {
+</span><span class="boring">    fn new(id: usize) -&gt; Worker {
+</span><span class="boring">        let thread = thread::spawn(|| {});
+</span><span class="boring">
+</span><span class="boring">        Worker { id, thread }
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-21-16">Listing 21-16</a>: Modificando o <code>ThreadPool</code> para armazenar o remetente de um canal que transmite instâncias de <code>Job</code></figcaption>
+</figure>
+<p>Em <code>ThreadPool::new</code>, criamos nosso novo canal e fazemos o pool manter o
+remetente. Isso compilará com sucesso.</p>
+<p>Vamos tentar passar um receptor do canal para cada <code>Worker</code> conforme o pool de
+threads cria o canal. Sabemos que queremos usar o receptor na thread que
+as instâncias de <code>Worker</code> geram, então faremos referência ao parâmetro <code>receiver</code> no
+closure. O código na Listagem 21-17 ainda não vai compilar direito.</p>
+<figure class="listing" id="listing-21-17">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">use std::{sync::mpsc, thread};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Job;
+</span><span class="boring">
+</span>impl ThreadPool {
+    // --snip--
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span>    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        let (sender, receiver) = mpsc::channel();
+
+        let mut workers = Vec::with_capacity(size);
+
+        for id in 0..size {
+            workers.push(Worker::new(id, receiver));
+        }
+
+        ThreadPool { workers, sender }
+    }
+    // --snip--
+<span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">    }
+</span>}
+
+// --snip--
+
+<span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Worker {
+    fn new(id: usize, receiver: mpsc::Receiver&lt;Job&gt;) -&gt; Worker {
+        let thread = thread::spawn(|| {
+            receiver;
+        });
+
+        Worker { id, thread }
+    }
+}</code></pre>
+<figcaption><a href="#listing-21-17">Listing 21-17</a>: Passando o receptor para cada <code>Worker</code></figcaption>
+</figure>
+<p>Fizemos algumas alterações pequenas e diretas: Passamos o receptor para
+<code>Worker::new</code> e, em seguida, o usamos dentro do closure.</p>
+<p>Quando tentamos verificar este código, obtemos este erro:</p>
+<pre><code class="language-console">$ cargo check
+    Checking hello v0.1.0 (file:///projects/hello)
+error[E0382]: use of moved value: `receiver`
+  --&gt; src/lib.rs:26:42
+   |
+21 |         let (sender, receiver) = mpsc::channel();
+   |                      -------- move occurs because `receiver` has type `std::sync::mpsc::Receiver&lt;Job&gt;`, which does not implement the `Copy` trait
+...
+25 |         for id in 0..size {
+   |         ----------------- inside of this loop
+26 |             workers.push(Worker::new(id, receiver));
+   |                                          ^^^^^^^^ value moved here, in previous iteration of loop
+   |
+note: consider changing this parameter type in method `new` to borrow instead if owning the value isn't necessary
+  --&gt; src/lib.rs:47:33
+   |
+47 |     fn new(id: usize, receiver: mpsc::Receiver&lt;Job&gt;) -&gt; Worker {
+   |        --- in this method       ^^^^^^^^^^^^^^^^^^^ this parameter takes ownership of the value
+
+For more information about this error, try `rustc --explain E0382`.
+error: could not compile `hello` (lib) due to 1 previous error
+</code></pre>
+<p>O código está tentando passar <code>receiver</code> para várias instâncias de <code>Worker</code>. Isso
+não vai funcionar, como você deve se lembrar do Capítulo 16: A implementação de canal que
+o Rust fornece é de múltiplos <em>produtores</em> (producers), único <em>consumidor</em> (consumer). Isso significa que não podemos
+simplesmente clonar a extremidade consumidora do canal para consertar este código. Nós também não
+queremos enviar uma mensagem várias vezes para vários consumidores; queremos uma lista
+de mensagens com múltiplas instâncias de <code>Worker</code> de modo que cada mensagem seja
+processada uma vez.</p>
+<p>Além disso, retirar um trabalho da fila do canal envolve mutar o
+<code>receiver</code>, então as threads precisam de uma maneira segura de compartilhar e modificar o <code>receiver</code>;
+caso contrário, podemos ter condições de corrida (race conditions, conforme abordado no Capítulo 16).</p>
+<p>Lembre-se dos ponteiros inteligentes seguros para threads discutidos no Capítulo 16: Para compartilhar
+a propriedade entre várias threads e permitir que as threads mudem o valor, nós
+precisamos usar <code>Arc&lt;Mutex&lt;T&gt;&gt;</code>. O tipo <code>Arc</code> permitirá que várias instâncias de <code>Worker</code>
+possuam o receptor, e o <code>Mutex</code> garantirá que apenas um <code>Worker</code> obtenha um trabalho do
+receptor por vez. A Listagem 21-18 mostra as alterações que precisamos fazer.</p>
+<figure class="listing" id="listing-21-18">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground">use std::{
+    sync::{Arc, Mutex, mpsc},
+    thread,
+};
+// --snip--
+
+<span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Job;
+</span><span class="boring">
+</span>impl ThreadPool {
+    // --snip--
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span>    pub fn new(size: usize) -&gt; ThreadPool {
+        assert!(size &gt; 0);
+
+        let (sender, receiver) = mpsc::channel();
+
+        let receiver = Arc::new(Mutex::new(receiver));
+
+        let mut workers = Vec::with_capacity(size);
+
+        for id in 0..size {
+            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+        }
+
+        ThreadPool { workers, sender }
+    }
+
+    // --snip--
+<span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">    }
+</span>}
+
+// --snip--
+
+<span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>impl Worker {
+    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+        // --snip--
+<span class="boring">        let thread = thread::spawn(|| {
+</span><span class="boring">            receiver;
+</span><span class="boring">        });
+</span><span class="boring">
+</span><span class="boring">        Worker { id, thread }
+</span>    }
+}</code></pre>
+<figcaption><a href="#listing-21-18">Listing 21-18</a>: Compartilhando o receptor entre as instâncias de <code>Worker</code> usando <code>Arc</code> e <code>Mutex</code></figcaption>
+</figure>
+<p>Em <code>ThreadPool::new</code>, colocamos o receptor em um <code>Arc</code> e um <code>Mutex</code>. Para cada
+novo <code>Worker</code>, clonamos o <code>Arc</code> para incrementar a contagem de referências para que as
+instâncias de <code>Worker</code> possam compartilhar a propriedade do receptor.</p>
+<p>Com essas alterações, o código compila! Estamos chegando lá!</p>
+<h4 id="implementando-o-método-execute"><a class="header" href="#implementando-o-método-execute">Implementando o Método <code>execute</code></a></h4>
+<p>Vamos finalmente implementar o método <code>execute</code> em <code>ThreadPool</code>. Também mudaremos
+<code>Job</code> de uma struct para um alias de tipo para um trait object que contém o tipo de
+closure que <code>execute</code> recebe. Conforme discutido na seção <a href="ch20-03-advanced-types.html#type-synonyms-and-type-aliases">“Sinônimos de Tipos e Aliases de Tipos”</a><!-- ignore --> no Capítulo 20, aliases de tipos
+nos permitem tornar tipos longos mais curtos para facilitar o uso. Veja a Listagem 21-19.</p>
+<figure class="listing" id="listing-21-19">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>// --snip--
+
+type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+
+impl ThreadPool {
+    // --snip--
+<span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        ThreadPool { workers, sender }
+</span><span class="boring">    }
+</span>
+    pub fn execute&lt;F&gt;(&amp;self, f: F)
+    where
+        F: FnOnce() + Send + 'static,
+    {
+        let job = Box::new(f);
+
+        self.sender.send(job).unwrap();
+    }
+}
+
+// --snip--
+<span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl Worker {
+</span><span class="boring">    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+</span><span class="boring">        let thread = thread::spawn(|| {
+</span><span class="boring">            receiver;
+</span><span class="boring">        });
+</span><span class="boring">
+</span><span class="boring">        Worker { id, thread }
+</span><span class="boring">    }
+</span><span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-21-19">Listing 21-19</a>: Criando um alias de tipo <code>Job</code> para um <code>Box</code> que contém cada closure e, em seguida, enviando o trabalho pelo canal</figcaption>
+</figure>
+<p>Após criar uma nova instância de <code>Job</code> usando o closure que obtemos em <code>execute</code>, nós
+enviamos esse trabalho pela extremidade remetente do canal. Estamos chamando <code>unwrap</code> em
+<code>send</code> para o caso de o envio falhar. Isso pode acontecer se, por exemplo,
+pararmos todas as nossas threads de executar, o que significa que a extremidade receptora parou
+de receber novas mensagens. No momento, não podemos parar nossas threads de
+executar: Nossas threads continuam executando enquanto o pool existir. O
+motivo pelo qual usamos <code>unwrap</code> é que sabemos que o caso de falha não acontecerá, mas o
+compilador não sabe disso.</p>
+<p>Mas ainda não terminamos! No <code>Worker</code>, nosso closure sendo passado para
+<code>thread::spawn</code> ainda apenas <em>faz referência</em> à extremidade receptora do canal.
+Em vez disso, precisamos que o closure faça um loop para sempre, pedindo à extremidade receptora do
+canal um trabalho e executando o trabalho quando obtiver um. Vamos fazer a alteração
+mostrada na Listagem 21-20 em <code>Worker::new</code>.</p>
+<figure class="listing" id="listing-21-20">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust noplayground"><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+</span><span class="boring">
+</span><span class="boring">impl ThreadPool {
+</span><span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        ThreadPool { workers, sender }
+</span><span class="boring">    }
+</span><span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">        let job = Box::new(f);
+</span><span class="boring">
+</span><span class="boring">        self.sender.send(job).unwrap();
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>// --snip--
+
+impl Worker {
+    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+        let thread = thread::spawn(move || {
+            loop {
+                let job = receiver.lock().unwrap().recv().unwrap();
+
+                println!("Worker {id} got a job; executing.");
+
+                job();
+            }
+        });
+
+        Worker { id, thread }
+    }
+}</code></pre>
+<figcaption><a href="#listing-21-20">Listing 21-20</a>: Recebendo e executando os trabalhos na thread da instância de <code>Worker</code></figcaption>
+</figure>
+<p>Aqui, primeiro chamamos <code>lock</code> no <code>receiver</code> para adquirir o mutex e, em seguida,
+chamamos <code>unwrap</code> para entrar em pânico em caso de quaisquer erros. Adquirir um bloqueio (lock) pode falhar se o mutex
+estiver em um estado <em>envenenado</em> (poisoned), o que pode acontecer se alguma outra thread entrou em pânico enquanto
+mantinha o bloqueio em vez de liberá-lo. Nesta situação, chamar
+<code>unwrap</code> para fazer esta thread entrar em pânico é a ação correta a tomar. Sinta-se à vontade para
+alterar este <code>unwrap</code> para um <code>expect</code> com uma mensagem de erro que seja significativa para
+você.</p>
+<p>Se obtivermos o bloqueio no mutex, chamamos <code>recv</code> para receber um <code>Job</code> do
+canal. Um <code>unwrap</code> final passa por cima de quaisquer erros aqui também, o que pode ocorrer
+se a thread que detém o remetente foi encerrada, de forma semelhante a como o método <code>send</code>
+retorna <code>Err</code> se o receptor for encerrado.</p>
+<p>A chamada para <code>recv</code> bloqueia, então se ainda não houver nenhum trabalho, a thread atual
+esperará até que um trabalho fique disponível. O <code>Mutex&lt;T&gt;</code> garante que apenas uma
+thread <code>Worker</code> por vez esteja tentando solicitar um trabalho.</p>
+<p>Nosso pool de threads está agora em um estado funcional! Dê a ele um <code>cargo run</code> e faça algumas
+requisições:</p>
+<!-- manual-regeneration
+cd listings/ch21-web-server/listing-21-20
+cargo run
+make some requests to 127.0.0.1:7878
+Can't automate because the output depends on making requests
+-->
+<pre><code class="language-console">$ cargo run
+   Compiling hello v0.1.0 (file:///projects/hello)
+warning: field `workers` is never read
+ --&gt; src/lib.rs:7:5
+  |
+6 | pub struct ThreadPool {
+  |            ---------- field in this struct
+7 |     workers: Vec&lt;Worker&gt;,
+  |     ^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` on by default
+
+warning: fields `id` and `thread` are never read
+  --&gt; src/lib.rs:48:5
+   |
+47 | struct Worker {
+   |        ------ fields in this struct
+48 |     id: usize,
+   |     ^^
+49 |     thread: thread::JoinHandle&lt;()&gt;,
+   |     ^^^^^^
+
+warning: `hello` (lib) generated 2 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.91s
+     Running `target/debug/hello`
+Worker 0 got a job; executing.
+Worker 2 got a job; executing.
+Worker 1 got a job; executing.
+Worker 3 got a job; executing.
+Worker 0 got a job; executing.
+Worker 2 got a job; executing.
+Worker 1 got a job; executing.
+Worker 3 got a job; executing.
+Worker 0 got a job; executing.
+Worker 2 got a job; executing.
+</code></pre>
+<p>Sucesso! Agora temos um pool de threads que executa conexões de forma assíncrona.
+Nunca há mais do que quatro threads criadas, portanto nosso sistema não ficará
+sobrecarregado se o servidor receber muitas requisições. Se fizermos uma requisição para
+<em>/sleep</em>, o servidor poderá atender a outras requisições fazendo com que outra
+thread as execute.</p>
+<blockquote>
+<p>Nota: Se você abrir <em>/sleep</em> em várias janelas do navegador simultaneamente, elas
+podem carregar uma de cada vez em intervalos de cinco segundos. Alguns navegadores web executam
+múltiplas instâncias da mesma requisição sequencialmente por motivos de cache. Essa
+limitação não é causada pelo nosso servidor web.</p>
+</blockquote>
+<p>Este é um bom momento para pausar e considerar como o código nas Listagens 21-18, 21-19
+e 21-20 seria diferente se estivéssemos usando futures em vez de um closure para
+o trabalho a ser feito. Que tipos mudariam? Como as assinaturas dos métodos seriam
+diferentes, se é que seriam? Que partes do código permaneceriam iguais?</p>
+<p>Depois de aprender sobre o loop <code>while let</code> no Capítulo 17 e no Capítulo 19, você
+pode estar se perguntando por que não escrevemos o código da thread <code>Worker</code> conforme mostrado na
+Listagem 21-21.</p>
+<figure class="listing" id="listing-21-21">
+<span class="file-name">Filename: src/lib.rs</span>
+<pre><code class="language-rust ignore not_desired_behavior"><span class="boring">use std::{
+</span><span class="boring">    sync::{Arc, Mutex, mpsc},
+</span><span class="boring">    thread,
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">pub struct ThreadPool {
+</span><span class="boring">    workers: Vec&lt;Worker&gt;,
+</span><span class="boring">    sender: mpsc::Sender&lt;Job&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">type Job = Box&lt;dyn FnOnce() + Send + 'static&gt;;
+</span><span class="boring">
+</span><span class="boring">impl ThreadPool {
+</span><span class="boring">    /// Create a new ThreadPool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// The size is the number of threads in the pool.
+</span><span class="boring">    ///
+</span><span class="boring">    /// # Panics
+</span><span class="boring">    ///
+</span><span class="boring">    /// The `new` function will panic if the size is zero.
+</span><span class="boring">    pub fn new(size: usize) -&gt; ThreadPool {
+</span><span class="boring">        assert!(size &gt; 0);
+</span><span class="boring">
+</span><span class="boring">        let (sender, receiver) = mpsc::channel();
+</span><span class="boring">
+</span><span class="boring">        let receiver = Arc::new(Mutex::new(receiver));
+</span><span class="boring">
+</span><span class="boring">        let mut workers = Vec::with_capacity(size);
+</span><span class="boring">
+</span><span class="boring">        for id in 0..size {
+</span><span class="boring">            workers.push(Worker::new(id, Arc::clone(&amp;receiver)));
+</span><span class="boring">        }
+</span><span class="boring">
+</span><span class="boring">        ThreadPool { workers, sender }
+</span><span class="boring">    }
+</span><span class="boring">
+</span><span class="boring">    pub fn execute&lt;F&gt;(&amp;self, f: F)
+</span><span class="boring">    where
+</span><span class="boring">        F: FnOnce() + Send + 'static,
+</span><span class="boring">    {
+</span><span class="boring">        let job = Box::new(f);
+</span><span class="boring">
+</span><span class="boring">        self.sender.send(job).unwrap();
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Worker {
+</span><span class="boring">    id: usize,
+</span><span class="boring">    thread: thread::JoinHandle&lt;()&gt;,
+</span><span class="boring">}
+</span>// --snip--
+
+impl Worker {
+    fn new(id: usize, receiver: Arc&lt;Mutex&lt;mpsc::Receiver&lt;Job&gt;&gt;&gt;) -&gt; Worker {
+        let thread = thread::spawn(move || {
+            while let Ok(job) = receiver.lock().unwrap().recv() {
+                println!("Worker {id} got a job; executing.");
+
+                job();
+            }
+        });
+
+        Worker { id, thread }
+    }
+}</code></pre>
+<figcaption><a href="#listing-21-21">Listing 21-21</a>: Uma implementação alternativa de <code>Worker::new</code> usando <code>while let</code></figcaption>
+</figure>
+<p>Este código compila e é executado, mas não resulta no comportamento de threading
+desejado: Uma requisição lenta ainda fará com que outras requisições esperem para ser
+processadas. O motivo é um tanto sutil: A struct <code>Mutex</code> não tem um método público
+<code>unlock</code> porque a propriedade do bloqueio é baseada no tempo de vida (lifetime) do
+<code>MutexGuard&lt;T&gt;</code> dentro do <code>LockResult&lt;MutexGuard&lt;T&gt;&gt;</code> que o método <code>lock</code>
+retorna. Em tempo de compilação, o verificador de empréstimos (borrow checker) pode então impor a regra
+de que um recurso protegido por um <code>Mutex</code> não pode ser acessado a menos que mantenhamos o
+bloqueio. No entanto, esta implementação também pode fazer com que o bloqueio seja mantido
+por mais tempo do que o pretendido se não formos cautelosos com o tempo de vida do
+<code>MutexGuard&lt;T&gt;</code>.</p>
+<p>O código na Listagem 21-20 que usa <code>let job = receiver.lock().unwrap().recv().unwrap();</code> funciona porque com <code>let</code>, quaisquer
+valores temporários usados na expressão no lado direito do sinal de igual
+são descartados imediatamente quando a instrução <code>let</code> termina. No entanto, <code>while let</code> (e <code>if let</code> e <code>match</code>) não descarta valores temporários até o final do bloco
+associado. Na Listagem 21-21, o bloqueio permanece retido durante a duração da chamada
+a <code>job()</code>, o que significa que outras instâncias de <code>Worker</code> não podem receber trabalhos.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch21-01-single-threaded.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch21-03-graceful-shutdown-and-cleanup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch21-01-single-threaded.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch21-03-graceful-shutdown-and-cleanup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

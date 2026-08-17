@@ -1,0 +1,649 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Definindo um Enum - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="definindo-um-enum"><a class="header" href="#definindo-um-enum">Definindo um Enum</a></h2>
+<p>Onde as <em>structs</em> oferecem uma maneira de agrupar campos e dados relacionados,
+como um <code>Rectangle</code> com sua <code>width</code> e <code>height</code>, os enums dão a você uma maneira de
+dizer que um valor é um de um conjunto possível de valores. Por exemplo,
+podemos querer dizer que <code>Rectangle</code> é um de um conjunto de formas possíveis que
+também inclui <code>Circle</code> e <code>Triangle</code>. Para fazer isso, o Rust nos permite codificar
+essas possibilidades como um enum.</p>
+<p>Vamos analisar uma situação que gostaríamos de expressar em código e ver por que
+os enums são úteis e mais apropriados do que as <em>structs</em> neste caso. Digamos que
+precisamos trabalhar com endereços IP. Atualmente, dois padrões principais são
+usados para endereços IP: versão quatro e versão seis. Como essas são as únicas
+possibilidades para um endereço IP com as quais nosso programa irá se deparar,
+podemos <em>enumerar</em> todas as variantes possíveis, que é de onde a enumeração
+recebe seu nome.</p>
+<p>Qualquer endereço IP pode ser um endereço da versão quatro ou da versão seis,
+mas não ambos ao mesmo tempo. Essa propriedade dos endereços IP torna a
+estrutura de dados enum apropriada, pois um valor de enum só pode ser uma de
+suas variantes. Tanto os endereços da versão quatro quanto os da versão seis
+ainda são fundamentalmente endereços IP, portanto, devem ser tratados como o
+mesmo tipo quando o código estiver lidando com situações que se aplicam a
+qualquer tipo de endereço IP.</p>
+<p>Podemos expressar esse conceito em código definindo uma enumeração <code>IpAddrKind</code> e
+listando os tipos possíveis que um endereço IP pode ser, <code>V4</code> e <code>V6</code>. Estas são
+as variantes do enum:</p>
+<pre class="playground"><code class="language-rust edition2024">enum IpAddrKind {
+    V4,
+    V6,
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let four = IpAddrKind::V4;
+</span><span class="boring">    let six = IpAddrKind::V6;
+</span><span class="boring">
+</span><span class="boring">    route(IpAddrKind::V4);
+</span><span class="boring">    route(IpAddrKind::V6);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre>
+<p><code>IpAddrKind</code> agora é um tipo de dado personalizado que podemos usar em outras
+partes do nosso código.</p>
+<h3 id="valores-de-enum"><a class="header" href="#valores-de-enum">Valores de Enum</a></h3>
+<p>Podemos criar instâncias de cada uma das duas variantes de <code>IpAddrKind</code> assim:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
+</span><span class="boring">    V4,
+</span><span class="boring">    V6,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span>    let four = IpAddrKind::V4;
+    let six = IpAddrKind::V6;
+<span class="boring">
+</span><span class="boring">    route(IpAddrKind::V4);
+</span><span class="boring">    route(IpAddrKind::V6);
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre>
+<p>Note que as variantes do enum estão sob o namespace do seu identificador, e nós
+usamos dois pontos duplos para separar os dois. Isso é útil porque agora ambos os
+valores <code>IpAddrKind::V4</code> e <code>IpAddrKind::V6</code> são do mesmo tipo: <code>IpAddrKind</code>.
+Podemos então, por exemplo, definir uma função que aceita qualquer
+<code>IpAddrKind</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
+</span><span class="boring">    V4,
+</span><span class="boring">    V6,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let four = IpAddrKind::V4;
+</span><span class="boring">    let six = IpAddrKind::V6;
+</span><span class="boring">
+</span><span class="boring">    route(IpAddrKind::V4);
+</span><span class="boring">    route(IpAddrKind::V6);
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn route(ip_kind: IpAddrKind) {}</code></pre>
+<p>E podemos chamar esta função com qualquer uma das variantes:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">enum IpAddrKind {
+</span><span class="boring">    V4,
+</span><span class="boring">    V6,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let four = IpAddrKind::V4;
+</span><span class="boring">    let six = IpAddrKind::V6;
+</span><span class="boring">
+</span>    route(IpAddrKind::V4);
+    route(IpAddrKind::V6);
+<span class="boring">}
+</span><span class="boring">
+</span><span class="boring">fn route(ip_kind: IpAddrKind) {}</span></code></pre>
+<p>Usar enums tem ainda mais vantagens. Pensando mais sobre o nosso tipo de
+endereço IP, no momento não temos uma maneira de armazenar os <em>dados</em> reais do
+endereço IP; nós apenas sabemos que <em>tipo</em> ele é. Como você acabou de aprender
+sobre <em>structs</em> no Capítulo 5, você pode ficar tentado a resolver esse problema
+com <em>structs</em>, conforme mostrado na Listagem 6-1.</p>
+<figure class="listing" id="listing-6-1">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    enum IpAddrKind {
+        V4,
+        V6,
+    }
+
+    struct IpAddr {
+        kind: IpAddrKind,
+        address: String,
+    }
+
+    let home = IpAddr {
+        kind: IpAddrKind::V4,
+        address: String::from("127.0.0.1"),
+    };
+
+    let loopback = IpAddr {
+        kind: IpAddrKind::V6,
+        address: String::from("::1"),
+    };
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-6-1">Listing 6-1</a>: Armazenando os dados e a variante <code>IpAddrKind</code> de um endereço IP usando uma <code>struct</code></figcaption>
+</figure>
+<p>Aqui, definimos uma <em>struct</em> <code>IpAddr</code> que possui dois campos: um campo <code>kind</code> que
+é do tipo <code>IpAddrKind</code> (o enum que definimos anteriormente) e um campo <code>address</code>
+do tipo <code>String</code>. Temos duas instâncias desta <em>struct</em>. A primeira é <code>home</code>, e
+ela tem o valor <code>IpAddrKind::V4</code> como seu <code>kind</code> com os dados de endereço
+associados <code>127.0.0.1</code>. A segunda instância é <code>loopback</code>. Ela tem a outra
+variante de <code>IpAddrKind</code> como seu valor de <code>kind</code>, <code>V6</code>, e tem o endereço <code>::1</code>
+associado a ela. Usamos uma <em>struct</em> para agrupar os valores <code>kind</code> e <code>address</code>,
+então agora a variante está associada ao valor.</p>
+<p>No entanto, representar o mesmo conceito usando apenas um enum é mais conciso:
+Em vez de um enum dentro de uma <em>struct</em>, podemos colocar dados diretamente em
+cada variante do enum. Esta nova definição do enum <code>IpAddr</code> diz que ambas as
+variantes <code>V4</code> e <code>V6</code> terão valores de <code>String</code> associados:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    enum IpAddr {
+        V4(String),
+        V6(String),
+    }
+
+    let home = IpAddr::V4(String::from("127.0.0.1"));
+
+    let loopback = IpAddr::V6(String::from("::1"));
+<span class="boring">}</span></code></pre>
+<p>Anexamos dados diretamente a cada variante do enum, de modo que não há
+necessidade de uma <em>struct</em> extra. Aqui, também é mais fácil ver outro detalhe de
+como os enums funcionam: o nome de cada variante de enum que definimos também se
+torna uma função que constrói uma instância do enum. Ou seja, <code>IpAddr::V4()</code> é
+uma chamada de função que aceita um argumento <code>String</code> e retorna uma instância
+do tipo <code>IpAddr</code>. Nós obtemos automaticamente essa função construtora definida
+como resultado da definição do enum.</p>
+<p>Há outra vantagem em usar um enum em vez de uma <em>struct</em>: cada variante pode ter
+diferentes tipos e quantidades de dados associados. Os endereços IP da versão
+quatro sempre terão quatro componentes numéricos que terão valores entre 0 e
+255. Se quiséssemos armazenar endereços <code>V4</code> como quatro valores <code>u8</code>, mas ainda
+expressar endereços <code>V6</code> como um único valor <code>String</code>, não poderíamos fazer isso
+com uma <em>struct</em>. Os enums lidam com esse caso com facilidade:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    enum IpAddr {
+        V4(u8, u8, u8, u8),
+        V6(String),
+    }
+
+    let home = IpAddr::V4(127, 0, 0, 1);
+
+    let loopback = IpAddr::V6(String::from("::1"));
+<span class="boring">}</span></code></pre>
+<p>Mostramos várias maneiras diferentes de definir estruturas de dados para
+armazenar endereços IP da versão quatro e da versão seis. No entanto, acontece
+que querer armazenar endereços IP e codificar qual o seu tipo é tão comum que <a href="../std/net/enum.IpAddr.html">a
+biblioteca padrão tem uma definição que podemos usar!</a><!-- ignore -->
+Vamos ver como a biblioteca padrão define <code>IpAddr</code>. Ela tem exatamente o enum e
+as variantes que definimos e usamos, mas ela embute os dados de endereço dentro
+das variantes na forma de duas <em>structs</em> diferentes, que são definidas de forma
+diferente para cada variante:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct Ipv4Addr {
+    // --snip--
+}
+
+struct Ipv6Addr {
+    // --snip--
+}
+
+enum IpAddr {
+    V4(Ipv4Addr),
+    V6(Ipv6Addr),
+}
+<span class="boring">}</span></code></pre>
+<p>Este código ilustra que você pode colocar qualquer tipo de dado dentro de uma
+variante de enum: strings, tipos numéricos ou <em>structs</em>, por exemplo. Você pode
+inclusive incluir outro enum! Além disso, os tipos da biblioteca padrão muitas
+vezes não são muito mais complicados do que o que você mesmo poderia criar.</p>
+<p>Note que, embora a biblioteca padrão contenha uma definição para <code>IpAddr</code>, ainda
+podemos criar e usar nossa própria definição sem conflito, porque não trouxemos
+a definição da biblioteca padrão para o nosso escopo. Falaremos mais sobre como
+trazer tipos para o escopo no Capítulo 7.</p>
+<p>Vamos olhar para outro exemplo de enum na Listagem 6-2: Este possui uma grande
+variedade de tipos embutidos em suas variantes.</p>
+<figure class="listing" id="listing-6-2">
+<pre class="playground"><code class="language-rust edition2024">enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+<span class="boring">
+</span><span class="boring">fn main() {}</span></code></pre>
+<figcaption><a href="#listing-6-2">Listing 6-2</a>: Um enum <code>Message</code> cujas variantes armazenam diferentes quantidades e tipos de valores</figcaption>
+</figure>
+<p>Este enum possui quatro variantes com tipos diferentes:</p>
+<ul>
+<li><code>Quit</code>: Não possui nenhum dado associado a ele.</li>
+<li><code>Move</code>: Possui campos nomeados, assim como uma <em>struct</em>.</li>
+<li><code>Write</code>: Inclui uma única <code>String</code>.</li>
+<li><code>ChangeColor</code>: Inclui três valores <code>i32</code>.</li>
+</ul>
+<p>Definir um enum com variantes como as da Listagem 6-2 é semelhante a definir
+diferentes tipos de definições de <em>struct</em>, exceto que o enum não usa a palavra-chave
+<code>struct</code> e todas as variantes são agrupadas sob o tipo <code>Message</code>. As seguintes
+<em>structs</em> poderiam conter os mesmos dados que as variantes de enum anteriores
+contêm:</p>
+<pre class="playground"><code class="language-rust edition2024">struct QuitMessage; // unit struct
+struct MoveMessage {
+    x: i32,
+    y: i32,
+}
+struct WriteMessage(String); // tuple struct
+struct ChangeColorMessage(i32, i32, i32); // tuple struct
+<span class="boring">
+</span><span class="boring">fn main() {}</span></code></pre>
+<p>Mas se usássemos as diferentes <em>structs</em>, cada uma tendo seu próprio tipo, não
+poderíamos definir tão facilmente uma função para aceitar qualquer um desses tipos
+de mensagem como poderíamos com o enum <code>Message</code> definido na Listagem 6-2, que é
+um único tipo.</p>
+<p>Há mais uma semelhança entre enums e <em>structs</em>: assim como podemos definir métodos
+em <em>structs</em> usando <code>impl</code>, também podemos definir métodos em enums. Aqui está
+um método chamado <code>call</code> que poderíamos definir em nosso enum <code>Message</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span><span class="boring">    enum Message {
+</span><span class="boring">        Quit,
+</span><span class="boring">        Move { x: i32, y: i32 },
+</span><span class="boring">        Write(String),
+</span><span class="boring">        ChangeColor(i32, i32, i32),
+</span><span class="boring">    }
+</span><span class="boring">
+</span>    impl Message {
+        fn call(&amp;self) {
+            // method body would be defined here
+        }
+    }
+
+    let m = Message::Write(String::from("hello"));
+    m.call();
+<span class="boring">}</span></code></pre>
+<p>O corpo do método usaria <code>self</code> para obter o valor sobre o qual chamamos o
+método. Neste exemplo, criamos uma variável <code>m</code> que tem o valor
+<code>Message::Write(String::from("hello"))</code>, e é isso que <code>self</code> será no corpo do
+método <code>call</code> quando <code>m.call()</code> for executado.</p>
+<p>Vamos examinar outro enum na biblioteca padrão que é muito comum e útil:
+<code>Option</code>.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="the-option-enum-and-its-advantages-over-null-values"></a></p>
+<h3 id="o-enum-option"><a class="header" href="#o-enum-option">O Enum <code>Option</code></a></h3>
+<p>Esta seção explora um estudo de caso do <code>Option</code>, que é outro enum definido pela
+biblioteca padrão. O tipo <code>Option</code> codifica o cenário muito comum em que um valor
+pode ser alguma coisa ou pode ser nada.</p>
+<p>Por exemplo, se você solicitar o primeiro item em uma lista não vazia, você
+obterá um valor. Se você solicitar o primeiro item em uma lista vazia, você não
+obterá nada. Expressar esse conceito em termos do sistema de tipos significa que
+o compilaador pode verificar se você tratou todos os casos que deveria tratar;
+essa funcionalidade pode prevenir bugs que são extremamente comuns em outras
+linguagens de programação.</p>
+<p>A criação de linguagens de programação é frequentemente pensada em termos de
+quais recursos você inclui, mas os recursos que você exclui também são
+importantes. O Rust não tem o recurso nulo (<em>null</em>) que muitas outras linguagens
+possuem. <em>Null</em> é um valor que significa que não há nenhum valor ali. Em
+linguagens com null, as variáveis podem sempre estar em um de dois estados: nulo
+ou não nulo.</p>
+<p>Em sua apresentação de 2009 “Null References: The Billion Dollar Mistake”, Tony
+Hoare, o inventor do null, disse o seguinte:</p>
+<blockquote>
+<p>Eu chamo isso de meu erro de um bilhão de dólares. Naquela época, eu estava
+projetando o primeiro sistema de tipos abrangente para referências em uma
+linguagem orientada a objetos. Meu objetivo era garantir que todo o uso de
+referências fosse absolutamente seguro, com verificação executada
+automaticamente pelo compilador. Mas eu não pude resistir à tentação de colocar
+uma referência nula, simplesmente porque era muito fácil de implementar. Isso
+levou a inúmeros erros, vulnerabilidades e falhas de sistema, que provavelmente
+causaram um bilhão de dólares de dor e danos nos últimos quarenta anos.</p>
+</blockquote>
+<p>O problema com valores nulos é que, se você tentar usar um valor nulo como um
+valor não nulo, você receberá algum tipo de erro. Como essa propriedade de nulo
+ou não nulo é onipresente, é extremamente fácil cometer esse tipo de erro.</p>
+<p>No entanto, o conceito que o nulo está tentando expressar ainda é útil: um nulo
+é um valor que atualmente é inválido ou ausente por algum motivo.</p>
+<p>O problema não está realmente no conceito, mas na implementação particular.
+Como tal, o Rust não tem nulos (<em>nulls</em>), mas tem um enum que pode codificar o
+conceito de um valor estar presente ou ausente. Este enum é <code>Option&lt;T&gt;</code>, e ele
+é <a href="../std/option/enum.Option.html">definido pela biblioteca padrão</a><!-- ignore --> da seguinte forma:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>enum Option&lt;T&gt; {
+    None,
+    Some(T),
+}
+<span class="boring">}</span></code></pre>
+<p>O enum <code>Option&lt;T&gt;</code> é tão útil que está incluído até mesmo no <em>prelude</em>; você não
+precisa trazê-lo para o escopo explicitamente. Suas variantes também estão
+incluídas no <em>prelude</em>: você pode usar <code>Some</code> e <code>None</code> diretamente sem o prefixo
+<code>Option::</code>. O enum <code>Option&lt;T&gt;</code> ainda é apenas um enum comum, e <code>Some(T)</code> e <code>None</code>
+ainda são variantes do tipo <code>Option&lt;T&gt;</code>.</p>
+<p>A sintaxe <code>&lt;T&gt;</code> é um recurso do Rust sobre o qual ainda não falamos. É um
+parâmetro de tipo genérico, e abordaremos genéricos com mais detalhes no
+Capítulo 10. Por enquanto, tudo o que você precisa saber é que <code>&lt;T&gt;</code> significa
+que a variante <code>Some</code> do enum <code>Option</code> pode conter um único dado de qualquer
+tipo, e que cada tipo concreto usado no lugar de <code>T</code> torna o tipo <code>Option&lt;T&gt;</code>
+geral um tipo diferente. Aqui estão alguns exemplos de uso de valores <code>Option</code>
+para conter tipos numéricos e tipos de caractere:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let some_number = Some(5);
+    let some_char = Some('e');
+
+    let absent_number: Option&lt;i32&gt; = None;
+<span class="boring">}</span></code></pre>
+<p>O tipo de <code>some_number</code> é <code>Option&lt;i32&gt;</code>. O tipo de <code>some_char</code> é <code>Option&lt;char&gt;</code>,
+que é um tipo diferente. O Rust pode inferir esses tipos porque especificamos um
+valor dentro da variante <code>Some</code>. Para <code>absent_number</code>, o Rust exige que façamos
+a anotação do tipo <code>Option</code> geral: o compilador não pode inferir o tipo que a
+variante <code>Some</code> correspondente conterá olhando apenas para um valor <code>None</code>.
+Aqui, dizemos ao Rust que queremos que <code>absent_number</code> seja do tipo
+<code>Option&lt;i32&gt;</code>.</p>
+<p>Quando temos um valor <code>Some</code>, sabemos que um valor está presente, e esse valor
+está contido dentro do <code>Some</code>. Quando temos um valor <code>None</code>, de certa forma ele
+significa a mesma coisa que null: não temos um valor válido. Então, por que ter
+<code>Option&lt;T&gt;</code> é melhor do que ter null?</p>
+<p>Em suma, porque <code>Option&lt;T&gt;</code> e <code>T</code> (onde <code>T</code> pode ser qualquer tipo) são tipos
+diferentes, o compilador não nos deixará usar um valor <code>Option&lt;T&gt;</code> como se ele
+fosse definitivamente um valor válido. Por exemplo, este código não compila,
+porque está tentando adicionar um <code>i8</code> a um <code>Option&lt;i8&gt;</code>:</p>
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
+</span>    let x: i8 = 5;
+    let y: Option&lt;i8&gt; = Some(5);
+
+    let sum = x + y;
+<span class="boring">}</span></code></pre>
+<p>Se executarmos este código, recebemos uma mensagem de erro como esta:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling enums v0.1.0 (file:///projects/enums)
+error[E0277]: cannot add `Option&lt;i8&gt;` to `i8`
+ --&gt; src/main.rs:5:17
+  |
+5 |     let sum = x + y;
+  |                 ^ no implementation for `i8 + Option&lt;i8&gt;`
+  |
+  = help: the trait `Add&lt;Option&lt;i8&gt;&gt;` is not implemented for `i8`
+help: the following other types implement trait `Add&lt;Rhs&gt;`
+ --&gt; /rustc/2d8144b7880597b6e6d3dfd63a9a9efae3f533d3/library/core/src/ops/arith.rs:98:8
+  |
+  = note: `i8` implements `Add`
+ ::: /rustc/2d8144b7880597b6e6d3dfd63a9a9efae3f533d3/library/core/src/ops/arith.rs:113:0
+  |
+  = note: in this macro invocation
+ --&gt; /rustc/2d8144b7880597b6e6d3dfd63a9a9efae3f533d3/library/core/src/internal_macros.rs:22:8
+  |
+  = note: `&amp;i8` implements `Add&lt;i8&gt;`
+ ::: /rustc/2d8144b7880597b6e6d3dfd63a9a9efae3f533d3/library/core/src/internal_macros.rs:33:8
+  |
+  = note: `i8` implements `Add&lt;&amp;i8&gt;`
+ ::: /rustc/2d8144b7880597b6e6d3dfd63a9a9efae3f533d3/library/core/src/internal_macros.rs:44:8
+  |
+  = note: `&amp;i8` implements `Add`
+  = note: this error originates in the macro `add_impl` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0277`.
+error: could not compile `enums` (bin "enums") due to 1 previous error
+</code></pre>
+<p>Intenso! Em efeito, esta mensagem de erro significa que o Rust não entende como
+adicionar um <code>i8</code> e um <code>Option&lt;i8&gt;</code>, porque eles são tipos diferentes. Quando
+temos um valor de um tipo como <code>i8</code> no Rust, o compilador garantirá que sempre
+tenhamos um valor válido. Podemos prosseguir com confiança, sem precisar
+verificar se há null antes de usar esse valor. Apenas quando temos um
+<code>Option&lt;i8&gt;</code> (ou qualquer tipo de valor com o qual estejamos trabalhando) é que
+temos que nos preocupar com a possibilidade de não termos um valor, e o
+compilador garantirá que tratemos esse caso antes de usar o valor.</p>
+<p>Em outras palavras, você deve converter um <code>Option&lt;T&gt;</code> em um <code>T</code> antes de poder
+executar operações de <code>T</code> com ele. Geralmente, isso ajuda a pegar um dos
+problemas mais comuns com null: assumir que algo não é nulo quando na verdade é.</p>
+<p>Eliminar o risco de assumir incorretamente um valor não nulo ajuda você a ter
+mais confiança no seu código. Para ter um valor que possivelmente possa ser nulo,
+você deve optar explicitamente por isso, tornando o tipo desse valor
+<code>Option&lt;T&gt;</code>. Então, quando você usa esse valor, você é obrigado a tratar
+explicitamente o caso em que o valor é nulo. Em todos os lugares onde um valor
+tem um tipo que não é um <code>Option&lt;T&gt;</code>, você <em>pode</em> assumir com segurança que o
+valor não é nulo. Esta foi uma decisão deliberada de design para o Rust limitar
+a onipresença do null e aumentar a segurança do código Rust.</p>
+<p>Então, como você extrai o valor <code>T</code> de uma variante <code>Some</code> quando você tem um
+valor do tipo <code>Option&lt;T&gt;</code> para que possa usar esse valor? O enum <code>Option&lt;T&gt;</code> tem
+um grande número de métodos que são úteis em uma variedade de situações; você
+pode conferi-los <a href="../std/option/enum.Option.html">em sua documentação</a><!-- ignore -->. Familiarizar-se com
+os métodos em <code>Option&lt;T&gt;</code> será extremamente útil em sua jornada com o Rust.</p>
+<p>Em geral, para usar um valor <code>Option&lt;T&gt;</code>, você vai querer ter um código que lide
+com cada variante. Você vai querer algum código que seja executado apenas quando
+você tiver um valor <code>Some(T)</code>, e este código tem permissão para usar o <code>T</code> interno.
+Você vai querer que algum outro código seja executado apenas se você tiver um
+valor <code>None</code>, e esse código não tem um valor <code>T</code> disponível. A expressão <code>match</code>
+é uma construção de fluxo de controle que faz exatamente isso quando usada com
+enums: ela executa código diferente dependendo de qual variante do enum ela tem,
+e esse código pode usar os dados dentro do valor correspondente.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch06-00-enums.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch06-02-match.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch06-00-enums.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch06-02-match.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

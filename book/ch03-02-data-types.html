@@ -1,0 +1,627 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Tipos de Dados - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="tipos-de-dados"><a class="header" href="#tipos-de-dados">Tipos de Dados</a></h2>
+<p>Cada valor em Rust é de um determinado <em>tipo de dado</em>, o que diz ao Rust que tipo
+de dado está sendo especificado para que ele saiba como trabalhar com esse dado.
+Veremos dois subconjuntos de tipos de dados: escalares e compostos.</p>
+<p>Lembre-se de que Rust é uma linguagem de <em>tipagem estática</em>, o que significa que
+ela deve saber os tipos de todas as variáveis em tempo de compilação. O
+compilador geralmente pode deduzir qual tipo queremos usar com base no valor e em
+como o usamos. Nos casos em que muitos tipos são possíveis, como quando
+convertemos uma <code>String</code> em um tipo numérico usando <code>parse</code> na seção <a href="ch02-00-guessing-game-tutorial.html#comparing-the-guess-to-the-secret-number">“Comparando
+o palpite com o número secreto”</a><!--
+ignore --> do Capítulo 2, devemos adicionar uma anotação de tipo, assim:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let guess: u32 = "42".parse().expect("Não é um número!");
+<span class="boring">}</span></code></pre>
+<p>Se não adicionarmos a anotação de tipo <code>: u32</code> mostrada no código anterior, o
+Rust exibirá o seguinte erro, o que significa que o compilador precisa de mais
+informações nossas para saber qual tipo queremos usar:</p>
+<pre><code class="language-console">$ cargo build
+   Compiling no_type_annotations v0.1.0 (file:///projects/no_type_annotations)
+error[E0284]: type annotations needed
+ --&gt; src/main.rs:2:9
+  |
+2 |     let guess = "42".parse().expect("Not a number!");
+  |         ^^^^^        ----- type must be known at this point
+  |
+  = note: cannot satisfy `&lt;_ as FromStr&gt;::Err == _`
+help: consider giving `guess` an explicit type
+  |
+2 |     let guess: /* Type */ = "42".parse().expect("Not a number!");
+  |              ++++++++++++
+
+For more information about this error, try `rustc --explain E0284`.
+error: could not compile `no_type_annotations` (bin "no_type_annotations") due to 1 previous error
+</code></pre>
+<p>Você verá diferentes anotações de tipo para outros tipos de dados.</p>
+<h3 id="tipos-escalares"><a class="header" href="#tipos-escalares">Tipos Escalares</a></h3>
+<p>Um tipo <em>escalar</em> representa um único valor. O Rust tem quatro tipos escalares
+principais: inteiros, números de ponto flutuante, booleanos e caracteres. Você
+pode reconhecê-los de outras linguagens de programação. Vamos ver como eles
+funcionam em Rust.</p>
+<h4 id="tipos-inteiros"><a class="header" href="#tipos-inteiros">Tipos Inteiros</a></h4>
+<p>Um <em>inteiro</em> é um número sem componente fracionário. Usamos um tipo inteiro no
+Capítulo 2, o tipo <code>u32</code>. Esta declaração de tipo indica que o valor a ele
+associado deve ser um inteiro sem sinal (tipos inteiros com sinal começam com <code>i</code>
+em vez de <code>u</code>) que ocupa 32 bits de espaço. A Tabela 3-1 mostra os tipos inteiros
+embutidos no Rust. Podemos usar qualquer uma dessas variantes para declarar o
+tipo de um valor inteiro.</p>
+<p><span class="caption">Tabela 3-1: Tipos inteiros em Rust</span></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Comprimento</th><th>Com sinal</th><th>Sem sinal</th></tr>
+</thead>
+<tbody>
+<tr><td>8-bit</td><td><code>i8</code></td><td><code>u8</code></td></tr>
+<tr><td>16-bit</td><td><code>i16</code></td><td><code>u16</code></td></tr>
+<tr><td>32-bit</td><td><code>i32</code></td><td><code>u32</code></td></tr>
+<tr><td>64-bit</td><td><code>i64</code></td><td><code>u64</code></td></tr>
+<tr><td>128-bit</td><td><code>i128</code></td><td><code>u128</code></td></tr>
+<tr><td>Dependente da arquitetura</td><td><code>isize</code></td><td><code>usize</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Cada variante pode ter sinal ou não e tem um tamanho explícito. <em>Com sinal</em> e
+<em>sem sinal</em> referem-se à possibilidade de o número ser negativo — em outras
+palavras, se o número precisa ter um sinal junto a ele (com sinal) ou se será
+sempre positivo e, portanto, pode ser representado sem um sinal (sem sinal). É
+como escrever números no papel: quando o sinal importa, um número é mostrado com
+um sinal de mais ou um sinal de menos; no entanto, quando é seguro assumir que o
+número é positivo, ele é mostrado sem sinal. Os números com sinal são
+armazenados usando a representação de <a href="https://en.wikipedia.org/wiki/Two%27s_complement">complemento de
+dois</a><!-- ignore -->.</p>
+<p>Cada variante com sinal pode armazenar números de −(2<sup>n − 1</sup>) até
+2<sup>n − 1</sup> − 1 inclusives, onde <em>n</em> é o número de bits que essa variante
+usa. Portanto, um <code>i8</code> pode armazenar números de −(2<sup>7</sup>) a 2<sup>7</sup>
+− 1, o que equivale a −128 a 127. Variantes sem sinal podem armazenar números de
+0 a 2<sup>n</sup> − 1, portanto, um <code>u8</code> pode armazenar números de 0 a 2<sup>8</sup>
+− 1, o que equivale a 0 a 255.</p>
+<p>Além disso, os tipos <code>isize</code> e <code>usize</code> dependem da arquitetura do computador em
+que seu programa está rodando: 64 bits se você estiver em uma arquitetura de 64
+bits e 32 bits se estiver em uma arquitetura de 32 bits.</p>
+<p>Você pode escrever literais inteiros em qualquer uma das formas mostradas na
+Tabela 3-2. Note que literais numéricos que podem ser de vários tipos numéricos
+permitem um sufixo de tipo, como <code>57u8</code>, para designar o tipo. Literais
+numéricos também podem usar <code>_</code> como um separador visual para tornar o número
+mais fácil de ler, como <code>1_000</code>, que terá o mesmo valor de se você tivesse
+especificado <code>1000</code>.</p>
+<p><span class="caption">Tabela 3-2: Literais inteiros em Rust</span></p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Literais numéricos</th><th>Exemplo</th></tr>
+</thead>
+<tbody>
+<tr><td>Decimal</td><td><code>98_222</code></td></tr>
+<tr><td>Hexadecimal</td><td><code>0xff</code></td></tr>
+<tr><td>Octal</td><td><code>0o77</code></td></tr>
+<tr><td>Binário</td><td><code>0b1111_0000</code></td></tr>
+<tr><td>Byte (apenas <code>u8</code>)</td><td><code>b'A'</code></td></tr>
+</tbody>
+</table>
+</div>
+<p>Então, como você sabe qual tipo de inteiro usar? Se você não tiver certeza, os
+padrões do Rust geralmente são bons pontos de partida: os tipos inteiros têm
+como padrão <code>i32</code>. A principal situação em que você usaria <code>isize</code> ou <code>usize</code> é
+ao indexar algum tipo de coleção.</p>
+<section class="note" aria-role="note">
+<h5 id="estouro-de-inteiro-integer-overflow"><a class="header" href="#estouro-de-inteiro-integer-overflow">Estouro de Inteiro (Integer Overflow)</a></h5>
+<p>Digamos que você tenha uma variável do tipo <code>u8</code> que pode conter valores entre
+0 e 255. Se você tentar alterar a variável para um valor fora desse intervalo,
+como 256, ocorrerá um <em>estouro de inteiro</em> (integer overflow), o que pode
+resultar em um de dois comportamentos. Quando você está compilando no modo de
+depuração (debug), o Rust inclui verificações de estouro de inteiro que fazem
+seu programa entrar em <em>pânico</em> (panic) em tempo de execução se esse
+comportamento ocorrer. O Rust usa o termo <em>entrar em pânico</em> quando um programa
+é encerrado com um erro; discutiremos pânicos mais a fundo na seção <a href="ch09-01-unrecoverable-errors-with-panic.html">“Erros
+Irrecuperáveis com <code>panic!</code>”</a><!-- ignore -->
+no Capítulo 9.</p>
+<p>Quando você está compilando no modo de lançamento (release) com a flag
+<code>--release</code>, o Rust <em>não</em> inclui verificações de estouro de inteiro que causam
+pânicos. Em vez disso, se ocorrer estouro, o Rust realiza o <em>empacotamento por
+complemento de dois</em> (two’s complement wrapping). Em suma, valores maiores que o
+valor máximo que o tipo pode conter “dão a volta” para o mínimo dos valores
+que o tipo pode conter. No caso de um <code>u8</code>, o valor 256 vira 0, o valor 257 vira
+1, e assim por diante. O programa não entrará em pânico, mas a variável terá um
+valor que provavelmente não é o que você esperava que ela tivesse. Confiar no
+comportamento de empacotamento do estouro de inteiro é considerado um erro.</p>
+<p>Para lidar explicitamente com a possibilidade de estouro, você pode usar estas
+famílias de métodos fornecidas pela biblioteca padrão para tipos numéricos
+primitivos:</p>
+<ul>
+<li>Envolver (wrap) em todos os modos de compilação com os métodos
+<code>wrapping_*</code>, como <code>wrapping_add</code>.</li>
+<li>Retornar o valor <code>None</code> se houver estouro com os métodos <code>checked_*</code>.</li>
+<li>Retornar o valor e um booleano indicando se houve estouro com os métodos
+<code>overflowing_*</code>.</li>
+<li>Saturar nos valores mínimo ou máximo do tipo com os métodos <code>saturating_*</code>.</li>
+</ul>
+</section>
+<h4 id="tipos-de-ponto-flutuante"><a class="header" href="#tipos-de-ponto-flutuante">Tipos de Ponto Flutuante</a></h4>
+<p>O Rust também tem dois tipos primitivos para <em>números de ponto flutuante</em>, que
+são números com ponto decimal. Os tipos de ponto flutuante do Rust são <code>f32</code> e
+<code>f64</code>, que têm 32 bits e 64 bits de tamanho, respectivamente. O tipo padrão é
+<code>f64</code> porque em CPUs modernas ele tem aproximadamente a mesma velocidade que o
+<code>f32</code>, mas é capaz de maior precisão. Todos os tipos de ponto flutuante têm sinal.</p>
+<p>Aqui está um exemplo que mostra números de ponto flutuante em ação:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let x = 2.0; // f64
+
+    let y: f32 = 3.0; // f32
+}</code></pre>
+<p>Os números de ponto flutuante são representados de acordo com o padrão IEEE-754.</p>
+<h4 id="operações-numéricas"><a class="header" href="#operações-numéricas">Operações Numéricas</a></h4>
+<p>O Rust suporta as operações matemáticas básicas que você esperaria para todos os
+tipos numéricos: adição, subtração, multiplicação, divisão e resto. A divisão de
+inteiros é truncada em direção a zero para o inteiro mais próximo. O código
+seguinte mostra como você usaria cada operação numérica em uma instrução <code>let</code>:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    // addition
+    let sum = 5 + 10;
+
+    // subtraction
+    let difference = 95.5 - 4.3;
+
+    // multiplication
+    let product = 4 * 30;
+
+    // division
+    let quotient = 56.7 / 32.2;
+    let truncated = -5 / 3; // Results in -1
+
+    // remainder
+    let remainder = 43 % 5;
+}</code></pre>
+<p>Cada expressão nessas instruções usa um operador matemático e é avaliada como um
+único valor, que é então vinculado a uma variável. O <a href="appendix-02-operators.html">Apêndice
+B</a><!-- ignore --> contém uma lista de todos os operadores que o
+Rust fornece.</p>
+<h4 id="o-tipo-booleano"><a class="header" href="#o-tipo-booleano">O Tipo Booleano</a></h4>
+<p>Como na maioria das outras linguagens de programação, um tipo booleano em Rust
+tem dois valores possíveis: <code>true</code> (verdadeiro) e <code>false</code> (falso). Os booleanos
+têm o tamanho de um byte. O tipo booleano em Rust é especificado usando <code>bool</code>.
+Por exemplo:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let t = true;
+
+    let f: bool = false; // with explicit type annotation
+}</code></pre>
+<p>A principal forma de usar valores booleanos é através de condicionais, como uma
+expressão <code>if</code>. Abordaremos como as expressões <code>if</code> funcionam em Rust na seção
+<a href="ch03-05-control-flow.html#control-flow">“Fluxo de Controle”</a><!-- ignore -->.</p>
+<h4 id="o-tipo-caractere"><a class="header" href="#o-tipo-caractere">O Tipo Caractere</a></h4>
+<p>O tipo <code>char</code> do Rust é o tipo alfabético mais primitivo da linguagem. Aqui
+estão alguns exemplos de declaração de valores <code>char</code>:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let c = 'z';
+    let z: char = 'ℤ'; // with explicit type annotation
+    let heart_eyed_cat = '😻';
+}</code></pre>
+<p>Note que especificamos literais <code>char</code> com aspas simples, ao contrário de
+literais de string, que usam aspas duplas. O tipo <code>char</code> do Rust tem 4 bytes de
+tamanho e representa um valor escalar Unicode, o que significa que ele pode
+representar muito mais do que apenas ASCII. Letras acentuadas; caracteres
+chineses, japoneses e coreanos; emojis; e espaços de largura zero são todos
+valores <code>char</code> válidos em Rust. Os valores escalares Unicode vão de <code>U+0000</code> a
+<code>U+D7FF</code> e de <code>U+E000</code> a <code>U+10FFFF</code> inclusives. No entanto, um “caractere” não é
+realmente um conceito em Unicode, então sua intuição humana sobre o que é um
+“caractere” pode não corresponder ao que é um <code>char</code> em Rust. Discutiremos este
+tópico em detalhes em <a href="ch08-02-strings.html#storing-utf-8-encoded-text-with-strings">“Armazenando texto codificado em UTF-8 com
+Strings”</a><!-- ignore --> no Capítulo 8.</p>
+<h3 id="tipos-compostos"><a class="header" href="#tipos-compostos">Tipos Compostos</a></h3>
+<p>Os <em>tipos compostos</em> podem agrupar vários valores em um único tipo. O Rust tem
+dois tipos compostos primitivos: tuplas e matrizes (arrays).</p>
+<h4 id="o-tipo-tupla"><a class="header" href="#o-tipo-tupla">O Tipo Tupla</a></h4>
+<p>Uma <em>tupla</em> é uma maneira geral de agrupar vários valores com uma variedade de
+tipos em um único tipo composto. As tuplas têm um comprimento fixo: uma vez
+declaradas, elas não podem crescer ou diminuir de tamanho.</p>
+<p>Criamos uma tupla escrevendo uma lista de valores separados por vírgula dentro
+de parênteses. Cada posição na tupla tem um tipo, e os tipos dos diferentes
+valores na tupla não precisam ser os mesmos. Adicionamos anotações de tipo
+opcionais neste exemplo:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let tup: (i32, f64, u8) = (500, 6.4, 1);
+}</code></pre>
+<p>A variável <code>tup</code> está vinculada a toda a tupla porque uma tupla é considerada um
+único elemento composto. Para extrair os valores individuais de uma tupla,
+podemos usar correspondência de padrões (pattern matching) para desestruturar um
+valor de tupla, assim:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let tup = (500, 6.4, 1);
+
+    let (x, y, z) = tup;
+
+    println!("The value of y is: {y}");
+}</code></pre>
+<p>Este programa primeiro cria uma tupla e a vincula à variável <code>tup</code>. Em seguida,
+ele usa um padrão com <code>let</code> para pegar <code>tup</code> e transformá-lo em três variáveis
+separadas, <code>x</code>, <code>y</code> e <code>z</code>. Isso é chamado de <em>desestruturação</em> (destructuring)
+porque divide a tupla única em três partes. Por fim, o programa imprime o valor
+de <code>y</code>, que é <code>6.4</code>.</p>
+<p>Também podemos acessar um elemento da tupla diretamente usando um ponto (<code>.</code>)
+seguido pelo índice do valor que queremos acessar. Por exemplo:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let x: (i32, f64, u8) = (500, 6.4, 1);
+
+    let five_hundred = x.0;
+
+    let six_point_four = x.1;
+
+    let one = x.2;
+}</code></pre>
+<p>Este programa cria a tupla <code>x</code> e então acessa cada elemento da tupla usando seus
+respectivos índices. Como na maioria das linguagens de programação, o primeiro
+índice em uma tupla é 0.</p>
+<p>A tupla sem nenhum valor tem um nome especial, <em>unit</em> (unidade). Esse valor e
+seu tipo correspondente são ambos escritos como <code>()</code> e representam um valor vazio
+ou um tipo de retorno vazio. As expressões retornam implicitamente o valor unit
+se não retornarem nenhum outro valor.</p>
+<h4 id="o-tipo-matriz-array"><a class="header" href="#o-tipo-matriz-array">O Tipo Matriz (Array)</a></h4>
+<p>Outra maneira de ter uma coleção de vários valores é com uma <em>matriz</em> (array).
+Ao contrário de uma tupla, cada elemento de uma matriz deve ter o mesmo tipo.
+Ao contrário das matrizes em algumas outras linguagens, as matrizes em Rust têm
+um comprimento fixo.</p>
+<p>Escrevemos os valores em uma matriz como uma lista separada por vírgulas dentro
+de colchetes:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let a = [1, 2, 3, 4, 5];
+}</code></pre>
+<p>As matrizes são úteis quando você deseja que seus dados sejam alocados na pilha
+(stack), da mesma forma que os outros tipos que vimos até agora, em vez de na
+memória heap (discutiremos pilha e heap mais a fundo no <a href="ch04-01-what-is-ownership.html#the-stack-and-the-heap">Capítulo
+4</a><!-- ignore -->), ou quando você deseja garantir que sempre
+terá um número fixo de elementos. Uma matriz não é tão flexível quanto o tipo
+vetor (vector), no entanto. Um vetor é um tipo de coleção semelhante fornecido
+pela biblioteca padrão que <em>pode</em> crescer ou diminuir de tamanho porque seu
+conteúdo vive na heap. Se você não tiver certeza se deve usar uma matriz ou um
+vetor, é provável que deva usar um vetor. O <a href="ch08-01-vectors.html">Capítulo 8</a><!-- ignore -->
+discute vetores em mais detalhes.</p>
+<p>No entanto, as matrizes são mais úteis quando você sabe que o número de
+elementos não precisará mudar. Por exemplo, se você estivesse usando os nomes dos
+meses em um programa, provavelmente usaria uma matriz em vez de um vetor porque
+sabe que ela sempre conterá 12 elementos:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
+              "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+<span class="boring">}</span></code></pre>
+<p>Você escreve o tipo de uma matriz usando colchetes com o tipo de cada elemento,
+um ponto e vírgula e, em seguida, o número de elementos na matriz, assim:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a: [i32; 5] = [1, 2, 3, 4, 5];
+<span class="boring">}</span></code></pre>
+<p>Aqui, <code>i32</code> é o tipo de cada elemento. Após o ponto e vírgula, o número <code>5</code>
+indica que a matriz contém cinco elementos.</p>
+<p>Você também pode inicializar uma matriz para conter o mesmo valor para cada
+elemento especificando o valor inicial, seguido por um ponto e vírgula e, em
+seguida, o comprimento da matriz entre colchetes, conforme mostrado aqui:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let a = [3; 5];
+<span class="boring">}</span></code></pre>
+<p>A matriz chamada <code>a</code> conterá <code>5</code> elementos que serão todos definidos com o valor
+<code>3</code> inicialmente. Isso é o mesmo que escrever <code>let a = [3, 3, 3, 3, 3];</code>, mas de
+uma forma mais concisa.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="accessing-array-elements"></a></p>
+<h4 id="acesso-a-elementos-da-matriz"><a class="header" href="#acesso-a-elementos-da-matriz">Acesso a Elementos da Matriz</a></h4>
+<p>Uma matriz é um único bloco de memória de um tamanho conhecido e fixo que pode
+ser alocado na pilha. Você pode acessar elementos de uma matriz usando
+indexação, assim:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    let first = a[0];
+    let second = a[1];
+}</code></pre>
+<p>Neste exemplo, a variável chamada <code>first</code> obterá o valor <code>1</code> porque esse é o
+valor no índice <code>[0]</code> na matriz. A variável chamada <code>second</code> obterá o valor <code>2</code>
+do índice <code>[1]</code> na matriz.</p>
+<h4 id="acesso-inválido-a-elementos-da-matriz"><a class="header" href="#acesso-inválido-a-elementos-da-matriz">Acesso Inválido a Elementos da Matriz</a></h4>
+<p>Vamos ver o que acontece se você tentar acessar um elemento de uma matriz que
+está além do fim da matriz. Digamos que você execute este código, semelhante ao
+jogo de adivinhação do Capítulo 2, para obter um índice de matriz do usuário:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre><code class="language-rust ignore panics">use std::io;
+
+fn main() {
+    let a = [1, 2, 3, 4, 5];
+
+    println!("Please enter an array index.");
+
+    let mut index = String::new();
+
+    io::stdin()
+        .read_line(&amp;mut index)
+        .expect("Failed to read line");
+
+    let index: usize = index
+        .trim()
+        .parse()
+        .expect("Index entered was not a number");
+
+    let element = a[index];
+
+    println!("The value of the element at index {index} is: {element}");
+}</code></pre>
+<p>Este código compila com sucesso. Se você executar este código usando <code>cargo run</code>
+e digitar <code>0</code>, <code>1</code>, <code>2</code>, <code>3</code> ou <code>4</code>, o programa imprimirá o valor correspondente
+naquele índice da matriz. Se você digitar um número além do fim da matriz, como
+<code>10</code>, verá uma saída como esta:</p>
+<!-- manual-regeneration
+cd listings/ch03-common-programming-concepts/no-listing-15-invalid-array-access
+cargo run
+10
+-->
+<pre><code class="language-console">thread 'main' panicked at src/main.rs:19:19:
+index out of bounds: the len is 5 but the index is 10
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</code></pre>
+<p>O programa resultou em um erro em tempo de execução no momento do uso de um
+valor inválido na operação de indexação. O programa foi encerrado com uma
+mensagem de erro e não executou a instrução <code>println!</code> final. Quando você tenta
+acessar um elemento usando indexação, o Rust verifica se o índice que você
+especificou é menor que o comprimento da matriz. Se o índice for maior ou igual
+ao comprimento, o Rust entrará em pânico. Essa verificação precisa acontecer em
+tempo de execução, especialmente neste caso, porque o compilador não tem como
+saber qual valor um usuário digitará quando executar o código mais tarde.</p>
+<p>Este é um exemplo dos princípios de segurança de memória do Rust em ação. Em
+muitas linguagens de baixo nível, esse tipo de verificação não é feito e,
+quando você fornece um índice incorreto, memória inválida pode ser acessada. O
+Rust protege você contra esse tipo de erro saindo imediatamente, em vez de
+permitir o acesso à memória e continuar. O Capítulo 9 discute mais sobre o
+tratamento de erros do Rust e como você pode escrever código legível e seguro
+que nem entra em pânico nem permite acesso inválido à memória.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch03-01-variables-and-mutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch03-03-how-functions-work.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch03-01-variables-and-mutability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch03-03-how-functions-work.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

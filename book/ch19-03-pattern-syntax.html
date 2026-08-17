@@ -1,0 +1,961 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Sintaxe de Padrões - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="sintaxe-de-padrões"><a class="header" href="#sintaxe-de-padrões">Sintaxe de Padrões</a></h2>
+<p>Nesta seção, reunimos toda a sintaxe válida em padrões e discutimos o porquê e
+quando você pode querer usar cada uma delas.</p>
+<h3 id="correspondência-de-literais"><a class="header" href="#correspondência-de-literais">Correspondência de Literais</a></h3>
+<p>Como você viu no Capítulo 6, você pode fazer correspondência de padrões (matching)
+diretamente contra literais. O código a seguir apresenta alguns exemplos:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let x = 1;
+
+    match x {
+        1 =&gt; println!("one"),
+        2 =&gt; println!("two"),
+        3 =&gt; println!("three"),
+        _ =&gt; println!("anything"),
+    }
+<span class="boring">}</span></code></pre>
+<p>Este código imprime <code>one</code> porque o valor em <code>x</code> é <code>1</code>. Essa sintaxe é útil
+quando você deseja que seu código execute uma ação caso obtenha um valor
+concreto específico.</p>
+<h3 id="correspondência-de-variáveis-nomeadas"><a class="header" href="#correspondência-de-variáveis-nomeadas">Correspondência de Variáveis Nomeadas</a></h3>
+<p>Variáveis nomeadas são padrões irrefutáveis que correspondem a qualquer valor, e
+as usamos muitas vezes neste livro. No entanto, há uma complicação quando você
+usa variáveis nomeadas em expressões <code>match</code>, <code>if let</code> ou <code>while let</code>. Como cada
+um desses tipos de expressão inicia um novo escopo, as variáveis declaradas
+como parte de um padrão dentro dessas expressões sombrearão (shadow) aquelas
+com o mesmo nome fora das estruturas, assim como ocorre com todas as variáveis.
+Na Listagem 19-11, declaramos uma variável chamada <code>x</code> com o valor <code>Some(5)</code> e
+uma variável <code>y</code> com o valor <code>10</code>. Em seguida, criamos uma expressão <code>match</code>
+sobre o valor <code>x</code>. Observe os padrões nos braços do match e o <code>println!</code> no
+final, e tente descobrir o que o código imprimirá antes de executá-lo ou ler
+mais adiante.</p>
+<figure class="listing" id="listing-19-11">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) =&gt; println!("Got 50"),
+        Some(y) =&gt; println!("Matched, y = {y}"),
+        _ =&gt; println!("Default case, x = {x:?}"),
+    }
+
+    println!("at the end: x = {x:?}, y = {y}");
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-11">Listing 19-11</a>: Uma expressão <code>match</code> com um braço que introduz uma nova variável que sombreia uma variável <code>y</code> existente</figcaption>
+</figure>
+<p>Vamos analisar o que acontece quando a expressão <code>match</code> é executada. O padrão
+no primeiro braço do match não corresponde ao valor definido de <code>x</code>, então o
+código continua.</p>
+<p>O padrão no segundo braço do match introduz uma nova variável chamada <code>y</code> que
+corresponderá a qualquer valor dentro de um valor <code>Some</code>. Como estamos em um
+novo escopo dentro da expressão <code>match</code>, esta é uma nova variável <code>y</code>, e não o
+<code>y</code> que declaramos no início com o valor <code>10</code>. Essa nova vinculação de <code>y</code>
+corresponderá a qualquer valor dentro de um <code>Some</code>, que é o que temos em <code>x</code>.
+Portanto, esse novo <code>y</code> se vincula ao valor interno do <code>Some</code> em <code>x</code>. Esse valor
+é <code>5</code>, então a expressão para esse braço é executada e imprime <code>Matched, y = 5</code>.</p>
+<p>Se <code>x</code> tivesse sido um valor <code>None</code> em vez de <code>Some(5)</code>, os padrões nos dois
+primeiros braços não teriam correspondido, então o valor teria correspondido ao
+sublinhado. Não introduzimos a variável <code>x</code> no padrão do braço com sublinhado,
+portanto o <code>x</code> na expressão ainda é o <code>x</code> externo que não foi sombreado. Nesse
+caso hipotético, o <code>match</code> imprimiria <code>Default case, x = None</code>.</p>
+<p>Quando a expressão <code>match</code> termina, seu escopo termina, assim como o escopo do
+<code>y</code> interno. O último <code>println!</code> produz <code>at the end: x = Some(5), y = 10</code>.</p>
+<p>Para criar uma expressão <code>match</code> que compare os valores do <code>x</code> e <code>y</code> externos,
+em vez de introduzir uma nova variável que sombreia a variável <code>y</code> existente,
+precisaríamos usar uma guarda de match (match guard) condicional. Falaremos sobre
+guardas de match mais adiante na seção <a href="#adicionando-condicionais-com-guardas-de-match">“Adicionando Condicionais com Guardas de Match”</a><!-- ignore -->.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="multiple-patterns"></a></p>
+<h3 id="correspondência-de-múltiplos-padrões"><a class="header" href="#correspondência-de-múltiplos-padrões">Correspondência de Múltiplos Padrões</a></h3>
+<p>Em expressões <code>match</code>, você pode fazer correspondência de múltiplos padrões
+usando a sintaxe <code>|</code>, que é o operador <em>ou</em> de padrões. Por exemplo, no código a
+seguir, comparamos o valor de <code>x</code> com os braços do match, sendo que o primeiro
+possui uma opção <em>or</em>, o que significa que se o valor de <code>x</code> corresponder a
+qualquer um dos valores naquele braço, o código desse braço será executado:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let x = 1;
+
+    match x {
+        1 | 2 =&gt; println!("one or two"),
+        3 =&gt; println!("three"),
+        _ =&gt; println!("anything"),
+    }
+<span class="boring">}</span></code></pre>
+<p>Este código imprime <code>one or two</code>.</p>
+<h3 id="correspondência-de-intervalos-de-valores-com-"><a class="header" href="#correspondência-de-intervalos-de-valores-com-">Correspondência de Intervalos de Valores com <code>..=</code></a></h3>
+<p>A sintaxe <code>..=</code> nos permite fazer correspondência com um intervalo inclusivo de
+valores. No código a seguir, quando um padrão corresponde a qualquer um dos
+valores dentro do intervalo fornecido, esse braço será executado:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let x = 5;
+
+    match x {
+        1..=5 =&gt; println!("one through five"),
+        _ =&gt; println!("something else"),
+    }
+<span class="boring">}</span></code></pre>
+<p>Se <code>x</code> for <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code> ou <code>5</code>, o primeiro braço corresponderá. Essa
+sintaxe é mais conveniente para múltiplos valores de match do que usar o
+operador <code>|</code> para expressar a mesma ideia; se fôssemos usar <code>|</code>, teríamos que
+especificar <code>1 | 2 | 3 | 4 | 5</code>. Especificar um intervalo é muito mais curto,
+especialmente se quisermos corresponder, digamos, a qualquer número entre 1 e
+1.000!</p>
+<p>O compilador verifica se o intervalo não está vazio em tempo de compilação e,
+como os únicos tipos para os quais o Rust pode dizer se um intervalo está vazio
+ou não são <code>char</code> e valores numéricos, os intervalos só são permitidos com
+valores numéricos ou <code>char</code>.</p>
+<p>Aqui está um exemplo usando intervalos de valores <code>char</code>:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let x = 'c';
+
+    match x {
+        'a'..='j' =&gt; println!("early ASCII letter"),
+        'k'..='z' =&gt; println!("late ASCII letter"),
+        _ =&gt; println!("something else"),
+    }
+<span class="boring">}</span></code></pre>
+<p>O Rust consegue identificar que <code>'c'</code> está dentro do intervalo do primeiro
+padrão e imprime <code>early ASCII letter</code>.</p>
+<h3 id="desestruturação-para-separar-valores"><a class="header" href="#desestruturação-para-separar-valores">Desestruturação para Separar Valores</a></h3>
+<p>Também podemos usar padrões para desestruturar structs, enums e tuplas para usar
+diferentes partes desses valores. Vamos analisar cada valor.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="destructuring-structs"></a></p>
+<h4 id="structs"><a class="header" href="#structs">Structs</a></h4>
+<p>A Listagem 19-12 mostra uma struct <code>Point</code> com dois campos, <code>x</code> e <code>y</code>, que
+podemos separar usando um padrão com uma declaração <code>let</code>.</p>
+<figure class="listing" id="listing-19-12">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x: a, y: b } = p;
+    assert_eq!(0, a);
+    assert_eq!(7, b);
+}</code></pre>
+<figcaption><a href="#listing-19-12">Listing 19-12</a>: Desestruturando os campos de uma struct em variáveis separadas</figcaption>
+</figure>
+<p>Este código cria as variáveis <code>a</code> e <code>b</code> que correspondem aos valores dos campos
+<code>x</code> e <code>y</code> da struct <code>p</code>. Este exemplo mostra que os nomes das variáveis no
+padrão não precisam corresponder aos nomes dos campos da struct. No entanto, é
+comum que os nomes das variáveis correspondam aos nomes dos campos para facilitar
+a lembrança de quais variáveis vieram de quais campos. Por causa desse uso
+comum, e porque escrever <code>let Point { x: x, y: y } = p;</code> contém muita
+duplicação, o Rust possui uma forma abreviada para padrões que correspondem a
+campos de structs: você precisa apenas listar o nome do campo da struct, e as
+variáveis criadas a partir do padrão terão os mesmos nomes. A Listagem 19-13 se
+comporta da mesma maneira que o código da Listagem 19-12, mas as variáveis criadas
+no padrão <code>let</code> são <code>x</code> e <code>y</code> em vez de <code>a</code> e <code>b</code>.</p>
+<figure class="listing" id="listing-19-13">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">struct Point {
+    x: i32,
+    y: i32,
+}
+
+fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    let Point { x, y } = p;
+    assert_eq!(0, x);
+    assert_eq!(7, y);
+}</code></pre>
+<figcaption><a href="#listing-19-13">Listing 19-13</a>: Desestruturando campos de struct usando a forma abreviada de campos</figcaption>
+</figure>
+<p>Este código cria as variáveis <code>x</code> e <code>y</code> que correspondem aos campos <code>x</code> e <code>y</code> da
+variável <code>p</code>. O resultado é que as variáveis <code>x</code> e <code>y</code> contêm os valores da
+struct <code>p</code>.</p>
+<p>Também podemos desestruturar usando valores literais como parte do padrão da
+struct, em vez de criar variáveis para todos os campos. Fazer isso nos permite
+testar alguns dos campos em busca de valores específicos enquanto criamos
+variáveis para desestruturar os outros campos.</p>
+<p>Na Listagem 19-14, temos uma expressão <code>match</code> que separa valores <code>Point</code> em
+três casos: pontos que estão diretamente no eixo <code>x</code> (o que é verdade quando
+<code>y = 0</code>), no eixo <code>y</code> (<code>x = 0</code>), ou em nenhum dos eixos.</p>
+<figure class="listing" id="listing-19-14">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">struct Point {
+</span><span class="boring">    x: i32,
+</span><span class="boring">    y: i32,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let p = Point { x: 0, y: 7 };
+
+    match p {
+        Point { x, y: 0 } =&gt; println!("On the x axis at {x}"),
+        Point { x: 0, y } =&gt; println!("On the y axis at {y}"),
+        Point { x, y } =&gt; {
+            println!("On neither axis: ({x}, {y})");
+        }
+    }
+}</code></pre>
+<figcaption><a href="#listing-19-14">Listing 19-14</a>: Desestruturando e fazendo correspondência de valores literais em um único padrão</figcaption>
+</figure>
+<p>O primeiro braço corresponderá a qualquer ponto que esteja no eixo <code>x</code>,
+especificando que o campo <code>y</code> corresponde se o seu valor for igual ao literal
+<code>0</code>. O padrão ainda cria uma variável <code>x</code> que podemos usar no código para este
+braço.</p>
+<p>Da mesma forma, o segundo braço corresponde a qualquer ponto no eixo <code>y</code>,
+especificando que o campo <code>x</code> corresponde se o seu valor for <code>0</code>, e cria uma
+variável <code>y</code> para o valor do campo <code>y</code>. O terceiro braço não especifica nenhum
+literal, portanto ele corresponde a qualquer outro <code>Point</code> e cria variáveis
+para ambos os campos <code>x</code> e <code>y</code>.</p>
+<p>Neste exemplo, o valor <code>p</code> corresponde ao segundo braço devido ao fato de <code>x</code>
+conter um <code>0</code>, então este código imprimirá <code>On the y axis at 7</code>.</p>
+<p>Lembre-se de que uma expressão <code>match</code> para de verificar os braços assim que
+encontra o primeiro padrão correspondente, então, embora <code>Point { x: 0, y: 0 }</code>
+esteja tanto no eixo <code>x</code> quanto no eixo <code>y</code>, este código imprimirá apenas <code>On the x axis at 0</code>.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="destructuring-enums"></a></p>
+<h4 id="enums"><a class="header" href="#enums">Enums</a></h4>
+<p>Já desestruturamos enums neste livro (por exemplo, a Listagem 6-5 no Capítulo 6),
+mas ainda não discutimos explicitamente que o padrão para desestruturar um enum
+corresponde à forma como os dados armazenados dentro do enum são definidos. Como
+exemplo, na Listagem 19-15, usamos o enum <code>Message</code> da Listagem 6-2 e escrevemos
+um <code>match</code> com padrões que desestruturarão cada valor interno.</p>
+<figure class="listing" id="listing-19-15">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(i32, i32, i32),
+}
+
+fn main() {
+    let msg = Message::ChangeColor(0, 160, 255);
+
+    match msg {
+        Message::Quit =&gt; {
+            println!("The Quit variant has no data to destructure.");
+        }
+        Message::Move { x, y } =&gt; {
+            println!("Move in the x direction {x} and in the y direction {y}");
+        }
+        Message::Write(text) =&gt; {
+            println!("Text message: {text}");
+        }
+        Message::ChangeColor(r, g, b) =&gt; {
+            println!("Change color to red {r}, green {g}, and blue {b}");
+        }
+    }
+}</code></pre>
+<figcaption><a href="#listing-19-15">Listing 19-15</a>: Desestruturando variantes de enum que contêm diferentes tipos de valores</figcaption>
+</figure>
+<p>Este código imprimirá <code>Change color to red 0, green 160, and blue 255</code>. Tente
+alterar o valor de <code>msg</code> para ver o código dos outros braços ser executado.</p>
+<p>Para variantes de enum sem nenhum dado, como <code>Message::Quit</code>, não podemos
+desestruturar o valor ainda mais. Só podemos fazer a correspondência com o
+valor literal <code>Message::Quit</code>, e não há variáveis nesse padrão.</p>
+<p>Para variantes de enum semelhantes a structs, como <code>Message::Move</code>, podemos usar
+um padrão semelhante ao padrão que especificamos para corresponder a structs.
+Após o nome da variante, colocamos chaves e, em seguida, listamos os campos
+com variáveis para podermos separar as partes a serem usadas no código deste
+braço. Aqui usamos a forma abreviada, assim como fizemos na Listagem 19-13.</p>
+<p>Para variantes de enum semelhantes a tuplas, como <code>Message::Write</code>, que contém
+uma tupla com um elemento, e <code>Message::ChangeColor</code>, que contém uma tupla com
+três elementos, o padrão é semelhante ao padrão que especificamos para
+corresponder a tuplas. O número de variáveis no padrão deve corresponder ao
+número de elementos na variante que estamos comparando.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="destructuring-nested-structs-and-enums"></a></p>
+<h4 id="structs-e-enums-aninhados"><a class="header" href="#structs-e-enums-aninhados">Structs e Enums Aninhados</a></h4>
+<p>Até agora, nossos exemplos têm feito a correspondência de structs ou enums com
+apenas um nível de profundidade, mas a correspondência também pode funcionar em
+itens aninhados! Por exemplo, podemos refatorar o código na Listagem 19-15 para
+suportar cores RGB e HSV na mensagem <code>ChangeColor</code>, conforme mostrado na
+Listagem 19-16.</p>
+<figure class="listing" id="listing-19-16">
+<pre class="playground"><code class="language-rust edition2024">enum Color {
+    Rgb(i32, i32, i32),
+    Hsv(i32, i32, i32),
+}
+
+enum Message {
+    Quit,
+    Move { x: i32, y: i32 },
+    Write(String),
+    ChangeColor(Color),
+}
+
+fn main() {
+    let msg = Message::ChangeColor(Color::Hsv(0, 160, 255));
+
+    match msg {
+        Message::ChangeColor(Color::Rgb(r, g, b)) =&gt; {
+            println!("Change color to red {r}, green {g}, and blue {b}");
+        }
+        Message::ChangeColor(Color::Hsv(h, s, v)) =&gt; {
+            println!("Change color to hue {h}, saturation {s}, value {v}");
+        }
+        _ =&gt; (),
+    }
+}</code></pre>
+<figcaption><a href="#listing-19-16">Listing 19-16</a>: Fazendo correspondência em enums aninhados</figcaption>
+</figure>
+<p>O padrão do primeiro braço na expressão <code>match</code> corresponde a uma variante de
+enum <code>Message::ChangeColor</code> que contém uma variante <code>Color::Rgb</code>; em seguida, o
+padrão se vincula aos três valores <code>i32</code> internos. O padrão do segundo braço
+também corresponde a uma variante de enum <code>Message::ChangeColor</code>, mas o enum
+interno corresponde a <code>Color::Hsv</code> em vez disso. Podemos especificar essas
+condições complexas em uma única expressão <code>match</code>, mesmo envolvendo dois
+enums.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="destructuring-structs-and-tuples"></a></p>
+<h4 id="structs-e-tuplas"><a class="header" href="#structs-e-tuplas">Structs e Tuplas</a></h4>
+<p>Podemos misturar, combinar e aninhar padrões de desestruturação de maneiras
+ainda mais complexas. O exemplo a seguir mostra uma desestruturação complexa
+onde aninhamos structs e tuplas dentro de uma tupla e desestruturamos todos os
+valores primitivos:</p>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span><span class="boring">    struct Point {
+</span><span class="boring">        x: i32,
+</span><span class="boring">        y: i32,
+</span><span class="boring">    }
+</span><span class="boring">
+</span>    let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
+<span class="boring">}</span></code></pre>
+<p>Este código nos permite quebrar tipos complexos em suas partes componentes para
+que possamos usar os valores de nosso interesse separadamente.</p>
+<p>A desestruturação com padrões é uma maneira conveniente de usar pedaços de
+valores — como o valor de cada campo em uma struct — separadamente uns dos
+outros.</p>
+<h3 id="ignorando-valores-em-um-padrão"><a class="header" href="#ignorando-valores-em-um-padrão">Ignorando Valores em um Padrão</a></h3>
+<p>Você já viu que às vezes é útil ignorar valores em um padrão, como no último
+braço de um <code>match</code>, para obter uma cláusula coringa (catch-all) que na verdade
+não faz nada, mas contabiliza todos os valores possíveis restantes. Há algumas
+maneiras de ignorar valores inteiros ou partes de valores em um padrão: usando o
+padrão <code>_</code> (que você já viu), usando o padrão <code>_</code> dentro de outro padrão, usando
+um nome que começa com um sublinhado ou usando <code>..</code> para ignorar as partes
+restantes de um valor. Vamos explorar como e por que usar cada um desses
+padrões.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="ignoring-an-entire-value-with-_"></a></p>
+<h4 id="um-valor-inteiro-com-_"><a class="header" href="#um-valor-inteiro-com-_">Um Valor Inteiro com <code>_</code></a></h4>
+<p>Usamos o sublinhado como um padrão coringa que corresponderá a qualquer valor,
+mas sem se vincular a ele. Isso é especialmente útil como o último braço em
+uma expressão <code>match</code>, mas também podemos usá-lo em qualquer padrão, incluindo
+parâmetros de função, como mostrado na Listagem 19-17.</p>
+<figure class="listing" id="listing-19-17">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn foo(_: i32, y: i32) {
+    println!("This code only uses the y parameter: {y}");
+}
+
+fn main() {
+    foo(3, 4);
+}</code></pre>
+<figcaption><a href="#listing-19-17">Listing 19-17</a>: Usando <code>_</code> em uma assinatura de função</figcaption>
+</figure>
+<p>Este código ignorará completamente o valor <code>3</code> passado como o primeiro
+argumento e imprimirá <code>This code only uses the y parameter: 4</code>.</p>
+<p>Na maioria dos casos, quando você não precisa mais de um parâmetro de função
+específico, você altera a assinatura para que ela não inclua o parâmetro não
+utilizado. Ignorar um parâmetro de função pode ser especialmente útil em casos
+em que, por exemplo, você está implementando um trait onde precisa de uma certa
+assinatura de tipo, mas o corpo da função na sua implementação não precisa de um
+dos parâmetros. Dessa forma, você evita receber um aviso do compilador sobre
+parâmetros de função não utilizados, como aconteceria se você usasse um nome em
+vez disso.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="ignoring-parts-of-a-value-with-a-nested-_"></a></p>
+<h4 id="partes-de-um-valor-com-um-_-aninhado"><a class="header" href="#partes-de-um-valor-com-um-_-aninhado">Partes de um Valor com um <code>_</code> Aninhado</a></h4>
+<p>Também podemos usar <code>_</code> dentro de outro padrão para ignorar apenas parte de um
+valor — por exemplo, quando queremos testar apenas parte de um valor, mas não
+temos uso para as outras partes no código correspondente que queremos executar.
+A Listagem 19-18 mostra o código responsável por gerenciar o valor de uma
+configuração. Os requisitos de negócio determinam que o usuário não deve ter
+permissão para sobrescrever uma customização existente de uma configuração, mas
+pode remover a configuração e atribuir um valor a ela se ela estiver atualmente
+sem valor.</p>
+<figure class="listing" id="listing-19-18">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let mut setting_value = Some(5);
+    let new_setting_value = Some(10);
+
+    match (setting_value, new_setting_value) {
+        (Some(_), Some(_)) =&gt; {
+            println!("Can't overwrite an existing customized value");
+        }
+        _ =&gt; {
+            setting_value = new_setting_value;
+        }
+    }
+
+    println!("setting is {setting_value:?}");
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-18">Listing 19-18</a>: Usando um sublinhado dentro de padrões que correspondem a variantes <code>Some</code> quando não precisamos usar o valor dentro do <code>Some</code></figcaption>
+</figure>
+<p>Este código imprimirá <code>Can't overwrite an existing customized value</code> e, em
+seguida, <code>setting is Some(5)</code>. No primeiro braço do match, não precisamos fazer
+a correspondência ou usar os valores dentro de nenhuma das variantes <code>Some</code>,
+mas precisamos testar o caso em que <code>setting_value</code> e <code>new_setting_value</code> são a
+variante <code>Some</code>. Nesse caso, imprimimos o motivo de não alterar <code>setting_value</code>,
+e ele não é alterado.</p>
+<p>Em todos os outros casos (se <code>setting_value</code> ou <code>new_setting_value</code> for <code>None</code>)
+expressos pelo padrão <code>_</code> no segundo braço, queremos permitir que
+<code>new_setting_value</code> se torne <code>setting_value</code>.</p>
+<p>Também podemos usar sublinhados em vários lugares dentro de um único padrão para
+ignorar valores específicos. A Listagem 19-19 mostra um exemplo de como ignorar
+o segundo e o quarto valores em uma tupla de cinco itens.</p>
+<figure class="listing" id="listing-19-19">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, _, third, _, fifth) =&gt; {
+            println!("Some numbers: {first}, {third}, {fifth}");
+        }
+    }
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-19">Listing 19-19</a>: Ignorando múltiplas partes de uma tupla</figcaption>
+</figure>
+<p>Este código imprimirá <code>Some numbers: 2, 8, 32</code>, e os valores <code>4</code> e <code>16</code> serão
+ignorados.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="ignoring-an-unused-variable-by-starting-its-name-with-_"></a></p>
+<h4 id="uma-variável-não-utilizada-iniciando-seu-nome-com-_"><a class="header" href="#uma-variável-não-utilizada-iniciando-seu-nome-com-_">Uma Variável Não Utilizada Iniciando Seu Nome com <code>_</code></a></h4>
+<p>Se você criar uma variável, mas não a usar em lugar nenhum, o Rust geralmente
+emitirá um aviso, porque uma variável não utilizada pode ser um bug. No
+entanto, às vezes é útil poder criar uma variável que você ainda não vai usar,
+como quando você está prototipando ou apenas começando um projeto. Nessa
+situação, você pode dizer ao Rust para não emitir avisos sobre a variável não
+utilizada iniciando o nome da variável com um sublinhado. Na Listagem 19-20,
+criamos duas variáveis não utilizadas, mas quando compilamos este código,
+devemos receber apenas um aviso sobre uma delas.</p>
+<figure class="listing" id="listing-19-20">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let _x = 5;
+    let y = 10;
+}</code></pre>
+<figcaption><a href="#listing-19-20">Listing 19-20</a>: Iniciando o nome de uma variável com um sublinhado para evitar avisos de variáveis não utilizadas</figcaption>
+</figure>
+<p>Aqui, recebemos um aviso sobre não usar a variável <code>y</code>, mas não recebemos um
+aviso sobre não usar <code>_x</code>.</p>
+<p>Observe que há uma diferença sutil entre usar apenas <code>_</code> e usar um nome que
+começa com um sublinhado. A sintaxe <code>_x</code> ainda vincula o valor à variável,
+enquanto <code>_</code> não faz nenhuma vinculação. Para mostrar um caso em que essa
+distinção importa, a Listagem 19-21 nos fornecerá um erro.</p>
+<figure class="listing" id="listing-19-21">
+<pre><code class="language-rust ignore does_not_compile"><span class="boring">fn main() {
+</span>    let s = Some(String::from("Hello!"));
+
+    if let Some(_s) = s {
+        println!("found a string");
+    }
+
+    println!("{s:?}");
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-21">Listing 19-21</a>: Uma variável não utilizada começando com um sublinhado ainda vincula o valor, o que pode tomar a posse (ownership) do valor.</figcaption>
+</figure>
+<p>Receberemos um erro porque o valor <code>s</code> ainda será movido (moved) para <code>_s</code>, o
+que nos impede de usar <code>s</code> novamente. No entanto, usar o sublinhado sozinho nunca
+se vincula ao valor. A Listagem 19-22 compilará sem nenhum erro porque <code>s</code> não é
+movido para <code>_</code>.</p>
+<figure class="listing" id="listing-19-22">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let s = Some(String::from("Hello!"));
+
+    if let Some(_) = s {
+        println!("found a string");
+    }
+
+    println!("{s:?}");
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-22">Listing 19-22</a>: O uso de um sublinhado não vincula o valor.</figcaption>
+</figure>
+<p>Este código funciona perfeitamente porque nunca vinculamos <code>s</code> a nada; ele não
+é movido.</p>
+<p><a id="ignoring-remaining-parts-of-a-value-with-"></a></p>
+<h4 id="partes-remanescentes-de-um-valor-com-"><a class="header" href="#partes-remanescentes-de-um-valor-com-">Partes Remanescentes de um Valor com <code>..</code></a></h4>
+<p>Com valores que possuem muitas partes, podemos usar a sintaxe <code>..</code> para usar
+partes específicas e ignorar o restante, evitando a necessidade de listar
+sublinhados para cada valor ignorado. O padrão <code>..</code> ignora quaisquer partes de
+um valor que não tenhamos correspondido explicitamente no restante do padrão. Na
+Listagem 19-23, temos uma struct <code>Point</code> que armazena uma coordenada em um
+espaço tridimensional. Na expressão <code>match</code>, queremos operar apenas na
+coordenada <code>x</code> e ignorar os valores nos campos <code>y</code> e <code>z</code>.</p>
+<figure class="listing" id="listing-19-23">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    struct Point {
+        x: i32,
+        y: i32,
+        z: i32,
+    }
+
+    let origin = Point { x: 0, y: 0, z: 0 };
+
+    match origin {
+        Point { x, .. } =&gt; println!("x is {x}"),
+    }
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-23">Listing 19-23</a>: Ignorando todos os campos de um <code>Point</code>, exceto <code>x</code>, usando <code>..</code></figcaption>
+</figure>
+<p>Listamos o valor <code>x</code> e simplesmente incluímos o padrão <code>..</code>. Isso é mais rápido
+do que ter que listar <code>y: _</code> e <code>z: _</code>, particularmente quando estamos trabalhando
+com structs que possuem muitos campos em situações onde apenas um ou dois campos
+são relevantes.</p>
+<p>A sintaxe <code>..</code> se expandirá para quantos valores forem necessários. A
+Listagem 19-24 mostra como usar <code>..</code> com uma tupla.</p>
+<figure class="listing" id="listing-19-24">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, .., last) =&gt; {
+            println!("Some numbers: {first}, {last}");
+        }
+    }
+}</code></pre>
+<figcaption><a href="#listing-19-24">Listing 19-24</a>: Fazendo correspondência apenas com o primeiro e o último valores em uma tupla e ignorando todos os outros valores</figcaption>
+</figure>
+<p>Neste código, o primeiro e o último valores são correspondidos com <code>first</code> e
+<code>last</code>. O <code>..</code> corresponderá e ignorará tudo no meio.</p>
+<p>No entanto, o uso de <code>..</code> deve ser inequívoco. Se não estiver claro quais
+valores se destinam à correspondência e quais devem ser ignorados, o Rust nos
+dará um erro. A Listagem 19-25 mostra um exemplo de uso ambíguo de <code>..</code>, de
+forma que ela não compilará.</p>
+<figure class="listing" id="listing-19-25">
+<span class="file-name">Filename: src/main.rs</span>
+<pre><code class="language-rust ignore does_not_compile">fn main() {
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (.., second, ..) =&gt; {
+            println!("Some numbers: {second}")
+        },
+    }
+}</code></pre>
+<figcaption><a href="#listing-19-25">Listing 19-25</a>: Uma tentativa de usar <code>..</code> de forma ambígua</figcaption>
+</figure>
+<p>Quando compilamos este exemplo, recebemos este erro:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling patterns v0.1.0 (file:///projects/patterns)
+error: `..` can only be used once per tuple pattern
+ --&gt; src/main.rs:5:22
+  |
+5 |         (.., second, ..) =&gt; {
+  |          --          ^^ can only be used once per tuple pattern
+  |          |
+  |          previously used here
+
+error: could not compile `patterns` (bin "patterns") due to 1 previous error
+</code></pre>
+<p>É impossível para o Rust determinar quantos valores na tupla devem ser ignorados
+antes de corresponder a um valor com <code>second</code> e, em seguida, quantos outros
+valores devem ser ignorados depois disso. Este código pode significar que
+queremos ignorar <code>2</code>, vincular <code>second</code> a <code>4</code> e depois ignorar <code>8</code>, <code>16</code> e <code>32</code>;
+ou que queremos ignorar <code>2</code> e <code>4</code>, vincular <code>second</code> a <code>8</code> e depois ignorar <code>16</code>
+e <code>32</code>; e assim por diante. O nome da variável <code>second</code> não significa nada de
+especial para o Rust, então recebemos um erro do compilador porque usar <code>..</code> em
+dois lugares como este é ambíguo.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="extra-conditionals-with-match-guards"></a></p>
+<h3 id="adicionando-condicionais-com-guardas-de-match"><a class="header" href="#adicionando-condicionais-com-guardas-de-match">Adicionando Condicionais com Guardas de Match</a></h3>
+<p>Uma <em>guarda de match</em> (match guard) é uma condição <code>if</code> adicional, especificada
+após o padrão em um braço de <code>match</code>, que também deve corresponder para que esse
+braço seja escolhido. As guardas de match são úteis para expressar ideias mais
+complexas do que um padrão sozinho permite. Note, no entanto, que elas estão
+disponíveis apenas em expressões <code>match</code>, e não em expressões <code>if let</code> ou
+<code>while let</code>.</p>
+<p>A condição pode usar variáveis criadas no padrão. A Listagem 19-26 mostra um
+<code>match</code> onde o primeiro braço tem o padrão <code>Some(x)</code> e também possui uma guarda
+de match <code>if x % 2 == 0</code> (que será <code>true</code> se o número for par).</p>
+<figure class="listing" id="listing-19-26">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let num = Some(4);
+
+    match num {
+        Some(x) if x % 2 == 0 =&gt; println!("The number {x} is even"),
+        Some(x) =&gt; println!("The number {x} is odd"),
+        None =&gt; (),
+    }
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-26">Listing 19-26</a>: Adicionando uma guarda de match a um padrão</figcaption>
+</figure>
+<p>Este exemplo imprimirá <code>The number 4 is even</code>. Quando <code>num</code> é comparado com o
+padrão no primeiro braço, ele corresponde porque <code>Some(4)</code> corresponde a
+<code>Some(x)</code>. Em seguida, a guarda de match verifica se o resto da divisão de <code>x</code>
+por 2 é igual a 0 e, como é, o primeiro braço é selecionado.</p>
+<p>Se <code>num</code> tivesse sido <code>Some(5)</code> em vez disso, a guarda de match no primeiro
+braço teria sido <code>false</code> porque o resto de 5 dividido por 2 é 1, o que não é
+igual a 0. O Rust iria então para o segundo braço, que corresponderia porque o
+segundo braço não tem uma guarda de match e, portanto, corresponde a qualquer
+variante <code>Some</code>.</p>
+<p>Não há maneira de expressar a condição <code>if x % 2 == 0</code> dentro de um padrão,
+então a guarda de match nos dá a capacidade de expressar essa lógica. A desvantagem
+dessa expressividade adicional é que o compilador não tenta verificar a
+exaustividade quando expressões de guarda de match estão envolvidas.</p>
+<p>Ao discutir a Listagem 19-11, mencionamos que poderíamos usar guardas de match
+para resolver nosso problema de sombreamento de padrões. Lembre-se de que criamos
+uma nova variável dentro do padrão na expressão <code>match</code> em vez de usar a
+variável fora do <code>match</code>. Essa nova variável significava que não podíamos testar
+contra o valor da variável externa. A Listagem 19-27 mostra como podemos usar
+uma guarda de match para corrigir esse problema.</p>
+<figure class="listing" id="listing-19-27">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">fn main() {
+    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) =&gt; println!("Got 50"),
+        Some(n) if n == y =&gt; println!("Matched, n = {n}"),
+        _ =&gt; println!("Default case, x = {x:?}"),
+    }
+
+    println!("at the end: x = {x:?}, y = {y}");
+}</code></pre>
+<figcaption><a href="#listing-19-27">Listing 19-27</a>: Usando uma guarda de match para testar a igualdade com uma variável externa</figcaption>
+</figure>
+<p>Este código agora imprimirá <code>Default case, x = Some(5)</code>. O padrão no segundo
+braço do match não introduz uma nova variável <code>y</code> que sombrearia o <code>y</code> externo,
+o que significa que podemos usar o <code>y</code> externo na guarda de match. Em vez de
+especificar o padrão como <code>Some(y)</code>, o que teria sombreado o <code>y</code> externo,
+especificamos <code>Some(n)</code>. Isso cria uma nova variável <code>n</code> que não sombreia nada
+porque não há nenhuma variável <code>n</code> fora do <code>match</code>.</p>
+<p>A guarda de match <code>if n == y</code> não é um padrão e, portanto, não introduz novas
+variáveis. Este <code>y</code> <em>é</em> o <code>y</code> externo em vez de um novo <code>y</code> sombreando-o, e
+podemos procurar por um valor que tenha o mesmo valor que o <code>y</code> externo
+comparando <code>n</code> com <code>y</code>.</p>
+<p>Você também pode usar o operador <em>or</em> <code>|</code> em uma guarda de match para especificar
+múltiplos padrões; a condição da guarda de match se aplicará a todos os padrões.
+A Listagem 19-28 mostra a precedência ao combinar um padrão que usa <code>|</code> com uma
+guarda de match. A parte importante deste exemplo é que a guarda de match
+<code>if y</code> se aplica a <code>4</code>, <code>5</code> <em>e</em> <code>6</code>, mesmo que possa parecer que <code>if y</code> se
+aplica apenas a <code>6</code>.</p>
+<figure class="listing" id="listing-19-28">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    let x = 4;
+    let y = false;
+
+    match x {
+        4 | 5 | 6 if y =&gt; println!("yes"),
+        _ =&gt; println!("no"),
+    }
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-28">Listing 19-28</a>: Combinando múltiplos padrões com uma guarda de match</figcaption>
+</figure>
+<p>A condição de correspondência afirma que o braço só corresponde se o valor de
+<code>x</code> for igual a <code>4</code>, <code>5</code> ou <code>6</code> <em>e</em> se <code>y</code> for <code>true</code>. Quando este código é
+executado, o padrão do primeiro braço corresponde porque <code>x</code> é <code>4</code>, mas a guarda
+de match <code>if y</code> é <code>false</code>, então o primeiro braço não é escolhido. O código avança
+para o segundo braço, que corresponde, e este programa imprime <code>no</code>. O motivo é
+que a condição <code>if</code> se aplica a todo o padrão <code>4 | 5 | 6</code>, e não apenas ao
+último valor <code>6</code>. Em outras palavras, a precedência de uma guarda de match em
+relação a um padrão se comporta assim:</p>
+<pre><code class="language-text">(4 | 5 | 6) if y =&gt; ...
+</code></pre>
+<p>em vez disto:</p>
+<pre><code class="language-text">4 | 5 | (6 if y) =&gt; ...
+</code></pre>
+<p>Após executar o código, o comportamento de precedência é evidente: se a guarda
+de match fosse aplicada apenas ao valor final na lista de valores especificada
+usando o operador <code>|</code>, o braço teria correspondido e o programa teria impresso
+<code>yes</code>.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="-bindings"></a></p>
+<h3 id="usando-vinculações-com-"><a class="header" href="#usando-vinculações-com-">Usando Vinculações com <code>@</code></a></h3>
+<p>O operador <em>at</em> (arroba) <code>@</code> nos permite criar uma variável que armazena um
+valor ao mesmo tempo em que testamos esse valor para uma correspondência de
+padrão. Na Listagem 19-29, queremos testar se o campo <code>id</code> de um
+<code>Message::Hello</code> está dentro do intervalo <code>3..=7</code>. Também queremos vincular o
+valor à variável <code>id</code> para podermos usá-lo no código associado ao braço.</p>
+<figure class="listing" id="listing-19-29">
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">fn main() {
+</span>    enum Message {
+        Hello { id: i32 },
+    }
+
+    let msg = Message::Hello { id: 5 };
+
+    match msg {
+        Message::Hello { id: id @ 3..=7 } =&gt; {
+            println!("Found an id in range: {id}")
+        }
+        Message::Hello { id: 10..=12 } =&gt; {
+            println!("Found an id in another range")
+        }
+        Message::Hello { id } =&gt; println!("Found some other id: {id}"),
+    }
+<span class="boring">}</span></code></pre>
+<figcaption><a href="#listing-19-29">Listing 19-29</a>: Usando <code>@</code> para se vincular a um valor em um padrão enquanto também o testa</figcaption>
+</figure>
+<p>Este exemplo imprimirá <code>Found an id in range: 5</code>. Ao especificar <code>id @</code> antes do
+intervalo <code>3..=7</code>, estamos capturando qualquer valor que tenha correspondido ao
+intervalo em uma variável chamada <code>id</code>, ao mesmo tempo em que testamos se o
+valor correspondeu ao padrão de intervalo.</p>
+<p>No segundo braço, onde temos apenas um intervalo especificado no padrão, o
+código associado ao braço não possui uma variável que contenha o valor real do
+campo <code>id</code>. O valor do campo <code>id</code> poderia ter sido 10, 11 ou 12, mas o código
+que acompanha esse padrão não sabe qual é. O código do padrão não é capaz de
+usar o valor do campo <code>id</code> porque não salvamos o valor de <code>id</code> em uma variável.</p>
+<p>No último braço, onde especificamos uma variável sem um intervalo, nós temos o
+valor disponível para uso no código do braço em uma variável chamada <code>id</code>. O
+motivo é que usamos a sintaxe abreviada de campos de struct. Mas não aplicamos
+nenhum teste ao valor no campo <code>id</code> neste braço, como fizemos com os dois
+primeiros braços: qualquer valor corresponderá a este padrão.</p>
+<p>O uso de <code>@</code> nos permite testar um valor e salvá-lo em uma variável dentro de um
+único padrão.</p>
+<h2 id="resumo"><a class="header" href="#resumo">Resumo</a></h2>
+<p>Os padrões do Rust são muito úteis para distinguir entre diferentes tipos de
+dados. Quando usados em expressões <code>match</code>, o Rust garante que seus padrões
+cubram todos os valores possíveis, ou seu programa não compilará. Os padrões
+em declarações <code>let</code> e parâmetros de função tornam essas construções mais
+úteis, permitindo a desestruturação de valores em partes menores e a atribuição
+dessas partes a variáveis. Podemos criar padrões simples ou complexos para
+atender às nossas necessidades.</p>
+<p>Em seguida, para o penúltimo capítulo do livro, veremos alguns aspectos
+avançados de uma variedade de recursos do Rust.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch19-02-refutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch20-00-advanced-features.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch19-02-refutability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch20-00-advanced-features.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

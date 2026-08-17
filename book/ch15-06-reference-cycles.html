@@ -1,0 +1,697 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Ciclos de Referência Podem Vazamento de Memória - The Rust Programming Language</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="favicon-8114d1fc.png">
+        <link rel="stylesheet" href="css/variables-8adf115d.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
+        <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="ferris-d33b75bf.css">
+        <link rel="stylesheet" href="theme/2018-edition-4e126c62.css">
+        <link rel="stylesheet" href="theme/semantic-notes-9b5766c0.css">
+        <link rel="stylesheet" href="theme/listing-cab26221.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "searchindex-2735b403.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc-0c94b3a8.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">The Rust Programming Language</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/charlietanfoll/rust-book-pt-br" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h2 id="ciclos-de-referência-podem-vazamento-de-memória-memory-leaks"><a class="header" href="#ciclos-de-referência-podem-vazamento-de-memória-memory-leaks">Ciclos de Referência Podem Vazamento de Memória (Memory Leaks)</a></h2>
+<p>As garantias de segurança de memória do Rust tornam difícil, mas não impossível,
+criar acidentalmente memória que nunca é limpa (conhecido como um <em>vazamento de memória</em> ou <em>memory leak</em>).
+Evitar vazamentos de memória inteiramente não é uma das garantias do Rust, o que significa
+que vazamentos de memória são seguros em termos de memória no Rust. Podemos ver que o Rust permite vazamentos de memória
+ao usar <code>Rc&lt;T&gt;</code> e <code>RefCell&lt;T&gt;</code>: É possível criar referências onde
+os itens se referem uns aos outros em um ciclo. Isso cria vazamentos de memória porque a
+contagem de referências de cada item no ciclo nunca chegará a 0, e os valores
+nunca serão descartados (<em>dropped</em>).</p>
+<h3 id="criando-um-ciclo-de-referência"><a class="header" href="#criando-um-ciclo-de-referência">Criando um Ciclo de Referência</a></h3>
+<p>Vamos ver como um ciclo de referência pode acontecer e como evitá-lo,
+começando com a definição do enum <code>List</code> e um método <code>tail</code> na Listagem
+15-25.</p>
+<figure class="listing" id="listing-15-25">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024">use crate::List::{Cons, Nil};
+use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+enum List {
+    Cons(i32, RefCell&lt;Rc&lt;List&gt;&gt;),
+    Nil,
+}
+
+impl List {
+    fn tail(&amp;self) -&gt; Option&lt;&amp;RefCell&lt;Rc&lt;List&gt;&gt;&gt; {
+        match self {
+            Cons(_, item) =&gt; Some(item),
+            Nil =&gt; None,
+        }
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {}</span></code></pre>
+<figcaption><a href="#listing-15-25">Listing 15-25</a>: Uma definição de cons list que contém um <code>RefCell&lt;T&gt;</code> para que possamos modificar o que uma variante <code>Cons</code> está referenciando</figcaption>
+</figure>
+<p>Estamos usando outra variação da definição de <code>List</code> da Listagem 15-5. O
+segundo elemento na variante <code>Cons</code> agora é <code>RefCell&lt;Rc&lt;List&gt;&gt;</code>, o que significa que
+em vez de termos a capacidade de modificar o valor <code>i32</code> como fizemos na Listagem
+15-24, queremos modificar o valor <code>List</code> para o qual uma variante <code>Cons</code> está apontando.
+Também estamos adicionando um método <code>tail</code> para tornar conveniente acessarmos o
+segundo item se tivermos uma variante <code>Cons</code>.</p>
+<p>Na Listagem 15-26, estamos adicionando uma função <code>main</code> que usa as definições da
+Listagem 15-25. Esse código cria uma lista em <code>a</code> e uma lista em <code>b</code> que aponta para
+a lista em <code>a</code>. Em seguida, ele modifica a lista em <code>a</code> para apontar para <code>b</code>, criando um
+ciclo de referência. Há instruções <code>println!</code> ao longo do caminho para mostrar quais são as
+contagens de referência em vários pontos desse processo.</p>
+<figure class="listing" id="listing-15-26">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">use crate::List::{Cons, Nil};
+</span><span class="boring">use std::cell::RefCell;
+</span><span class="boring">use std::rc::Rc;
+</span><span class="boring">
+</span><span class="boring">#[derive(Debug)]
+</span><span class="boring">enum List {
+</span><span class="boring">    Cons(i32, RefCell&lt;Rc&lt;List&gt;&gt;),
+</span><span class="boring">    Nil,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">impl List {
+</span><span class="boring">    fn tail(&amp;self) -&gt; Option&lt;&amp;RefCell&lt;Rc&lt;List&gt;&gt;&gt; {
+</span><span class="boring">        match self {
+</span><span class="boring">            Cons(_, item) =&gt; Some(item),
+</span><span class="boring">            Nil =&gt; None,
+</span><span class="boring">        }
+</span><span class="boring">    }
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+
+    println!("a initial rc count = {}", Rc::strong_count(&amp;a));
+    println!("a next item = {:?}", a.tail());
+
+    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&amp;a))));
+
+    println!("a rc count after b creation = {}", Rc::strong_count(&amp;a));
+    println!("b initial rc count = {}", Rc::strong_count(&amp;b));
+    println!("b next item = {:?}", b.tail());
+
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&amp;b);
+    }
+
+    println!("b rc count after changing a = {}", Rc::strong_count(&amp;b));
+    println!("a rc count after changing a = {}", Rc::strong_count(&amp;a));
+
+    // Uncomment the next line to see that we have a cycle;
+    // it will overflow the stack.
+    // println!("a next item = {:?}", a.tail());
+}</code></pre>
+<figcaption><a href="#listing-15-26">Listing 15-26</a>: Criando um ciclo de referência de dois valores <code>List</code> apontando um para o outro</figcaption>
+</figure>
+<p>Criamos uma instância <code>Rc&lt;List&gt;</code> contendo um valor <code>List</code> na variável <code>a</code>
+com uma lista inicial de <code>5, Nil</code>. Em seguida, criamos uma instância <code>Rc&lt;List&gt;</code> contendo
+outro valor <code>List</code> na variável <code>b</code> que contém o valor <code>10</code> e
+aponta para a lista em <code>a</code>.</p>
+<p>Modificamos <code>a</code> para que ela aponte para <code>b</code> em vez de <code>Nil</code>, criando um ciclo. Nós
+fazemos isso usando o método <code>tail</code> para obter uma referência ao
+<code>RefCell&lt;Rc&lt;List&gt;&gt;</code> em <code>a</code>, que colocamos na variável <code>link</code>. Então, usamos
+o método <code>borrow_mut</code> no <code>RefCell&lt;Rc&lt;List&gt;&gt;</code> para alterar o valor interno
+de um <code>Rc&lt;List&gt;</code> que contém um valor <code>Nil</code> para o <code>Rc&lt;List&gt;</code> em <code>b</code>.</p>
+<p>Quando executamos este código, mantendo o último <code>println!</code> comentado por enquanto,
+obteremos esta saída:</p>
+<pre><code class="language-console">$ cargo run
+   Compiling cons-list v0.1.0 (file:///projects/cons-list)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.53s
+     Running `target/debug/cons-list`
+a initial rc count = 1
+a next item = Some(RefCell { value: Nil })
+a rc count after b creation = 2
+b initial rc count = 1
+b next item = Some(RefCell { value: Cons(5, RefCell { value: Nil }) })
+b rc count after changing a = 2
+a rc count after changing a = 2
+</code></pre>
+<p>A contagem de referência das instâncias <code>Rc&lt;List&gt;</code> em <code>a</code> e <code>b</code> é 2 após
+alterarmos a lista em <code>a</code> para apontar para <code>b</code>. No final de <code>main</code>, o Rust descarta a
+variável <code>b</code>, o que diminui a contagem de referência da instância <code>Rc&lt;List&gt;</code> de <code>b</code>
+de 2 para 1. A memória que o <code>Rc&lt;List&gt;</code> possui no <em>heap</em> não será
+descartada neste ponto porque sua contagem de referência é 1, não 0. Em seguida, o Rust descarta
+<code>a</code>, o que diminui a contagem de referência da instância <code>Rc&lt;List&gt;</code> de <code>a</code>
+de 2 para 1 também. A memória desta instância também não pode ser descartada, porque a outra
+instância <code>Rc&lt;List&gt;</code> ainda se refere a ela. A memória alocada para a lista permanecerá
+sem ser coletada para sempre. Para visualizar este ciclo de referência, criamos
+o diagrama na Figura 15-4.</p>
+<img alt="Um retângulo rotulado como &#39;a&#39; que aponta para um retângulo contendo o inteiro 5. Um retângulo rotulado como &#39;b&#39; que aponta para um retângulo contendo o inteiro 10. O retângulo contendo 5 aponta para o retângulo contendo 10, e o retângulo contendo 10 aponta de volta para o retângulo contendo 5, criando um ciclo." src="img/trpl15-04.svg" class="center" />
+<p><span class="caption">Figura 15-4: Um ciclo de referência das listas <code>a</code> e <code>b</code>
+apontando uma para a outra</span></p>
+<p>Se você descomentar o último <code>println!</code> e executar o programa, o Rust tentará
+imprimir este ciclo com <code>a</code> apontando para <code>b</code> apontando para <code>a</code> e assim por diante até
+estourar a <em>stack</em> (pilha).</p>
+<p>Comparado a um programa do mundo real, as consequências de criar um ciclo de
+referência neste exemplo não são tão graves: logo após criarmos o ciclo de
+referência, o programa termina. No entanto, se um programa mais complexo alocasse muita
+memória em um ciclo e a mantivesse por um longo tempo, o programa usaria mais
+memória do que o necessário e poderia sobrecarregar o sistema, fazendo com que ele ficasse sem
+memória disponível.</p>
+<p>Criar ciclos de referência não é algo fácil de fazer, mas também não é impossível.
+Se você tiver valores <code>RefCell&lt;T&gt;</code> que contêm valores <code>Rc&lt;T&gt;</code> ou combinações aninhadas semelhantes
+de tipos com mutabilidade interior e contagem de referências, você deve
+garantir que não crie ciclos; você não pode contar com o Rust para pegá-los.
+Criar um ciclo de referência seria um bug lógico em seu programa que você deve
+usar testes automatizados, revisões de código e outras práticas de desenvolvimento de software para
+minimizar.</p>
+<p>Outra solução para evitar ciclos de referência é reorganizar suas estruturas de dados
+para que algumas referências expressem propriedade (<em>ownership</em>) e outras referências não.
+Como resultado, você pode ter ciclos compostos por algumas relações de propriedade e
+algumas relações de não-propriedade, e apenas as relações de propriedade afetam
+se um valor pode ou não ser descartado. Na Listagem 15-25, nós sempre queremos que as variantes <code>Cons</code>
+sejam donas de sua lista, então reorganizar a estrutura de dados não é possível.
+Vamos ver um exemplo usando grafos compostos por nós pais e nós filhos para ver
+quando as relações de não-propriedade são uma maneira apropriada de evitar ciclos de referência.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="preventing-reference-cycles-turning-an-rct-into-a-weakt"></a></p>
+<h3 id="prevendo-ciclos-de-referência-usando-weakt"><a class="header" href="#prevendo-ciclos-de-referência-usando-weakt">Prevendo Ciclos de Referência Usando <code>Weak&lt;T&gt;</code></a></h3>
+<p>Até agora, demonstramos que chamar <code>Rc::clone</code> aumenta o
+<code>strong_count</code> de uma instância <code>Rc&lt;T&gt;</code>, e uma instância <code>Rc&lt;T&gt;</code> só é limpa
+se o seu <code>strong_count</code> for 0. Você também pode criar uma referência fraca para o
+valor dentro de uma instância <code>Rc&lt;T&gt;</code> chamando <code>Rc::downgrade</code> e passando uma
+referência para o <code>Rc&lt;T&gt;</code>. <em>Referências fortes</em> (<em>Strong references</em>) são a forma como você pode compartilhar a propriedade
+de uma instância <code>Rc&lt;T&gt;</code>. <em>Referências fracas</em> (<em>Weak references</em>) não expressam uma relação
+de propriedade, e sua contagem não afeta quando uma instância <code>Rc&lt;T&gt;</code> é
+limpa. Elas não causarão um ciclo de referência, porque qualquer ciclo envolvendo
+algumas referências fracas será quebrado assim que a contagem de referência forte dos
+valores envolvidos for 0.</p>
+<p>Quando você chama <code>Rc::downgrade</code>, você obtém um ponteiro inteligente do tipo <code>Weak&lt;T&gt;</code>.
+Em vez de aumentar o <code>strong_count</code> na instância <code>Rc&lt;T&gt;</code> em 1, chamar
+<code>Rc::downgrade</code> aumenta o <code>weak_count</code> em 1. O tipo <code>Rc&lt;T&gt;</code> usa
+<code>weak_count</code> para acompanhar quantas referências <code>Weak&lt;T&gt;</code> existem, de forma semelhante
+ao <code>strong_count</code>. A diferença é que o <code>weak_count</code> não precisa ser 0 para que a
+instância <code>Rc&lt;T&gt;</code> seja limpa.</p>
+<p>Como o valor que <code>Weak&lt;T&gt;</code> referencia pode ter sido descartado, para fazer
+qualquer coisa com o valor para o qual um <code>Weak&lt;T&gt;</code> está apontando, você deve garantir que
+o valor ainda exista. Faça isso chamando o método <code>upgrade</code> em uma instância
+<code>Weak&lt;T&gt;</code>, que retornará um <code>Option&lt;Rc&lt;T&gt;&gt;</code>. Você obterá um resultado <code>Some</code>
+se o valor <code>Rc&lt;T&gt;</code> ainda não tiver sido descartado e um resultado <code>None</code> se o
+valor <code>Rc&lt;T&gt;</code> tiver sido descartado. Como <code>upgrade</code> retorna um <code>Option&lt;Rc&lt;T&gt;&gt;</code>,
+o Rust garantirá que o caso <code>Some</code> e o caso <code>None</code> sejam tratados, e
+não haverá um ponteiro inválido.</p>
+<p>Como exemplo, em vez de usar uma lista cujos itens sabem apenas sobre o próximo
+item, criaremos uma árvore cujos itens sabem sobre seus itens filhos <em>e</em> seus
+itens pais.</p>
+<!-- Old headings. Do not remove or links may break. -->
+<p><a id="creating-a-tree-data-structure-a-node-with-child-nodes"></a></p>
+<h4 id="criando-uma-estrutura-de-dados-de-árvore"><a class="header" href="#criando-uma-estrutura-de-dados-de-árvore">Criando uma Estrutura de Dados de Árvore</a></h4>
+<p>Para começar, construiremos uma árvore com nós que sabem sobre seus nós filhos.
+Criaremos uma <em>struct</em> chamada <code>Node</code> que armazena seu próprio valor <code>i32</code> bem como
+referências aos seus valores <code>Node</code> filhos:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">use std::cell::RefCell;
+use std::rc::Rc;
+
+#[derive(Debug)]
+struct Node {
+    value: i32,
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let leaf = Rc::new(Node {
+</span><span class="boring">        value: 3,
+</span><span class="boring">        children: RefCell::new(vec![]),
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    let branch = Rc::new(Node {
+</span><span class="boring">        value: 5,
+</span><span class="boring">        children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+</span><span class="boring">    });
+</span><span class="boring">}</span></code></pre>
+<p>Queremos que um <code>Node</code> seja dono de seus filhos, e queremos compartilhar essa propriedade com
+variáveis para podermos acessar cada <code>Node</code> na árvore diretamente. Para fazer isso,
+definimos os itens do <code>Vec&lt;T&gt;</code> para serem valores do tipo <code>Rc&lt;Node&gt;</code>. Também queremos
+modificar quais nós são filhos de outro nó, então temos um <code>RefCell&lt;T&gt;</code> em
+<code>children</code> envolvendo o <code>Vec&lt;Rc&lt;Node&gt;&gt;</code>.</p>
+<p>Em seguida, usaremos nossa definição de <em>struct</em> e criaremos uma instância <code>Node</code> chamada
+<code>leaf</code> com o valor <code>3</code> e nenhum filho, e outra instância chamada <code>branch</code>
+com o valor <code>5</code> e <code>leaf</code> como um de seus filhos, conforme mostrado na Listagem 15-27.</p>
+<figure class="listing" id="listing-15-27">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::cell::RefCell;
+</span><span class="boring">use std::rc::Rc;
+</span><span class="boring">
+</span><span class="boring">#[derive(Debug)]
+</span><span class="boring">struct Node {
+</span><span class="boring">    value: i32,
+</span><span class="boring">    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        children: RefCell::new(vec![]),
+    });
+
+    let branch = Rc::new(Node {
+        value: 5,
+        children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+    });
+}</code></pre>
+<figcaption><a href="#listing-15-27">Listing 15-27</a>: Criando um nó <code>leaf</code> sem filhos e um nó <code>branch</code> tendo <code>leaf</code> como um de seus filhos</figcaption>
+</figure>
+<p>Clonamos o <code>Rc&lt;Node&gt;</code> em <code>leaf</code> e o armazenamos em <code>branch</code>, o que significa que o
+<code>Node</code> em <code>leaf</code> agora tem dois donos: <code>leaf</code> e <code>branch</code>. Podemos ir de
+<code>branch</code> para <code>leaf</code> através de <code>branch.children</code>, mas não há como ir de
+<code>leaf</code> para <code>branch</code>. O motivo é que <code>leaf</code> não tem referência para <code>branch</code> e
+não sabe que eles estão relacionados. Queremos que <code>leaf</code> saiba que <code>branch</code> é seu
+pai. Faremos isso em seguida.</p>
+<h4 id="adicionando-uma-referência-de-um-filho-para-o-seu-pai"><a class="header" href="#adicionando-uma-referência-de-um-filho-para-o-seu-pai">Adicionando uma Referência de um Filho para o seu Pai</a></h4>
+<p>Para fazer com que o nó filho tenha conhecimento de seu pai, precisamos adicionar um campo <code>parent</code> à
+definição da nossa <em>struct</em> <code>Node</code>. O problema é decidir qual deve ser o tipo de
+<code>parent</code>. Sabemos que ele não pode conter um <code>Rc&lt;T&gt;</code>, porque isso
+criaria um ciclo de referência com <code>leaf.parent</code> apontando para <code>branch</code> e
+<code>branch.children</code> apontando para <code>leaf</code>, o que faria com que seus valores de <code>strong_count</code>
+nunca fossem 0.</p>
+<p>Pensando nas relações de outra forma, um nó pai deve ser dono de seus filhos: Se um nó pai for descartado, seus nós filhos devem ser descartados
+também. No entanto, um filho não deve ser dono de seu pai: Se descartarmos um nó filho, o
+pai ainda deve existir. Este é um caso para referências fracas!</p>
+<p>Portanto, em vez de <code>Rc&lt;T&gt;</code>, faremos o tipo de <code>parent</code> usar <code>Weak&lt;T&gt;</code>,
+especificamente um <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code>. Agora a definição da nossa <em>struct</em> <code>Node</code> se parece
+com isto:</p>
+<p><span class="filename">Nome do arquivo: src/main.rs</span></p>
+<pre class="playground"><code class="language-rust edition2024">use std::cell::RefCell;
+use std::rc::{Rc, Weak};
+
+#[derive(Debug)]
+struct Node {
+    value: i32,
+    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">    let leaf = Rc::new(Node {
+</span><span class="boring">        value: 3,
+</span><span class="boring">        parent: RefCell::new(Weak::new()),
+</span><span class="boring">        children: RefCell::new(vec![]),
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+</span><span class="boring">
+</span><span class="boring">    let branch = Rc::new(Node {
+</span><span class="boring">        value: 5,
+</span><span class="boring">        parent: RefCell::new(Weak::new()),
+</span><span class="boring">        children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+</span><span class="boring">    });
+</span><span class="boring">
+</span><span class="boring">    *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
+</span><span class="boring">
+</span><span class="boring">    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+</span><span class="boring">}</span></code></pre>
+<p>Um nó será capaz de se referir ao seu nó pai, mas não é dono de seu pai. Na
+Listagem 15-28, atualizamos o <code>main</code> para usar esta nova definição para que o nó <code>leaf</code>
+tenha uma maneira de se referir ao seu pai, <code>branch</code>.</p>
+<figure class="listing" id="listing-15-28">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::cell::RefCell;
+</span><span class="boring">use std::rc::{Rc, Weak};
+</span><span class="boring">
+</span><span class="boring">#[derive(Debug)]
+</span><span class="boring">struct Node {
+</span><span class="boring">    value: i32,
+</span><span class="boring">    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+</span><span class="boring">    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+
+    let branch = Rc::new(Node {
+        value: 5,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+    });
+
+    *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+}</code></pre>
+<figcaption><a href="#listing-15-28">Listing 15-28</a>: Um nó <code>leaf</code> com uma referência fraca para o seu nó pai, <code>branch</code></figcaption>
+</figure>
+<p>Criar o nó <code>leaf</code> parece semelhante à Listagem 15-27, com exceção do
+campo <code>parent</code>: <code>leaf</code> começa sem um pai, então criamos uma nova
+instância de referência <code>Weak&lt;Node&gt;</code> vazia.</p>
+<p>Neste ponto, quando tentamos obter uma referência para o pai de <code>leaf</code> usando
+o método <code>upgrade</code>, obtemos um valor <code>None</code>. Vemos isso na saída do
+primeiro comando <code>println!</code>:</p>
+<pre><code class="language-text">leaf parent = None
+</code></pre>
+<p>Quando criamos o nó <code>branch</code>, ele também terá uma nova referência <code>Weak&lt;Node&gt;</code>
+no campo <code>parent</code> porque <code>branch</code> não tem um nó pai. Nós
+ainda temos <code>leaf</code> como um dos filhos de <code>branch</code>. Assim que temos a instância <code>Node</code>
+em <code>branch</code>, podemos modificar <code>leaf</code> para dar a ele uma referência <code>Weak&lt;Node&gt;</code>
+para o seu pai. Usamos o método <code>borrow_mut</code> no <code>RefCell&lt;Weak&lt;Node&gt;&gt;</code> no
+campo <code>parent</code> de <code>leaf</code>, e então usamos a função <code>Rc::downgrade</code> para
+criar uma referência <code>Weak&lt;Node&gt;</code> para <code>branch</code> a partir do <code>Rc&lt;Node&gt;</code> em <code>branch</code>.</p>
+<p>Quando imprimirmos o pai de <code>leaf</code> novamente, desta vez obteremos uma variante <code>Some</code>
+contendo <code>branch</code>: Agora <code>leaf</code> pode acessar seu pai! Quando imprimimos <code>leaf</code>, nós
+também evitamos o ciclo que eventualmente terminava em um estouro de pilha (<em>stack overflow</em>) como tivemos na
+Listagem 15-26; as referências <code>Weak&lt;Node&gt;</code> são impressas como <code>(Weak)</code>:</p>
+<pre><code class="language-text">leaf parent = Some(Node { value: 5, parent: RefCell { value: (Weak) },
+children: RefCell { value: [Node { value: 3, parent: RefCell { value: (Weak) },
+children: RefCell { value: [] } }] } })
+</code></pre>
+<p>A falta de saída infinita indica que este código não criou um ciclo de
+referência. Também podemos notar isso olhando para os valores que obtemos ao chamar
+<code>Rc::strong_count</code> e <code>Rc::weak_count</code>.</p>
+<h4 id="visualizando-mudanças-em-strong_count-e-weak_count"><a class="header" href="#visualizando-mudanças-em-strong_count-e-weak_count">Visualizando Mudanças em <code>strong_count</code> e <code>weak_count</code></a></h4>
+<p>Vamos ver como os valores <code>strong_count</code> e <code>weak_count</code> das instâncias <code>Rc&lt;Node&gt;</code>
+mudam criando um novo escopo interno e movendo a criação de
+<code>branch</code> para esse escopo. Ao fazer isso, podemos ver o que acontece quando <code>branch</code> é
+criado e depois descartado quando ele sai de escopo. As modificações são mostradas na
+Listagem 15-29.</p>
+<figure class="listing" id="listing-15-29">
+<span class="file-name">Filename: src/main.rs</span>
+<pre class="playground"><code class="language-rust edition2024"><span class="boring">use std::cell::RefCell;
+</span><span class="boring">use std::rc::{Rc, Weak};
+</span><span class="boring">
+</span><span class="boring">#[derive(Debug)]
+</span><span class="boring">struct Node {
+</span><span class="boring">    value: i32,
+</span><span class="boring">    parent: RefCell&lt;Weak&lt;Node&gt;&gt;,
+</span><span class="boring">    children: RefCell&lt;Vec&lt;Rc&lt;Node&gt;&gt;&gt;,
+</span><span class="boring">}
+</span><span class="boring">
+</span>fn main() {
+    let leaf = Rc::new(Node {
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf),
+    );
+
+    {
+        let branch = Rc::new(Node {
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&amp;leaf)]),
+        });
+
+        *leaf.parent.borrow_mut() = Rc::downgrade(&amp;branch);
+
+        println!(
+            "branch strong = {}, weak = {}",
+            Rc::strong_count(&amp;branch),
+            Rc::weak_count(&amp;branch),
+        );
+
+        println!(
+            "leaf strong = {}, weak = {}",
+            Rc::strong_count(&amp;leaf),
+            Rc::weak_count(&amp;leaf),
+        );
+    }
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!(
+        "leaf strong = {}, weak = {}",
+        Rc::strong_count(&amp;leaf),
+        Rc::weak_count(&amp;leaf),
+    );
+}</code></pre>
+<figcaption><a href="#listing-15-29">Listing 15-29</a>: Criando <code>branch</code> em um escopo interno e examinando as contagens de referência forte e fraca</figcaption>
+</figure>
+<p>Depois que <code>leaf</code> é criado, seu <code>Rc&lt;Node&gt;</code> tem uma contagem forte de 1 e uma contagem fraca
+de 0. No escopo interno, criamos <code>branch</code> e o associamos a
+<code>leaf</code>, momento em que, quando imprimimos as contagens, o <code>Rc&lt;Node&gt;</code> em <code>branch</code>
+terá uma contagem forte de 1 e uma contagem fraca de 1 (para <code>leaf.parent</code> apontando
+para <code>branch</code> com um <code>Weak&lt;Node&gt;</code>). Quando imprimirmos as contagens em <code>leaf</code>, veremos
+que ele terá uma contagem forte de 2 porque <code>branch</code> agora tem um clone do
+<code>Rc&lt;Node&gt;</code> de <code>leaf</code> armazenado em <code>branch.children</code>, mas ainda terá uma contagem fraca
+de 0.</p>
+<p>Quando o escopo interno termina, <code>branch</code> sai de escopo e a contagem forte do
+<code>Rc&lt;Node&gt;</code> diminui para 0, então seu <code>Node</code> é descartado. A contagem fraca de 1
+de <code>leaf.parent</code> não tem influência sobre se o <code>Node</code> é ou não descartado, então
+não temos nenhum vazamento de memória!</p>
+<p>Se tentarmos acessar o pai de <code>leaf</code> após o término do escopo, obteremos
+<code>None</code> novamente. No final do programa, o <code>Rc&lt;Node&gt;</code> em <code>leaf</code> tem uma contagem forte
+de 1 e uma contagem fraca de 0 porque a variável <code>leaf</code> é agora a única
+referência ao <code>Rc&lt;Node&gt;</code> novamente.</p>
+<p>Toda a lógica que gerencia as contagens e o descarte de valores é construída em
+<code>Rc&lt;T&gt;</code> e <code>Weak&lt;T&gt;</code> e suas implementações da <em>trait</em> <code>Drop</code>. Ao
+especificar que a relação de um filho para seu pai deve ser uma
+referência <code>Weak&lt;T&gt;</code> na definição de <code>Node</code>, você consegue fazer com que nós pais
+apontem para nós filhos e vice-versa sem criar um ciclo de referência
+e vazamentos de memória.</p>
+<h2 id="resumo"><a class="header" href="#resumo">Resumo</a></h2>
+<p>Este capítulo abordou como usar ponteiros inteligentes para fazer diferentes garantias e
+compromissos (<em>trade-offs</em>) daqueles que o Rust faz por padrão com referências regulares. O
+tipo <code>Box&lt;T&gt;</code> tem um tamanho conhecido e aponta para dados alocados no <em>heap</em>. O
+tipo <code>Rc&lt;T&gt;</code> acompanha o número de referências a dados no <em>heap</em> para
+que os dados possam ter vários proprietários. O tipo <code>RefCell&lt;T&gt;</code> com sua mutabilidade
+interior nos dá um tipo que podemos usar quando precisamos de um tipo imutável, mas
+precisamos alterar um valor interno desse tipo; ele também impõe as regras de empréstimo
+em tempo de execução em vez de em tempo de compilação.</p>
+<p>Também foram discutidas as <em>traits</em> <code>Deref</code> e <code>Drop</code>, que habilitam grande parte da
+funcionalidade dos ponteiros inteligentes. Exploramos ciclos de referência que podem causar
+vazamentos de memória e como evitá-los usando <code>Weak&lt;T&gt;</code>.</p>
+<p>Se este capítulo despertou seu interesse e você deseja implementar seus próprios
+ponteiros inteligentes, confira <a href="../nomicon/index.html">“The Rustonomicon”</a> para obter mais
+informações úteis.</p>
+<p>Em seguida, falaremos sobre concorrência em Rust. Você até aprenderá sobre alguns novos
+ponteiros inteligentes.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="ch15-05-interior-mutability.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="ch16-00-concurrency.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="ch15-05-interior-mutability.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="ch16-00-concurrency.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr-ef4e11c1.min.js"></script>
+        <script src="mark-09e88c2c.min.js"></script>
+        <script src="searcher-09f2665d.js"></script>
+
+        <script src="clipboard-1626706a.min.js"></script>
+        <script src="highlight-abc7f01d.js"></script>
+        <script src="book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="ferris-2317480c.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
